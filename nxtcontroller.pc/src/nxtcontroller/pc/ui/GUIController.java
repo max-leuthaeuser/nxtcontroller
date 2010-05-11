@@ -1,6 +1,6 @@
 package nxtcontroller.pc.ui;
 /**
- * @author Max Leuthäuser
+ * @author Max Leuthï¿½user
  * 
  */
 
@@ -46,21 +46,5 @@ public class GUIController {
 			this.guiBuilder.getMainFrame().setLayout(new GridLayout(1, 0));
 			this.guiBuilder.getMainFrame().setMaximized();
 		}	
-	}
-	
-	public void writeLog(String arg0) {
-		this.guiBuilder.getAppPanel().getLog().append(arg0 + "\n");
-	}
-	
-	public void clearLog() {
-		this.guiBuilder.getAppPanel().getLog().setText("");
-	}
-	
-	public void writeBTT(String arg0) {
-		this.guiBuilder.getAppPanel().getBTT().append(arg0 + "\n");
-	}
-	
-	public void clearBTT() {
-		this.guiBuilder.getAppPanel().getBTT().setText("");
 	}
 }
