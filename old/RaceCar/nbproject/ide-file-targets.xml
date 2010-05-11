@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="RaceCar-IDE">
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#compilesingle) -->
+    <target name="compile-selected-files-in-src">
+        <fail unless="files">Must set property 'files'</fail>
+        <!-- TODO decide on and define some value for ${build.classes.dir} -->
+        <mkdir dir="${build.classes.dir}"/>
+        <javac destdir="${build.classes.dir}" includes="${files}" source="1.5" srcdir="src">
+            <classpath path="C:\Program Files\leJOS NXJ\lib\classes.jar;C:\Program Files\leJOS NXJ\lib\jtools.jar;C:\Program Files\leJOS NXJ\lib\pccomm.jar;C:\Program Files\leJOS NXJ\lib\pctools.jar"/>
+        </javac>
+    </target>
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#runsingle) -->
+    <target name="run-selected-file-in-src">
+        <fail unless="run.class">Must set property 'run.class'</fail>
+        <ant antfile="build.xml" inheritall="false" target="link"/>
+        <java classname="${run.class}" failonerror="true" fork="true">
+            <classpath>
+                <pathelement path="C:\Program Files\leJOS NXJ\lib\classes.jar;C:\Program Files\leJOS NXJ\lib\jtools.jar;C:\Program Files\leJOS NXJ\lib\pccomm.jar;C:\Program Files\leJOS NXJ\lib\pctools.jar"/>
+            </classpath>
+        </java>
+    </target>
+</project>
