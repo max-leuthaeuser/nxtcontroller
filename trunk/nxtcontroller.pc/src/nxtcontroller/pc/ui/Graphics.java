@@ -5,9 +5,6 @@ package nxtcontroller.pc.ui;
  */
 
 public final class Graphics {
-	public final static int GAMEPAD = 1;
-	public final static int KEYBOARD = 0;
-	
 	public final static String kStdDir = "graphics/keyboard/";
 	public final static String gStdDir = "graphics/gamepad/";
 	

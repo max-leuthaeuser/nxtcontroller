@@ -228,13 +228,11 @@ public class ApplicationControlPanel extends JPanel {
 			String selected = (String) cb.getSelectedItem();
 			if (selected.equals(useableController[0])) {
 				GUIController.getInstance().writeLog("Using Keyboard now ...");
-				graphicsPanel.setIcon(graphicsPanel.getKEYBOARD_NO_ACTION(),
-						Graphics.KEYBOARD);
+				graphicsPanel.setIcon(graphicsPanel.getKEYBOARD_NO_ACTION());
 			}
 			if (selected.equals(useableController[1])) {
 				GUIController.getInstance().writeLog("Using Gamepad now ...");
-				graphicsPanel.setIcon(graphicsPanel.getGAMEPAD_NO_ACTION(),
-						Graphics.GAMEPAD);
+				graphicsPanel.setIcon(graphicsPanel.getGAMEPAD_NO_ACTION());
 			}
 		}
 	}
