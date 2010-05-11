@@ -1,0 +1,11 @@
+package nxtcontroller.pc.ui;
+/**
+ * @author Max Leuthäuser
+ * 
+ */
+
+public final class StaticSizes {
+	public static final int APPLICATION_SIZE_WIDTH = 640;
+	public static final int APPLICATION_SIZE_HEIGTH = 600;
+	public static final int APPLICATION_SIZE_STANDARD_SPACER = APPLICATION_SIZE_WIDTH - 135;
+}
