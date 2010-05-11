@@ -37,9 +37,11 @@ public class MainFrame extends JFrame {
 
 	public void restore() {
 		setVisible(false);
+		dispose();
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
 				StaticSizes.APPLICATION_SIZE_WIDTH,
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
+
 		repaint();
 		setVisible(true);
 	}
