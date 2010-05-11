@@ -36,20 +36,24 @@ public class MainFrame extends JFrame {
 	}
 
 	public void restore() {
-		dispose();
+		setVisible(false);
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
 				StaticSizes.APPLICATION_SIZE_WIDTH,
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
+		repaint();
 		setVisible(true);
 	}
 
 	public void setMaximized() {
-		dispose();
+		setVisible(false);
 		setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		GraphicsDevice device;
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getScreenDevices()[0];
 		device.setFullScreenWindow(this);
+		setBounds(-1, -1, device.getDisplayMode().getWidth(), device.getDisplayMode().getWidth());
+		repaint();
+		setVisible(true);
 	}
 
 	private void addGlobalListener() {
