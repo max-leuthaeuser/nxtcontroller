@@ -1,6 +1,7 @@
 package nxtcontroller.pc.ui;
+
 /**
- * @author Max Leuthäuser
+ * @author Max Leuthï¿½user
  * 
  */
 
@@ -29,7 +30,7 @@ public class ApplicationControlPanel extends JPanel {
 	private JButton clearLog, clearBTT, saveLog, saveBTT;
 	private MouseHandler bh;
 	private JComboBox controllerBox;
-	private JButton connect;
+	private JButton connect, searchID;
 	private final String[] useableController = { "Keyboard", "Gamepad" };
 
 	public ApplicationControlPanel() {
@@ -38,20 +39,33 @@ public class ApplicationControlPanel extends JPanel {
 		setLayout(new GridLayout(2, 0));
 		controllerBox = new JComboBox(useableController);
 		controllerBox.setEditable(false);
-
 		controllerBox.addActionListener(bh);
-		connect = new JButton("Connect");
+		controllerBox.setToolTipText(UILanguage.OPTION_HINT);
+		
+		connect = new JButton(UILanguage.CONNECT);
+		connect.setToolTipText(UILanguage.CONNECT_HINT);
 		connect.addMouseListener(bh);
 		graphicsPanel = new GraphicsPanel();
 
+		searchID = new JButton(UILanguage.SEARCH);
+		searchID.setToolTipText(UILanguage.SEARCH_HINT);
+		searchID.addMouseListener(bh);
+		searchID.setToolTipText(UILanguage.SEARCH_HINT);
+
+		JPanel bPanel = new JPanel();
+		bPanel.setLayout(new GridLayout(2, 0));
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BorderLayout());
-		buttonPanel.add(controllerBox, BorderLayout.NORTH);
+		bPanel.add(searchID);
+		bPanel.add(controllerBox);
+		buttonPanel.add(bPanel, BorderLayout.NORTH);
 		buttonPanel.add(connect, BorderLayout.SOUTH);
 
 		vSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				graphicsPanel, buttonPanel);
-		vSplitPane.setBorder(BorderFactory.createTitledBorder("Control options"));
+		vSplitPane.setBorder(BorderFactory
+				.createTitledBorder(UILanguage.CONTROLPANEL));
 
 		vSplitPane.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH - 30,
@@ -69,21 +83,21 @@ public class ApplicationControlPanel extends JPanel {
 		JPanel t1 = new JPanel();
 		JSplitPane logPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				new JScrollPane(log), clearLogPanel);
-		t1.setBorder(BorderFactory.createTitledBorder("Application Log"));
+		t1.setBorder(BorderFactory.createTitledBorder(UILanguage.LOG));
 		logPane.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
 				StaticSizes.APPLICATION_SIZE_HEIGTH / 3 - 90));
-		logPane.setDividerLocation(230);
+		logPane.setDividerLocation(255);
 		t1.add(logPane);
 
 		JPanel t2 = new JPanel();
 		JSplitPane logPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				new JScrollPane(btt), clearBttPanel);
-		t2.setBorder(BorderFactory.createTitledBorder("Bluetooth Trace Log"));
+		t2.setBorder(BorderFactory.createTitledBorder(UILanguage.BTT));
 		logPane2.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
 				StaticSizes.APPLICATION_SIZE_HEIGTH / 3 - 90));
-		logPane2.setDividerLocation(230);
+		logPane2.setDividerLocation(255);
 		t2.add(logPane2);
 
 		textPanel.add(t1);
@@ -94,16 +108,18 @@ public class ApplicationControlPanel extends JPanel {
 	}
 
 	private void buildLogPanel() {
-		saveLog = new JButton("Save");
+		saveLog = new JButton(UILanguage.SAVE);
 		saveLog.addMouseListener(bh);
-		clearLog = new JButton("Clear");
+		saveLog.setToolTipText(UILanguage.SAVE_HINT);
+		clearLog = new JButton(UILanguage.CLEAR);
 		clearLog.addMouseListener(bh);
+		clearLog.setToolTipText(UILanguage.CLEAR_HINT);
 		logPanel = new JPanel();
 		logPanel.setLayout(new GridLayout(1, 0));
 		log = new JTextArea();
 		log.setEditable(false);
 		logPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createLineBorder(Color.gray), "Log"));
+				.createLineBorder(Color.gray), UILanguage.LOG));
 		clearLogPanel = new JPanel();
 		clearLogPanel.setLayout(new BorderLayout());
 		clearLogPanel.add(saveLog, BorderLayout.NORTH);
@@ -112,16 +128,18 @@ public class ApplicationControlPanel extends JPanel {
 	}
 
 	private void buildBTTracePanel() {
-		saveBTT = new JButton("Save");
+		saveBTT = new JButton(UILanguage.SAVE);
 		saveBTT.addMouseListener(bh);
-		clearBTT = new JButton("Clear");
+		saveBTT.setToolTipText(UILanguage.SAVE_HINT);
+		clearBTT = new JButton(UILanguage.CLEAR);
 		clearBTT.addMouseListener(bh);
+		clearBTT.setToolTipText(UILanguage.CLEAR_HINT);
 		bttPanel = new JPanel();
 		bttPanel.setLayout(new GridLayout(1, 0));
 		btt = new JTextArea();
 		btt.setEditable(false);
 		bttPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createLineBorder(Color.gray), "Log"));
+				.createLineBorder(Color.gray), UILanguage.BTT));
 		clearBttPanel = new JPanel();
 		clearBttPanel.setLayout(new BorderLayout());
 		clearBttPanel.add(saveBTT, BorderLayout.NORTH);
@@ -166,10 +184,10 @@ public class ApplicationControlPanel extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			if (arg0.getSource() == clearLog) {
-				log.setText("");
+				LogOperation.clearLog(log);
 			}
 			if (arg0.getSource() == clearBTT) {
-				btt.setText("");
+				LogOperation.clearLog(btt);
 			}
 			if (arg0.getSource() == saveLog) {
 				if (!log.getText().isEmpty()) {
@@ -181,14 +199,17 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), log.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							log.append("Error: File not found!");
+							LogOperation.writeLog(log,
+									UILanguage.ERR_FILE_NOT_FOUND);
 						} catch (IOException e) {
 							e.printStackTrace();
-							log.append("I/O Error!");
+							LogOperation.writeLog(log, UILanguage.ERR_IO);
 						}
-						log.append("Log saved to: " + file.getName() + ".\n");
+						LogOperation.writeLog(log, UILanguage.LOG_SAVED
+								+ file.getName() + ".\n");
 					} else {
-						log.append("Save command cancelled by user.\n");
+						LogOperation.writeLog(log,
+								UILanguage.LOG_SAVE_CANCELLED);
 					}
 				}
 			}
@@ -202,15 +223,17 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), btt.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							log.append("Error: File not found!");
+							LogOperation.writeLog(log,
+									UILanguage.ERR_FILE_NOT_FOUND);
 						} catch (IOException e) {
 							e.printStackTrace();
-							log.append("I/O Error!");
+							LogOperation.writeLog(log, UILanguage.ERR_IO);
 						}
-						log.append("Bluetooth Trace saved to: "
+						LogOperation.writeLog(log, UILanguage.BTT_SAVED
 								+ file.getName() + ".\n");
 					} else {
-						log.append("Save command cancelled by user.\n");
+						LogOperation.writeLog(log,
+								UILanguage.LOG_SAVE_CANCELLED);
 					}
 				}
 			}
@@ -227,11 +250,11 @@ public class ApplicationControlPanel extends JPanel {
 			JComboBox cb = (JComboBox) arg0.getSource();
 			String selected = (String) cb.getSelectedItem();
 			if (selected.equals(useableController[0])) {
-				GUIController.getInstance().writeLog("Using Keyboard now ...");
+				LogOperation.writeLog(log, UILanguage.USING_KEYBOARD);
 				graphicsPanel.setIcon(graphicsPanel.getKEYBOARD_NO_ACTION());
 			}
 			if (selected.equals(useableController[1])) {
-				GUIController.getInstance().writeLog("Using Gamepad now ...");
+				LogOperation.writeLog(log, UILanguage.USING_GAMEPAD);
 				graphicsPanel.setIcon(graphicsPanel.getGAMEPAD_NO_ACTION());
 			}
 		}
