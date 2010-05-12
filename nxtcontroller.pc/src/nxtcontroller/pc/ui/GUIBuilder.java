@@ -6,6 +6,8 @@ package nxtcontroller.pc.ui;
 
 import java.awt.GridLayout;
 
+import javax.swing.JTextArea;
+
 public class GUIBuilder {
 	private MainFrame mainFrame;
 	private SensorPanel sensorPanel;
@@ -48,5 +50,9 @@ public class GUIBuilder {
 		this.appPanel = new ApplicationControlPanel();
 		this.mainFrame.add(this.appPanel);
 		this.mainFrame.validate();
+	}
+
+	public JTextArea getLog() {
+		return appPanel.getLog();
 	}
 }

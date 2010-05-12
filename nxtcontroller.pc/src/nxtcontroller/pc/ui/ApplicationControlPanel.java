@@ -104,7 +104,6 @@ public class ApplicationControlPanel extends JPanel {
 		textPanel.add(t2);
 
 		add(textPanel);
-		textPanel.setBackground(Color.RED);
 	}
 
 	private void buildLogPanel() {
@@ -124,7 +123,7 @@ public class ApplicationControlPanel extends JPanel {
 		clearLogPanel.setLayout(new BorderLayout());
 		clearLogPanel.add(saveLog, BorderLayout.NORTH);
 		clearLogPanel.add(clearLog, BorderLayout.SOUTH);
-
+		LogOperation.writeLog(log, UILanguage.RUNNING_ON + System.getProperty("os.name"));
 	}
 
 	private void buildBTTracePanel() {
