@@ -21,5 +21,5 @@ public final class UILanguage {
 	public static final String LOG_SAVE_CANCELLED = "Save command cancelled by user.";
 	public static final String USING_KEYBOARD = "Using Keyboard now.";
 	public static final String USING_GAMEPAD = "Using Gamepad now.";
-
+	public static final String RUNNING_ON = "Running on ";
 }

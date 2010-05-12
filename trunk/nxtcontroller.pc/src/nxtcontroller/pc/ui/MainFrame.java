@@ -37,7 +37,10 @@ public class MainFrame extends JFrame {
 
 	public void restore() {
 		setVisible(false);
-		dispose();
+		// we need dispose() on linux only
+		if (System.getProperty("os.name").startsWith("Linux")) {
+			dispose();
+		}		
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
 				StaticSizes.APPLICATION_SIZE_WIDTH,
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
