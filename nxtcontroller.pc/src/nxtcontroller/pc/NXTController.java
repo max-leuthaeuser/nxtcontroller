@@ -1,7 +1,7 @@
 package nxtcontroller.pc;
 
 /**
- * @author Max Leuth‰user
+ * @author Max Leuth√§user
  * 
  */
 

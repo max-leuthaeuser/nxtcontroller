@@ -1,4 +1,8 @@
 package nxtcontroller.pc.ui;
+/**
+ * @author Max Leuthäuser
+ * 
+ */
 
 public final class UILanguage {
 	public static final String CONTROLPANEL = "Control options";
