@@ -1,11 +1,10 @@
 package nxtcontroller.pc.controller;
-
-import nxtcontroller.pc.ui.UILanguage;
-
 /**
  * @author Max Leuthäuser
  * 
  */
+
+import nxtcontroller.pc.ui.UILanguage;
 
 public final class ControllerTyp {
 	/**
