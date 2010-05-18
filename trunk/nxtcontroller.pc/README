@@ -1,0 +1,9 @@
+To build this project using ant, you must place the
+following REQUIRED LIBRARIES inside the libs directory
+(they are part of the leJOS distribution):
+  bluecove.jar
+  bluecove-gpl.jar
+  pccomm.jar
+  pctools.jar
+  jtools.jar
+

@@ -1,0 +1,8 @@
+<project default="build">
+    <target name="clean">
+    </target>
+    <target name="build" depends="clean">
+    </target>
+    <target name="dist">
+    </target>
+</project>
