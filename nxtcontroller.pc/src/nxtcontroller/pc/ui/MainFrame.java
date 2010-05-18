@@ -13,9 +13,6 @@ import java.awt.Toolkit;
 
 import javax.swing.*;
 
-import nxtcontroller.pc.controller.ControllerTyp;
-import nxtcontroller.pc.controller.DeviceHandler;
-
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 3083232085671490610L;
 
