@@ -1,4 +1,8 @@
 package nxtcontroller.pc.ui;
+/**
+ * @author Max Leuthäuser
+ * 
+ */
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
