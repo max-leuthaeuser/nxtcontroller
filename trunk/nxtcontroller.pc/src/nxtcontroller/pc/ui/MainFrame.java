@@ -1,4 +1,5 @@
 package nxtcontroller.pc.ui;
+
 /**
  * @author Max Leuthäuser
  *
@@ -12,6 +13,9 @@ import java.awt.Toolkit;
 
 import javax.swing.*;
 
+import nxtcontroller.pc.controller.ControllerTyp;
+import nxtcontroller.pc.controller.DeviceHandler;
+
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 3083232085671490610L;
 
@@ -22,7 +26,6 @@ public class MainFrame extends JFrame {
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);
-		addGlobalListener();
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		restore();
@@ -40,7 +43,7 @@ public class MainFrame extends JFrame {
 		// we need dispose() on linux only
 		if (System.getProperty("os.name").startsWith("Linux")) {
 			dispose();
-		}		
+		}
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
 				StaticSizes.APPLICATION_SIZE_WIDTH,
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
@@ -56,21 +59,9 @@ public class MainFrame extends JFrame {
 		device = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getScreenDevices()[0];
 		device.setFullScreenWindow(this);
-		setBounds(-1, -1, device.getDisplayMode().getWidth(), device.getDisplayMode().getWidth());
+		setBounds(-1, -1, device.getDisplayMode().getWidth(), device
+				.getDisplayMode().getWidth());
 		repaint();
 		setVisible(true);
-	}
-
-	private void addGlobalListener() {
-		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke("F12"), "fullscreen");
-
-		getRootPane().getActionMap().put("fullscreen", new AbstractAction() {
-			private static final long serialVersionUID = 1309752715414833276L;
-
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				GUIController.getInstance().toggleFullScreen();
-			}
-		});
 	}
 }
