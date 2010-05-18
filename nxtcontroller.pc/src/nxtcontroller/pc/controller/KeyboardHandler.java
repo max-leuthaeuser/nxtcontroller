@@ -1,4 +1,8 @@
 package nxtcontroller.pc.controller;
+/**
+ * @author Max Leuthäuser
+ * 
+ */
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,11 +15,6 @@ import javax.swing.KeyStroke;
 import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.GUIController;
 import nxtcontroller.pc.ui.MainFrame;
-
-/**
- * @author Max Leuthäuser
- * 
- */
 
 public class KeyboardHandler implements IHandler {
 	private JRootPane rootPane;

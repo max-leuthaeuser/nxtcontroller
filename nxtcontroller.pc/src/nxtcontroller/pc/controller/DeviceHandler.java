@@ -1,4 +1,8 @@
 package nxtcontroller.pc.controller;
+/**
+ * @author Max Leuthäuser
+ * 
+ */
 
 import javax.swing.JRootPane;
 
