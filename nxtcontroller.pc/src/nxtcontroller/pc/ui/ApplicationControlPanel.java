@@ -20,6 +20,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.*;
 
+import nxtcontroller.pc.controller.ControllerTyp;
+
 public class ApplicationControlPanel extends JPanel {
 	private static final long serialVersionUID = 2963071726378133381L;
 
@@ -31,17 +33,18 @@ public class ApplicationControlPanel extends JPanel {
 	private MouseHandler bh;
 	private JComboBox controllerBox;
 	private JButton connect, searchID;
-	private final String[] useableController = { "Keyboard", "Gamepad" };
 
 	public ApplicationControlPanel() {
 		super();
 		bh = new MouseHandler();
 		setLayout(new GridLayout(2, 0));
-		controllerBox = new JComboBox(useableController);
+		controllerBox = new JComboBox();
+		controllerBox.addItem(ControllerTyp.types[0]);
+		controllerBox.addItem(ControllerTyp.types[1]);
 		controllerBox.setEditable(false);
 		controllerBox.addActionListener(bh);
 		controllerBox.setToolTipText(UILanguage.OPTION_HINT);
-		
+
 		connect = new JButton(UILanguage.CONNECT);
 		connect.setToolTipText(UILanguage.CONNECT_HINT);
 		connect.addMouseListener(bh);
@@ -123,7 +126,8 @@ public class ApplicationControlPanel extends JPanel {
 		clearLogPanel.setLayout(new BorderLayout());
 		clearLogPanel.add(saveLog, BorderLayout.NORTH);
 		clearLogPanel.add(clearLog, BorderLayout.SOUTH);
-		LogOperation.writeLog(log, UILanguage.RUNNING_ON + System.getProperty("os.name"));
+		LogOperation.writeLog(log, UILanguage.RUNNING_ON
+				+ System.getProperty("os.name"));
 	}
 
 	private void buildBTTracePanel() {
@@ -160,35 +164,30 @@ public class ApplicationControlPanel extends JPanel {
 		out.close();
 	}
 
+	public GraphicsPanel getGraphicsPanel() {
+		return graphicsPanel;
+	}
+
 	private class MouseHandler implements MouseListener, ActionListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
+			if (arg0.getSource() == connect) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
+			}
+			if (arg0.getSource() == searchID) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
+			}
 			if (arg0.getSource() == clearLog) {
 				LogOperation.clearLog(log);
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == clearBTT) {
 				LogOperation.clearLog(btt);
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == saveLog) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				if (!log.getText().isEmpty()) {
 					JFileChooser fc = new JFileChooser();
 					int returnVal = fc.showSaveDialog(logPanel);
@@ -213,6 +212,7 @@ public class ApplicationControlPanel extends JPanel {
 				}
 			}
 			if (arg0.getSource() == saveBTT) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				if (!btt.getText().isEmpty()) {
 					JFileChooser fc = new JFileChooser();
 					int returnVal = fc.showSaveDialog(bttPanel);
@@ -239,6 +239,23 @@ public class ApplicationControlPanel extends JPanel {
 		}
 
 		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+
+		}
+
+		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 
@@ -248,13 +265,19 @@ public class ApplicationControlPanel extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			JComboBox cb = (JComboBox) arg0.getSource();
 			String selected = (String) cb.getSelectedItem();
-			if (selected.equals(useableController[0])) {
+			if (selected.equals(ControllerTyp.types[0])) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				LogOperation.writeLog(log, UILanguage.USING_KEYBOARD);
 				graphicsPanel.setIcon(graphicsPanel.getKEYBOARD_NO_ACTION());
+				GUIController.getInstance().getDeviceHandler().setHandler(
+						ControllerTyp.types[0]);
 			}
-			if (selected.equals(useableController[1])) {
+			if (selected.equals(ControllerTyp.types[1])) {
+				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				LogOperation.writeLog(log, UILanguage.USING_GAMEPAD);
 				graphicsPanel.setIcon(graphicsPanel.getGAMEPAD_NO_ACTION());
+				GUIController.getInstance().getDeviceHandler().setHandler(
+						ControllerTyp.types[1]);
 			}
 		}
 	}

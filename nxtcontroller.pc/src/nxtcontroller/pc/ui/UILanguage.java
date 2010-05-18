@@ -5,6 +5,8 @@ package nxtcontroller.pc.ui;
  */
 
 public final class UILanguage {
+	public static final String GAMEPAD = "Gamepad";
+	public static final String KEYBOARD = "Keyboard";
 	public static final String CONTROLPANEL = "Control options";
 	public static final String LOG = "Application Log";
 	public static final String BTT = "Bluetooth Log";

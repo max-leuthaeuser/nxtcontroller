@@ -72,6 +72,10 @@ public class GraphicsPanel extends JPanel {
 	public void setIcon(ImageIcon newIcon) {
 		icon.setIcon(newIcon);
 	}
+	
+	public void setDefaultIcon() {
+		icon.setIcon(getGAMEPAD_NO_ACTION());
+	}
 
 	public ImageIcon getGAMEPAD_DIR_LEFT() {
 		return GAMEPAD_DIR_LEFT;
