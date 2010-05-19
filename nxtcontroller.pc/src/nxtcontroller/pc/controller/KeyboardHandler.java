@@ -74,9 +74,8 @@ public class KeyboardHandler implements IHandler {
 			if (e.getKeyChar() == 'a') {
 				lastKeyWasLeft = false;
 			}
-			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setIcon(
-					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-							.getKEYBOARD_NO_ACTION());
+			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+					.setKeyboardDefaultIcon();
 		}
 
 		@Override
@@ -84,79 +83,42 @@ public class KeyboardHandler implements IHandler {
 			// single events, use remote controller here
 			if (lastKeyWasUp) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_UP());
+						.setKeyboardPowerUp();
 			}
 			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_DIR_RIGHT());
+						.setKeyboardDirRight();
 
 			}
 			if (lastKeyWasDown) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_DOWN());
-
+						.setKeyboardPowerDown();
 			}
 			if (lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_DIR_LEFT());
-
+						.setKeyboardDirLeft();
 			}
 			if (e.getKeyChar() == 'i') {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_SPEED_UP());
-
+						.setKeyboardSpeedUp();
 			}
 			if (e.getKeyChar() == 'k') {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_SPEED_DOWN());
+						.setKeyboardSpeedDown();
 			}
 
 			// combinations, just for visualizing
 			if (lastKeyWasDown && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_DOWN_DIR_LEFT());
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerDownDirLeft();
 			}
 			if (lastKeyWasDown && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_DOWN_DIR_RIGHT());
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerDownDirRight();
 			}
 			if (lastKeyWasUp && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_UP_DIR_LEFT());
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerUpDirLeft();
 			}
 			if (lastKeyWasUp && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setIcon(
-								GUIBuilder.getInstance().getAppPanel()
-										.getGraphicsPanel()
-										.getKEYBOARD_POWER_UP_DIR_RIGHT());
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerUpDirRight();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 package nxtcontroller.pc.ui;
+
 /**
  * @author Max Leuthäuser
  * 
@@ -69,99 +70,95 @@ public class GraphicsPanel extends JPanel {
 		add(icon);
 	}
 
-	public void setIcon(ImageIcon newIcon) {
+	private void setIcon(ImageIcon newIcon) {
 		icon.setIcon(newIcon);
 	}
-	
-	public void setDefaultIcon() {
-		icon.setIcon(getGAMEPAD_NO_ACTION());
+
+	public void setGamepadDefaultIcon() {
+		setIcon(GAMEPAD_NO_ACTION);
 	}
 
-	public ImageIcon getGAMEPAD_DIR_LEFT() {
-		return GAMEPAD_DIR_LEFT;
+	public void setGamepadDirLeft() {
+		setIcon(GAMEPAD_DIR_LEFT);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_UP_DIR_LEFT() {
-		return GAMEPAD_POWER_UP_DIR_LEFT;
+	public void setGamepadDirRight() {
+		setIcon(GAMEPAD_DIR_RIGHT);
 	}
 
-	public ImageIcon getGAMEPAD_DIR_RIGHT() {
-		return GAMEPAD_DIR_RIGHT;
+	public void setGamepadPowerUp() {
+		setIcon(GAMEPAD_POWER_UP);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_UP_DIR_RIGHT() {
-		return GAMEPAD_POWER_UP_DIR_RIGHT;
+	public void setGamepadPowerDown() {
+		setIcon(GAMEPAD_POWER_DOWN);
 	}
 
-	public ImageIcon getGAMEPAD_NO_ACTION() {
-		return GAMEPAD_NO_ACTION;
+	public void setGamepadSpeedUp() {
+		setIcon(GAMEPAD_SPEED_UP);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_UP() {
-		return GAMEPAD_POWER_UP;
+	public void setGamepadSpeedDown() {
+		setIcon(GAMEPAD_SPEED_DOWN);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_DOWN_DIR_LEFT() {
-		return GAMEPAD_POWER_DOWN_DIR_LEFT;
+	public void setGamepadPowerUpDirLeft() {
+		setIcon(GAMEPAD_POWER_UP_DIR_LEFT);
 	}
 
-	public ImageIcon getGAMEPAD_SPEED_DOWN() {
-		return GAMEPAD_SPEED_DOWN;
+	public void setGamepadPowerDownDirLeft() {
+		setIcon(GAMEPAD_POWER_DOWN_DIR_LEFT);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_DOWN_DIR_RIGHT() {
-		return GAMEPAD_POWER_DOWN_DIR_RIGHT;
+	public void setGamepadPowerUpDirRight() {
+		setIcon(GAMEPAD_POWER_UP_DIR_RIGHT);
 	}
 
-	public ImageIcon getGAMEPAD_SPEED_UP() {
-		return GAMEPAD_SPEED_UP;
+	public void setGamepadPowerDownDirRight() {
+		setIcon(GAMEPAD_POWER_DOWN_DIR_RIGHT);
 	}
 
-	public ImageIcon getGAMEPAD_POWER_DOWN() {
-		return GAMEPAD_POWER_DOWN;
+	public void setKeyboardDefaultIcon() {
+		setIcon(KEYBOARD_NO_ACTION);
 	}
 
-	public ImageIcon getKEYBOARD_DIR_LEFT() {
-		return KEYBOARD_DIR_LEFT;
+	public void setKeyboardDirLeft() {
+		setIcon(KEYBOARD_DIR_LEFT);
 	}
 
-	public ImageIcon getKEYBOARD_POWER_UP_DIR_LEFT() {
-		return KEYBOARD_POWER_UP_DIR_LEFT;
+	public void setKeyboardDirRight() {
+		setIcon(KEYBOARD_DIR_RIGHT);
 	}
 
-	public ImageIcon getKEYBOARD_DIR_RIGHT() {
-		return KEYBOARD_DIR_RIGHT;
+	public void setKeyboardPowerUp() {
+		setIcon(KEYBOARD_POWER_UP);
 	}
 
-	public ImageIcon getKEYBOARD_POWER_UP_DIR_RIGHT() {
-		return KEYBOARD_POWER_UP_DIR_RIGHT;
+	public void setKeyboardPowerDown() {
+		setIcon(KEYBOARD_POWER_DOWN);
 	}
 
-	public ImageIcon getKEYBOARD_NO_ACTION() {
-		return KEYBOARD_NO_ACTION;
+	public void setKeyboardSpeedUp() {
+		setIcon(KEYBOARD_SPEED_UP);
 	}
 
-	public ImageIcon getKEYBOARD_POWER_UP() {
-		return KEYBOARD_POWER_UP;
+	public void setKeyboardSpeedDown() {
+		setIcon(KEYBOARD_SPEED_DOWN);
 	}
 
-	public ImageIcon getKEYBOARD_POWER_DOWN_DIR_LEFT() {
-		return KEYBOARD_POWER_DOWN_DIR_LEFT;
+	public void setKeyboardPowerUpDirLeft() {
+		setIcon(KEYBOARD_POWER_UP_DIR_LEFT);
 	}
 
-	public ImageIcon getKEYBOARD_SPEED_DOWN() {
-		return KEYBOARD_SPEED_DOWN;
+	public void setKeyboardPowerDownDirLeft() {
+		setIcon(KEYBOARD_POWER_DOWN_DIR_LEFT);
 	}
 
-	public ImageIcon getKEYBOARD_POWER_DOWN_DIR_RIGHT() {
-		return KEYBOARD_POWER_DOWN_DIR_RIGHT;
+	public void setKeyboardPowerUpDirRight() {
+		setIcon(KEYBOARD_POWER_UP_DIR_RIGHT);
 	}
 
-	public ImageIcon getKEYBOARD_SPEED_UP() {
-		return KEYBOARD_SPEED_UP;
-	}
-
-	public ImageIcon getKEYBOARD_POWER_DOWN() {
-		return KEYBOARD_POWER_DOWN;
+	public void setKeyboardPowerDownDirRight() {
+		setIcon(KEYBOARD_POWER_DOWN_DIR_RIGHT);
 	}
 }
