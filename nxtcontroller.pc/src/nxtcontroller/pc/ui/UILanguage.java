@@ -1,4 +1,5 @@
 package nxtcontroller.pc.ui;
+
 /**
  * @author Max Leuthäuser
  * 
@@ -26,6 +27,16 @@ public final class UILanguage {
 	public static final String BTT_SAVED = "Bluetooth log saved to: ";
 	public static final String LOG_SAVE_CANCELLED = "Save command cancelled by user.";
 	public static final String USING_KEYBOARD = "Using Keyboard now.";
-	public static final String USING_GAMEPAD = "Using Gamepad now.";
+	public static final String USING_GAMEPAD = "Try to use Gamepad now ...";
 	public static final String RUNNING_ON = "Running on ";
+	public static final String NO_GAMEPAD_FOUND = "No gamepad found!";
+	public static final String GAMEPADS_FOUND = "Number of gamepads found: ";
+	public static final String RUMBLERS_FOUND = "Number of rumblers found: ";
+	public static final String GAMEPAD_COMPONENTS_FOUND = "Number of gamepad components found: ";
+	public static final String GAMEPAD_CHOOSEN = "Game pad index: ";
+	public static final String GAMEPAD_NO_COMPONENTS = "No Components found.";
+	public static final String GAMEPAD_NO_RUMBLERS = "No rumblers found.";
+	public static final String FOUND = "Found";
+	public static final String IGNORING_EXTRA_BUTTON = "Extra button found. Ignoring.";
+	public static final String GAMEPAD_DIRECTION_DATA_UNAVAILABLE = "Gamepad axis data unavailable";
 }

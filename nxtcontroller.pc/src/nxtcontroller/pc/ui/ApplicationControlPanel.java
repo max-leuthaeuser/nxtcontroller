@@ -275,7 +275,6 @@ public class ApplicationControlPanel extends JPanel {
 			if (selected.equals(ControllerTyp.types[1])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				LogOperation.writeLog(log, UILanguage.USING_GAMEPAD);
-				graphicsPanel.setIcon(graphicsPanel.getGAMEPAD_NO_ACTION());
 				GUIController.getInstance().getDeviceHandler().setHandler(
 						ControllerTyp.types[1]);
 			}
