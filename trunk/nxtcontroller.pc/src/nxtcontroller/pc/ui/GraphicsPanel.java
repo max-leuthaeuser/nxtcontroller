@@ -50,7 +50,7 @@ public class GraphicsPanel extends JPanel {
 	private ImageIcon KEYBOARD_POWER_UP = new ImageIcon(
 			Graphics.KEYBOARD_POWER_UP);
 	private ImageIcon KEYBOARD_POWER_DOWN_DIR_LEFT = new ImageIcon(
-			Graphics.KEYBOARD_POWER_UP_DIR_LEFT);
+			Graphics.KEYBOARD_POWER_DOWN_DIR_LEFT);
 	private ImageIcon KEYBOARD_SPEED_DOWN = new ImageIcon(
 			Graphics.KEYBOARD_SPEED_DOWN);
 	private ImageIcon KEYBOARD_POWER_DOWN_DIR_RIGHT = new ImageIcon(

@@ -1,4 +1,5 @@
 package nxtcontroller.pc.controller;
+
 /**
  * @author Max Leuthäuser
  * 
@@ -36,15 +37,43 @@ public class KeyboardHandler implements IHandler {
 	public void destroy() {
 		mainFrame.removeKeyListener(kl);
 	}
-	
+
 	private class KeyboardListener implements KeyListener {
+		private boolean lastKeyWasUp = false;
+		private boolean lastKeyWasRight = false;
+		private boolean lastKeyWasDown = false;
+		private boolean lastKeyWasLeft = false;
+
 		@Override
 		public void keyPressed(KeyEvent e) {
-
+			if (e.getKeyChar() == 'w') {
+				lastKeyWasUp = true;
+			}
+			if (e.getKeyChar() == 'd') {
+				lastKeyWasRight = true;
+			}
+			if (e.getKeyChar() == 's') {
+				lastKeyWasDown = true;
+			}
+			if (e.getKeyChar() == 'a') {
+				lastKeyWasLeft = true;
+			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
+			if (e.getKeyChar() == 'w') {
+				lastKeyWasUp = false;
+			}
+			if (e.getKeyChar() == 'd') {
+				lastKeyWasRight = false;
+			}
+			if (e.getKeyChar() == 's') {
+				lastKeyWasDown = false;
+			}
+			if (e.getKeyChar() == 'a') {
+				lastKeyWasLeft = false;
+			}
 			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setIcon(
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.getKEYBOARD_NO_ACTION());
@@ -52,14 +81,15 @@ public class KeyboardHandler implements IHandler {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			if (e.getKeyChar() == 'w') {
+			// single events, use remote controller here
+			if (lastKeyWasUp) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setIcon(
 								GUIBuilder.getInstance().getAppPanel()
 										.getGraphicsPanel()
 										.getKEYBOARD_POWER_UP());
 			}
-			if (e.getKeyChar() == 'd') {
+			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setIcon(
 								GUIBuilder.getInstance().getAppPanel()
@@ -67,7 +97,7 @@ public class KeyboardHandler implements IHandler {
 										.getKEYBOARD_DIR_RIGHT());
 
 			}
-			if (e.getKeyChar() == 's') {
+			if (lastKeyWasDown) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setIcon(
 								GUIBuilder.getInstance().getAppPanel()
@@ -75,7 +105,7 @@ public class KeyboardHandler implements IHandler {
 										.getKEYBOARD_POWER_DOWN());
 
 			}
-			if (e.getKeyChar() == 'a') {
+			if (lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setIcon(
 								GUIBuilder.getInstance().getAppPanel()
@@ -97,6 +127,36 @@ public class KeyboardHandler implements IHandler {
 								GUIBuilder.getInstance().getAppPanel()
 										.getGraphicsPanel()
 										.getKEYBOARD_SPEED_DOWN());
+			}
+
+			// combinations, just for visualizing
+			if (lastKeyWasDown && lastKeyWasLeft) {
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setIcon(
+								GUIBuilder.getInstance().getAppPanel()
+										.getGraphicsPanel()
+										.getKEYBOARD_POWER_DOWN_DIR_LEFT());
+			}
+			if (lastKeyWasDown && lastKeyWasRight) {
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setIcon(
+								GUIBuilder.getInstance().getAppPanel()
+										.getGraphicsPanel()
+										.getKEYBOARD_POWER_DOWN_DIR_RIGHT());
+			}
+			if (lastKeyWasUp && lastKeyWasLeft) {
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setIcon(
+								GUIBuilder.getInstance().getAppPanel()
+										.getGraphicsPanel()
+										.getKEYBOARD_POWER_UP_DIR_LEFT());
+			}
+			if (lastKeyWasUp && lastKeyWasRight) {
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setIcon(
+								GUIBuilder.getInstance().getAppPanel()
+										.getGraphicsPanel()
+										.getKEYBOARD_POWER_UP_DIR_RIGHT());
 			}
 		}
 	}
