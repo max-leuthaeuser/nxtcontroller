@@ -8,7 +8,6 @@ package nxtcontroller.pc.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -277,7 +276,7 @@ public class ApplicationControlPanel extends JPanel {
 			if (selected.equals(ControllerTyp.types[0])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 				LogOperation.writeLog(log, UILanguage.USING_KEYBOARD);
-				graphicsPanel.setIcon(graphicsPanel.getKEYBOARD_NO_ACTION());
+				graphicsPanel.setKeyboardDefaultIcon();
 				GUIController.getInstance().getDeviceHandler().setHandler(
 						ControllerTyp.types[0]);
 			}
