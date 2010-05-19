@@ -6,24 +6,34 @@ package nxtcontroller.pc.ui;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
+import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 
 public final class LogOperation {
-	private static final String NEWLINE = "\n"; 
+	private static final String NEWLINE = "<br>"; 
+	private static LinkedList<String> logList = new LinkedList<String>();
 	
 	private static String getTime() {
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"HH:mm:ss:S");
 		Date currentTime = new Date();
-		return "[" + formatter.format(currentTime) + "] ";
+		return "<font color=\"blue\">[" + formatter.format(currentTime) + "]</font>";
 	}
 
-	public static void writeLog(JTextArea log, String arg0) {
-		log.append(getTime() + arg0 + NEWLINE);
+	public static void writeLog(JEditorPane log, String arg0) {
+		String result = "<html><font size='2' face='Verdana'>";
+		logList.add(arg0);
+		for (String s : logList) {
+			result += getTime() + " " + s + NEWLINE;
+		}
+		result += "</html>";		
+		log.setText(result);
 	}
 	
-	public static void clearLog(JTextArea log) {
+	public static void clearLog(JEditorPane log) {
 		log.setText("");
+		logList.clear();
 	}
 }
