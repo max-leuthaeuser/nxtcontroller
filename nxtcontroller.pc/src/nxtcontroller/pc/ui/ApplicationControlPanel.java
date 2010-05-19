@@ -8,6 +8,7 @@ package nxtcontroller.pc.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +29,7 @@ public class ApplicationControlPanel extends JPanel {
 	private JSplitPane vSplitPane;
 	private JPanel logPanel, clearLogPanel, clearBttPanel, bttPanel;
 	private GraphicsPanel graphicsPanel;
-	private JTextArea log, btt;
+	private JEditorPane log, btt;
 	private JButton clearLog, clearBTT, saveLog, saveBTT;
 	private MouseHandler bh;
 	private JComboBox controllerBox;
@@ -84,8 +85,11 @@ public class ApplicationControlPanel extends JPanel {
 		textPanel.setLayout(new GridLayout(0, 2));
 
 		JPanel t1 = new JPanel();
+		JPanel logP = new JPanel();
+		logP.setLayout(new GridLayout(1,1));
+		logP.add(new JScrollPane(log));
 		JSplitPane logPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
-				new JScrollPane(log), clearLogPanel);
+				logP, clearLogPanel);
 		t1.setBorder(BorderFactory.createTitledBorder(UILanguage.LOG));
 		logPane.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
@@ -94,8 +98,11 @@ public class ApplicationControlPanel extends JPanel {
 		t1.add(logPane);
 
 		JPanel t2 = new JPanel();
+		JPanel bttP = new JPanel();
+		bttP.setLayout(new GridLayout(1,1));
+		bttP.add(new JScrollPane(btt));
 		JSplitPane logPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
-				new JScrollPane(btt), clearBttPanel);
+				bttP, clearBttPanel);
 		t2.setBorder(BorderFactory.createTitledBorder(UILanguage.BTT));
 		logPane2.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
@@ -118,8 +125,9 @@ public class ApplicationControlPanel extends JPanel {
 		clearLog.setToolTipText(UILanguage.CLEAR_HINT);
 		logPanel = new JPanel();
 		logPanel.setLayout(new GridLayout(1, 0));
-		log = new JTextArea();
+		log = new JEditorPane();
 		log.setEditable(false);
+		log.setContentType("text/html");
 		logPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
 				.createLineBorder(Color.gray), UILanguage.LOG));
 		clearLogPanel = new JPanel();
@@ -139,8 +147,9 @@ public class ApplicationControlPanel extends JPanel {
 		clearBTT.setToolTipText(UILanguage.CLEAR_HINT);
 		bttPanel = new JPanel();
 		bttPanel.setLayout(new GridLayout(1, 0));
-		btt = new JTextArea();
+		btt = new JEditorPane();
 		btt.setEditable(false);
+		btt.setContentType("text/html");
 		bttPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
 				.createLineBorder(Color.gray), UILanguage.BTT));
 		clearBttPanel = new JPanel();
@@ -149,11 +158,11 @@ public class ApplicationControlPanel extends JPanel {
 		clearBttPanel.add(clearBTT, BorderLayout.SOUTH);
 	}
 
-	public JTextArea getLog() {
+	public JEditorPane getLog() {
 		return this.log;
 	}
 
-	public JTextArea getBTT() {
+	public JEditorPane getBTT() {
 		return this.btt;
 	}
 

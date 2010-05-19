@@ -6,7 +6,7 @@ package nxtcontroller.pc.ui;
 
 import java.awt.GridLayout;
 
-import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
 
 public class GUIBuilder {
 	private MainFrame mainFrame;
@@ -52,7 +52,7 @@ public class GUIBuilder {
 		this.mainFrame.validate();
 	}
 
-	public JTextArea getLog() {
+	public JEditorPane getLog() {
 		return appPanel.getLog();
 	}
 }
