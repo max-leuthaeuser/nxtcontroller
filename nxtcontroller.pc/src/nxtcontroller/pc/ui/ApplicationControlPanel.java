@@ -21,6 +21,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import nxtcontroller.pc.controller.ControllerTyp;
+import nxtcontroller.pc.controller.GamepadHandler;
 
 public class ApplicationControlPanel extends JPanel {
 	private static final long serialVersionUID = 2963071726378133381L;
@@ -175,6 +176,10 @@ public class ApplicationControlPanel extends JPanel {
 	public GraphicsPanel getGraphicsPanel() {
 		return graphicsPanel;
 	}
+	
+	public JComboBox getControllerBox() {
+		return controllerBox;
+	}
 
 	private class MouseHandler implements MouseListener, ActionListener {
 
@@ -184,6 +189,10 @@ public class ApplicationControlPanel extends JPanel {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == searchID) {
+				if (!GamepadHandler.search()) {
+					controllerBox.setSelectedIndex(0);
+				} else
+					LogOperation.writeLog(log, UILanguage.GAMEPAD_AVAILABLE);
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == clearLog) {
