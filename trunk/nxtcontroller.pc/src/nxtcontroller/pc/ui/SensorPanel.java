@@ -18,7 +18,7 @@ public class SensorPanel extends JPanel {
 	private int left = 70;
 	private int PANEL_SIZE_WIDTH;
 	private int PANEL_SIZE_HEIGHT;
-	private boolean distanceDrawingHasStarted = true;
+	private boolean distanceDrawingHasStarted = false;
 
 	public SensorPanel() {
 		setBackground(Color.white);

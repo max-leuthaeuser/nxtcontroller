@@ -86,14 +86,6 @@ public class GamePadController {
 	 */
 	private void findCompIndices(Controller controller) {
 		comps = controller.getComponents();
-		if (comps.length == 0) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_NO_COMPONENTS);
-		} else {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_COMPONENTS_FOUND + comps.length);
-		}
-
 		// get the indices for the axes of the analog sticks: (x,y) and (z,rz)
 		xAxisIdx = findCompIndex(comps, Component.Identifier.Axis.X, "x-axis");
 		yAxisIdx = findCompIndex(comps, Component.Identifier.Axis.Y, "y-axis");
@@ -118,8 +110,6 @@ public class GamePadController {
 		for (int i = 0; i < comps.length; i++) {
 			c = comps[i];
 			if ((c.getIdentifier() == id) && !c.isRelative()) {
-				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-						UILanguage.FOUND + " " + c.getName() + "; index: " + i);
 				return i;
 			}
 		}
@@ -139,15 +129,8 @@ public class GamePadController {
 		for (int i = 0; i < comps.length; i++) {
 			c = comps[i];
 			if (isButton(c)) { // deal with a button
-				if (numButtons == NUM_BUTTONS) // already enough buttons
-				{
-					LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-							UILanguage.IGNORING_EXTRA_BUTTON);
-				} else {
+				if (numButtons != NUM_BUTTONS) {
 					buttonsIdx[numButtons] = i; // store button index
-					LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-							UILanguage.FOUND + " " + c.getName() + "; index: "
-									+ i);
 					numButtons++;
 				}
 			}
@@ -186,20 +169,16 @@ public class GamePadController {
 		// get the game pad's rumblers
 		rumblers = controller.getRumblers();
 		if (rumblers.length == 0) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_NO_RUMBLERS);
 			rumblerIdx = -1;
 		} else {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.RUMBLERS_FOUND + rumblers.length);
 			rumblerIdx = rumblers.length - 1; // use last rumbler
 		}
 	} // end of findRumblers()
 
 	// ----------------- polling and getting data ------------------
-	public void poll() // update the component values in the controller
+	public boolean poll() // update the component values in the controller
 	{
-		controller.poll();
+		return controller.poll();
 	}
 
 	public int getXYStickDir() // return the (x,y) analog stick compass

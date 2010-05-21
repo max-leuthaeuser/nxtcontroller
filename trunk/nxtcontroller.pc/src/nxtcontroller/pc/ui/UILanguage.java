@@ -32,11 +32,9 @@ public final class UILanguage {
 	public static final String NO_GAMEPAD_FOUND = "No gamepad found!";
 	public static final String GAMEPADS_FOUND = "Number of gamepads found: ";
 	public static final String RUMBLERS_FOUND = "Number of rumblers found: ";
-	public static final String GAMEPAD_COMPONENTS_FOUND = "Number of gamepad components found: ";
 	public static final String GAMEPAD_CHOOSEN = "Game pad index: ";
-	public static final String GAMEPAD_NO_COMPONENTS = "No Components found.";
-	public static final String GAMEPAD_NO_RUMBLERS = "No rumblers found.";
 	public static final String FOUND = "Found";
-	public static final String IGNORING_EXTRA_BUTTON = "Extra button found. Ignoring.";
 	public static final String GAMEPAD_DIRECTION_DATA_UNAVAILABLE = "Gamepad axis data unavailable";
+	public static final String GAMEPAD_AVAILABLE = "An available gamepad was found.";
+	public static final String GAMEPAD_CONNECTION_LOST = "Gamepad connection lost";
 }

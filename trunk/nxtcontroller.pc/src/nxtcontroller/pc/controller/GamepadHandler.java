@@ -12,7 +12,10 @@ import javax.swing.JRootPane;
 import javax.swing.Timer;
 
 import nxtcontroller.pc.ui.GUIBuilder;
+import nxtcontroller.pc.ui.GUIController;
+import nxtcontroller.pc.ui.LogOperation;
 import nxtcontroller.pc.ui.MainFrame;
+import nxtcontroller.pc.ui.UILanguage;
 
 public class GamepadHandler implements IHandler {
 	private static final int DELAY = 40;
@@ -24,6 +27,15 @@ public class GamepadHandler implements IHandler {
 	private int lastButtonWas = 0;
 
 	public GamepadHandler(MainFrame mainFrame, JRootPane rootPane) {
+	}
+
+	public static boolean search() {
+		try {
+			GamePadController controller = new GamePadController();
+			return controller.gamePadIsAvailable;
+		} catch (Exception e) {
+		}
+		return false;
 	}
 
 	public void attach() {
@@ -47,7 +59,16 @@ public class GamepadHandler implements IHandler {
 		ActionListener pollPerformer = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				gpController.poll();
+				if (!gpController.poll()) {
+					pollTimer.stop();
+					LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+							UILanguage.GAMEPAD_CONNECTION_LOST);
+					GUIBuilder.getInstance().getAppPanel().getControllerBox()
+							.setSelectedIndex(0);
+					GUIController.getInstance().getDeviceHandler().setHandler(
+							ControllerTyp.types[0]);
+					return;
+				}
 				// get directions from analog sticks
 				int speedDir = gpController.getXYStickDir();
 				int compassDir = gpController.getZRZStickDir();
