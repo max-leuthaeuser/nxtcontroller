@@ -48,10 +48,7 @@ public class SensorPanel extends JPanel {
 	}
 
 	private int getFullscreenModifier() {
-		int defaultSize = StaticSizes.SENSORPANEL_SIZE_HEIGTH
-				* StaticSizes.SENSORPANEL_SIZE_WIDTH;
-		int actualSize = getSize().height * getSize().width;
-		return actualSize / defaultSize;
+		return (getSize().height * getSize().width) / (280 * 690);
 	}
 
 	@Override
@@ -59,7 +56,8 @@ public class SensorPanel extends JPanel {
 		PANEL_SIZE_HEIGHT = getSize().height;
 		PANEL_SIZE_WIDTH = getSize().width;
 		int fullScreenModifier = getFullscreenModifier();
-		if (fullScreenModifier != 1) {
+		System.out.println(fullScreenModifier);
+		if (fullScreenModifier >= 1.1) {
 			g.setFont(new Font("Verdana", Font.BOLD, 18));
 		}
 		super.paintComponent(g);
@@ -219,6 +217,5 @@ public class SensorPanel extends JPanel {
 				+ (drawRight * fullScreenModifier), PANEL_SIZE_HEIGHT / 2
 				- (30 * fullScreenModifier), 10 * fullScreenModifier,
 				65 * fullScreenModifier);
-
 	}
 }
