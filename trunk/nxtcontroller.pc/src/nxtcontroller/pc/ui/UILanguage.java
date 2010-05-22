@@ -1,10 +1,10 @@
 package nxtcontroller.pc.ui;
 
 /**
+ * Holds all GUI descriptions and log output in 
+ * English as static Strings.
  * @author Max Leuthäuser
- * 
  */
-
 public final class UILanguage {
 	public static final String GAMEPAD = "Gamepad";
 	public static final String KEYBOARD = "Keyboard";

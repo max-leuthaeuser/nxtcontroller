@@ -6,6 +6,12 @@ import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.LogOperation;
 import nxtcontroller.pc.ui.UILanguage;
 
+/**
+ * Class which interact with any USB device which is connected. In this
+ * application its used to get gamepads only.
+ * 
+ * @author Max Leuthäuser
+ */
 public class GamePadController {
 
 	public static final int NUM_BUTTONS = 12;

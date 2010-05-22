@@ -1,16 +1,16 @@
 package nxtcontroller.pc.ui;
 
-/**
- * @author Max Leuthäuser
- * 
- */
-
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Panel which shows the current state of the selected input device.
+ * 
+ * @author Max Leuthäuser
+ */
 public class GraphicsPanel extends JPanel {
 	private JLabel icon;
 	private static final long serialVersionUID = 8071893825743554944L;
@@ -70,6 +70,10 @@ public class GraphicsPanel extends JPanel {
 		add(icon);
 	}
 
+	/**
+	 * Sets a new image to the GraphicsPanel
+	 * @param newIcon
+	 */
 	private void setIcon(ImageIcon newIcon) {
 		icon.setIcon(newIcon);
 	}
