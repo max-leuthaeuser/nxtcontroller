@@ -1,15 +1,14 @@
 package nxtcontroller.pc.ui;
 
-/**
- * @author Max Leuthäuser
- *
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
+/**
+ * Panel which draw all sensor values.
+ * @author Max Leuthäuser
+ */
 public class SensorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int rotation = 90;
@@ -24,11 +23,21 @@ public class SensorPanel extends JPanel {
 		setBackground(Color.white);
 	}
 
+	/**
+	 * Calculate the angle and draw.
+	 * @param degree
+	 */
 	public void drawRotation(int degree) {
 		rotation = degree + 90;
 		repaint();
 	}
 
+	/**
+	 * Draw the distance values. 
+	 * Parameter source: 0 means front, 1 means right, 2 means left
+	 * @param source
+	 * @param distance
+	 */
 	public void drawDistances(int source, int distance) {
 		distanceDrawingHasStarted = true;
 		switch (source) {
@@ -47,11 +56,18 @@ public class SensorPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * @return the ratio from standard size to fullscreen size.
+	 */
 	private int getFullscreenModifier() {
 		int result = (getSize().height * getSize().width) / (280 * 690);
 		return result >= 4 ? 4 : result;
 	}
 
+	/**
+	 * Draws all sensor values and takes care of the screen size.
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	public void paintComponent(java.awt.Graphics g) {
 		PANEL_SIZE_HEIGHT = getSize().height;

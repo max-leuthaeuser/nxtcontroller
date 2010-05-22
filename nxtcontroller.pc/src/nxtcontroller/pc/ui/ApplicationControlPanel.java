@@ -1,10 +1,5 @@
 package nxtcontroller.pc.ui;
 
-/**
- * @author Max Leuthäuser
- * 
- */
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +18,11 @@ import javax.swing.*;
 import nxtcontroller.pc.controller.ControllerTyp;
 import nxtcontroller.pc.controller.GamepadHandler;
 
+/**
+ * Panel which holds all control elements.
+ * 
+ * @author Max Leuthäuser
+ */
 public class ApplicationControlPanel extends JPanel {
 	private static final long serialVersionUID = 2963071726378133381L;
 
@@ -35,6 +35,9 @@ public class ApplicationControlPanel extends JPanel {
 	private JComboBox controllerBox;
 	private JButton connect, searchID;
 
+	/**
+	 * Constructor. Builds all control elements and attach mouse listener.
+	 */
 	public ApplicationControlPanel() {
 		super();
 		bh = new MouseHandler();
@@ -86,7 +89,7 @@ public class ApplicationControlPanel extends JPanel {
 
 		JPanel t1 = new JPanel();
 		JPanel logP = new JPanel();
-		logP.setLayout(new GridLayout(1,1));
+		logP.setLayout(new GridLayout(1, 1));
 		logP.add(new JScrollPane(log));
 		JSplitPane logPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				logP, clearLogPanel);
@@ -99,7 +102,7 @@ public class ApplicationControlPanel extends JPanel {
 
 		JPanel t2 = new JPanel();
 		JPanel bttP = new JPanel();
-		bttP.setLayout(new GridLayout(1,1));
+		bttP.setLayout(new GridLayout(1, 1));
 		bttP.add(new JScrollPane(btt));
 		JSplitPane logPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				bttP, clearBttPanel);
@@ -116,6 +119,9 @@ public class ApplicationControlPanel extends JPanel {
 		add(textPanel);
 	}
 
+	/**
+	 * Create the application log.
+	 */
 	private void buildLogPanel() {
 		saveLog = new JButton(UILanguage.SAVE);
 		saveLog.addMouseListener(bh);
@@ -138,6 +144,9 @@ public class ApplicationControlPanel extends JPanel {
 				+ System.getProperty("os.name"));
 	}
 
+	/**
+	 * Create the Bluetooth trace log.
+	 */
 	private void buildBTTracePanel() {
 		saveBTT = new JButton(UILanguage.SAVE);
 		saveBTT.addMouseListener(bh);
@@ -158,14 +167,28 @@ public class ApplicationControlPanel extends JPanel {
 		clearBttPanel.add(clearBTT, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * @return the application log.
+	 */
 	public JEditorPane getLog() {
 		return this.log;
 	}
 
+	/**
+	 * @return the Bluetooth trace log
+	 */
 	public JEditorPane getBTT() {
 		return this.btt;
 	}
 
+	/**
+	 * Write a String to a file.
+	 * 
+	 * @param path
+	 * @param text
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void writeFile(String path, String text)
 			throws FileNotFoundException, IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(path));
@@ -173,14 +196,24 @@ public class ApplicationControlPanel extends JPanel {
 		out.close();
 	}
 
+	/**
+	 * @return the graphics panel
+	 */
 	public GraphicsPanel getGraphicsPanel() {
 		return graphicsPanel;
 	}
-	
+
+	/**
+	 * @return the controller box which holds the available controller devices.
+	 */
 	public JComboBox getControllerBox() {
 		return controllerBox;
 	}
 
+	/**
+	 * Inner class which handles all incoming mouse events and control the
+	 * application.
+	 */
 	private class MouseHandler implements MouseListener, ActionListener {
 
 		@Override
@@ -278,6 +311,10 @@ public class ApplicationControlPanel extends JPanel {
 
 		}
 
+		/**
+		 * Used to switch the input devices.
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			JComboBox cb = (JComboBox) arg0.getSource();

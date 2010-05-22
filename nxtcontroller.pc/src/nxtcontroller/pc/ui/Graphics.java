@@ -1,9 +1,10 @@
 package nxtcontroller.pc.ui;
-/**
- * @author Max Leuthäuser
- * 
- */
 
+/**
+ * Holds every path to the images which shows the current
+ * state of the selected input device.
+ * @author Max Leuthäuser
+ */
 public final class Graphics {
 	public final static String kStdDir = "graphics/keyboard/";
 	public final static String gStdDir = "graphics/gamepad/";

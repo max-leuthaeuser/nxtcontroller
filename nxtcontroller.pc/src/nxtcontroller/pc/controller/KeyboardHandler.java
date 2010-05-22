@@ -1,10 +1,5 @@
 package nxtcontroller.pc.controller;
 
-/**
- * @author Max Leuthäuser
- * 
- */
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,6 +12,11 @@ import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.GUIController;
 import nxtcontroller.pc.ui.MainFrame;
 
+/**
+ * Class which handle all input events from keyboard and control the NXT.
+ * 
+ * @author Max Leuthäuser
+ */
 public class KeyboardHandler implements IHandler {
 	private JRootPane rootPane;
 	private MainFrame mainFrame;
@@ -29,15 +29,25 @@ public class KeyboardHandler implements IHandler {
 		init();
 	}
 
+	/**
+	 * Attach the keyboard to the application and use it as new input device
+	 * from now on.
+	 */
 	public void attach() {
 		mainFrame.addKeyListener(kl);
 		mainFrame.requestFocus();
 	}
 
+	/**
+	 * Remove the keyboard as current input device.
+	 */
 	public void destroy() {
 		mainFrame.removeKeyListener(kl);
 	}
 
+	/**
+	 * Inner class which handle all incoming key events and control the NXT.
+	 */
 	private class KeyboardListener implements KeyListener {
 		private boolean lastKeyWasUp = false;
 		private boolean lastKeyWasRight = false;
@@ -109,20 +119,27 @@ public class KeyboardHandler implements IHandler {
 
 			// combinations, just for visualizing
 			if (lastKeyWasDown && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerDownDirLeft();
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setKeyboardPowerDownDirLeft();
 			}
 			if (lastKeyWasDown && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerDownDirRight();
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setKeyboardPowerDownDirRight();
 			}
 			if (lastKeyWasUp && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerUpDirLeft();
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setKeyboardPowerUpDirLeft();
 			}
 			if (lastKeyWasUp && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel().setKeyboardPowerUpDirRight();
+				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+						.setKeyboardPowerUpDirRight();
 			}
 		}
 	}
 
+	/**
+	 * Attach a global key listener to handle fullscreen switching.
+	 */
 	public void init() {
 		rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
 				KeyStroke.getKeyStroke("F12"), "fullscreen");

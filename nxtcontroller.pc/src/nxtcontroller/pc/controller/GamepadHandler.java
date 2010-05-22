@@ -1,10 +1,5 @@
 package nxtcontroller.pc.controller;
 
-/**
- * @author Max Leuthäuser
- * 
- */
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +12,12 @@ import nxtcontroller.pc.ui.LogOperation;
 import nxtcontroller.pc.ui.MainFrame;
 import nxtcontroller.pc.ui.UILanguage;
 
+/**
+ * Class which handle all input events from a gamepad
+ * and control the NXT.
+ * 
+ * @author Max Leuthäuser
+ */
 public class GamepadHandler implements IHandler {
 	private static final int DELAY = 40;
 	private Timer pollTimer;
@@ -29,6 +30,9 @@ public class GamepadHandler implements IHandler {
 	public GamepadHandler(MainFrame mainFrame, JRootPane rootPane) {
 	}
 
+	/**
+	 * @return true of a available gamepad was found, false otherwise.
+	 */
 	public static boolean search() {
 		try {
 			GamePadController controller = new GamePadController();
@@ -38,6 +42,10 @@ public class GamepadHandler implements IHandler {
 		return false;
 	}
 
+	/**
+	 * Attach the gamepad to the application and use it as new input device from
+	 * now on.
+	 */
 	public void attach() {
 		gpController = new GamePadController();
 		if (gpController.gamePadIsAvailable) {
@@ -49,12 +57,19 @@ public class GamepadHandler implements IHandler {
 					.setKeyboardDefaultIcon();
 	}
 
+	/**
+	 * Remove the gamepad as current input device.
+	 */
 	public void destroy() {
 		if (gpController != null && gpController.gamePadIsAvailable) {
 			pollTimer.stop(); // stop the timer
 		}
 	}
 
+	/**
+	 * Starts a timer and poll for new input values from the currently attached
+	 * gamepad. See DELAY in this class for polling interval.
+	 */
 	private void startPolling() {
 		ActionListener pollPerformer = new ActionListener() {
 

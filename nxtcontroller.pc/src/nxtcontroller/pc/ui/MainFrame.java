@@ -1,18 +1,18 @@
 package nxtcontroller.pc.ui;
 
-/**
- * @author Max Leuthäuser
- *
- */
-
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Toolkit;
-
 import javax.swing.*;
 
+/**
+ * This class is the main frame of the application. It contains all GUI
+ * elements.
+ * 
+ * @author Max Leuthäuser
+ */
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 3083232085671490610L;
 
@@ -28,6 +28,9 @@ public class MainFrame extends JFrame {
 		restore();
 	}
 
+	/**
+	 * @return the standard position at the center of the screen.
+	 */
 	private Point getStandardPosition() {
 		return new Point(GUIController.getInstance().getDisplaySize().x / 2
 				- (StaticSizes.APPLICATION_SIZE_WIDTH / 2), GUIController
@@ -35,6 +38,9 @@ public class MainFrame extends JFrame {
 				/ 2 - (StaticSizes.APPLICATION_SIZE_HEIGTH / 2));
 	}
 
+	/**
+	 * Set the standard size and position.
+	 */
 	public void restore() {
 		setVisible(false);
 		// we need dispose() on linux only
@@ -49,6 +55,9 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Sets this frame to fullscreen.
+	 */
 	public void setMaximized() {
 		setVisible(false);
 		setSize(Toolkit.getDefaultToolkit().getScreenSize());
