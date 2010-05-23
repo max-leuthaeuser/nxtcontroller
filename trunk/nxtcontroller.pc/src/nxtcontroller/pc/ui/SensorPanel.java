@@ -73,7 +73,6 @@ public class SensorPanel extends JPanel {
 		PANEL_SIZE_HEIGHT = getSize().height;
 		PANEL_SIZE_WIDTH = getSize().width;
 		int fullScreenModifier = getFullscreenModifier();
-		System.out.println(fullScreenModifier);
 		if (fullScreenModifier >= 1.1) {
 			g.setFont(new Font("Verdana", Font.BOLD, 18));
 		}

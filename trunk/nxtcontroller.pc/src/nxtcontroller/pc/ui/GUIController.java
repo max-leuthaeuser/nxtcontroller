@@ -1,19 +1,19 @@
 package nxtcontroller.pc.ui;
 
-/**
- * @author Max Leuthäuser
- * 
- */
-
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
-
 import nxtcontroller.pc.controller.ControllerTyp;
 import nxtcontroller.pc.controller.DeviceHandler;
 
+/**
+ * Class which controls all GUI elements and allows to toggle the fullscreen
+ * mode.
+ * 
+ * @author Max Leuthäuser
+ */
 public class GUIController {
 	private DeviceHandler dh;
 	private GUIBuilder guiBuilder = GUIBuilder.getInstance();
@@ -24,21 +24,34 @@ public class GUIController {
 	private GUIController() {
 	}
 
+	/**
+	 * @return an instance of the class {@link GUIController}
+	 */
 	public static GUIController getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Use the {@link GUIBuilder} to create the interface and set the default
+	 * input device handler. (keyboard)
+	 */
 	public void init() {
 		guiBuilder.buildInterface();
 		dh = new DeviceHandler(guiBuilder.getMainFrame(), guiBuilder
 				.getMainFrame().getRootPane());
 		dh.setHandler(ControllerTyp.types[0]);
 	}
-	
+
+	/**
+	 * @return the {@link DeviceHandler}
+	 */
 	public DeviceHandler getDeviceHandler() {
 		return dh;
 	}
-	
+
+	/**
+	 * @return the display size of the main screen at this computer.
+	 */
 	public Point getDisplaySize() {
 		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
@@ -47,6 +60,10 @@ public class GUIController {
 		return new Point(dm.getWidth(), dm.getHeight());
 	}
 
+	/**
+	 * Toggle the fullscreen mode. The {@link ApplicationControlPanel} is
+	 * removed while staying in fullscreen.
+	 */
 	public void toggleFullScreen() {
 		if (isInFullScreenMode) {
 			isInFullScreenMode = false;
