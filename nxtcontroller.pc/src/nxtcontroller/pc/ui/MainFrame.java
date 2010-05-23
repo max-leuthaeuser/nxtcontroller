@@ -44,7 +44,7 @@ public class MainFrame extends JFrame {
 	public void restore() {
 		setVisible(false);
 		// we need dispose() on linux only
-		if (System.getProperty("os.name").startsWith("Linux")) {
+		if (System.getProperty("os.name").contains("inux")) {
 			dispose();
 		}
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
