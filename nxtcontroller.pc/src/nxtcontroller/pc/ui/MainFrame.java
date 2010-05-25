@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Toolkit;
 import javax.swing.*;
 
 /**
@@ -42,32 +41,30 @@ public class MainFrame extends JFrame {
 	 * Set the standard size and position.
 	 */
 	public void restore() {
-		setVisible(false);
-		// we need dispose() on linux only
-		if (System.getProperty("os.name").contains("inux")) {
-			dispose();
-		}
+		dispose();
 		setBounds(this.getStandardPosition().x, this.getStandardPosition().y,
 				StaticSizes.APPLICATION_SIZE_WIDTH,
 				StaticSizes.APPLICATION_SIZE_HEIGTH);
-
-		repaint();
+		setUndecorated(false);
 		setVisible(true);
+		repaint();
 	}
 
 	/**
 	 * Sets this frame to fullscreen.
 	 */
 	public void setMaximized() {
-		setVisible(false);
-		setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		GraphicsDevice device;
-		device = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getScreenDevices()[0];
-		device.setFullScreenWindow(this);
-		setBounds(-1, -1, device.getDisplayMode().getWidth(), device
-				.getDisplayMode().getWidth());
-		repaint();
-		setVisible(true);
+		GraphicsEnvironment env = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		GraphicsDevice device = env.getScreenDevices()[0];
+		dispose();
+		setUndecorated(true);
+		if (device.isFullScreenSupported()) {
+			// Full-screen mode
+			device.setFullScreenWindow(this);
+			validate();
+			repaint();
+			setVisible(true);
+		}
 	}
 }
