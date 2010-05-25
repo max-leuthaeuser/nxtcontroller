@@ -48,7 +48,7 @@ public class SensorPanel extends JPanel {
 	 */
 	private int getFullscreenModifier() {
 		int result = (getSize().height * getSize().width) / (280 * 690);
-		return result >= 4 ? 4 : result;
+		return result > 3 ? 3 : result;
 	}
 
 	/**
