@@ -1,12 +1,16 @@
 package nxtcontroller.pc.ui;
 
 import javax.swing.*;
+
+import nxtcontroller.pc.core.DataSet;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 /**
  * Panel which draw all sensor values.
+ * 
  * @author Max Leuthäuser
  */
 public class SensorPanel extends JPanel {
@@ -24,35 +28,18 @@ public class SensorPanel extends JPanel {
 	}
 
 	/**
-	 * Calculate the angle and draw.
-	 * @param degree
+	 * Paint a new {@link DataSet}. Use this method after receiving new values
+	 * from the NXT.
+	 * 
+	 * @param d
+	 *            DataSet which will be painted.
 	 */
-	public void drawRotation(int degree) {
-		rotation = degree + 90;
-		repaint();
-	}
-
-	/**
-	 * Draw the distance values. 
-	 * Parameter source: 0 means front, 1 means right, 2 means left
-	 * @param source
-	 * @param distance
-	 */
-	public void drawDistances(int source, int distance) {
+	public void update(DataSet d) {
 		distanceDrawingHasStarted = true;
-		switch (source) {
-		case 1:
-			front = distance;
-			break;
-		case 2:
-			right = distance;
-			break;
-		case 3:
-			left = distance;
-			break;
-		default:
-			System.out.println("No valid distance.");
-		}
+		rotation = d.getAngle() + 90;
+		front = d.getFront();
+		right = d.getRight();
+		left = d.getLeft();
 		repaint();
 	}
 
@@ -66,6 +53,7 @@ public class SensorPanel extends JPanel {
 
 	/**
 	 * Draws all sensor values and takes care of the screen size.
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
