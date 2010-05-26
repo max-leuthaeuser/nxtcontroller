@@ -29,14 +29,19 @@ public class NXTController {
     }
 
     /**
-     * Try to set the Swing look and feel that is the default for the system.
-     * Exit gracefully.
+     * Try to set the Swing look and feel that is the default for the system. In
+     * case of an error, a detailed report is printed to stderr.
      */
     private static void setSystemLookAndFeel() {
+        final String lafClass = UIManager.getSystemLookAndFeelClassName();
+
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(lafClass);
         } catch (Exception e) {
-            // this exception is intentionally ignored
+            // TODO this message should also be printed in the log panel
+            System.err.println("Could not set the look and feel to '"
+                    + lafClass + "', reverting to the default one:");
+            System.err.println(e.getMessage());
         }
     }
 }
