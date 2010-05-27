@@ -18,21 +18,23 @@ import lejos.util.Delay;
 
 // TODO javadoc
 public final class NxtControl implements ButtonListener {
-    private final UltrasonicSensor left = new UltrasonicSensor(SensorPort.S1);
-    private final UltrasonicSensor front = new UltrasonicSensor(SensorPort.S2);
-    private final UltrasonicSensor right = new UltrasonicSensor(SensorPort.S3);
+    private final UltrasonicSensor left = new UltrasonicSensor(SensorPort.S3);
+    private final UltrasonicSensor front = new UltrasonicSensor(SensorPort.S1);
+    private final UltrasonicSensor right = new UltrasonicSensor(SensorPort.S2);
 
     private final TachoPilot pilot = new TachoPilot(3.0f, 2.0f, Motor.A,
-            Motor.B);
+            Motor.C);
 
     private final OutputStream out;
     private final InputStream in;
 
     private final SenderThread senderThread = new SenderThread();
 
-    // TODO fail safe bluetooth connection
+    // TODO fail-safe bluetooth connection
     private NxtControl() {
+        System.out.println("Wait for BT...");
         BTConnection con = Bluetooth.waitForConnection();
+        System.out.println("Go...");
 
         out = con.openOutputStream();
         in = con.openInputStream();
@@ -85,11 +87,20 @@ public final class NxtControl implements ButtonListener {
     }
 
     private int receive() {
-        // TODO Auto-generated method stub
-        return 42;
+        int result;
+
+        try {
+            result = in.read();
+        } catch (IOException e) {
+            result = -1;
+        }
+
+        return result;
     }
 
     public void shutdown() {
+        pilot.stop();
+
         try {
             out.close();
             in.close();
@@ -109,7 +120,7 @@ public final class NxtControl implements ButtonListener {
     }
 
     private final class SenderThread extends Thread {
-        private static final int DELAY = 500;
+        private static final int DELAY = 250;
 
         @Override
         public void run() {
