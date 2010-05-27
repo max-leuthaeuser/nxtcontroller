@@ -34,4 +34,18 @@ public class DeviceHandler {
 			gh.attach();
 		}
 	}
+	
+	/**
+	 * @return {@link KeyboardHandler}
+	 */
+	public KeyboardHandler getKeyboardHandler() {
+		return this.kh;
+	}
+	
+	/**
+	 * @return {@link GamepadHandler}
+	 */
+	public GamepadHandler getGamepadHandler() {
+		return this.gh;
+	}
 }
