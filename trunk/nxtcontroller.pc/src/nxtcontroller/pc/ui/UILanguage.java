@@ -37,4 +37,10 @@ public final class UILanguage {
 	public static final String GAMEPAD_DIRECTION_DATA_UNAVAILABLE = "Gamepad axis data unavailable";
 	public static final String GAMEPAD_AVAILABLE = "An available gamepad was found.";
 	public static final String GAMEPAD_CONNECTION_LOST = "Gamepad connection lost";
+	
+	public static final String CONNECT_ABORT = "Connect process aborted.";
+	public static final String CONNECT_NO_NXT_AVAILABLE = "No NXT connected via bluetooth.";
+	public static final String CONNECT_DIALOG_HEADLINE = "NXT Connect";
+	public static final String CONNECT_DIALOG_HINT = "Choose a brick to connect with:";
+	public static final String CONNECT_READY = "Connection etablished to: ";
 }

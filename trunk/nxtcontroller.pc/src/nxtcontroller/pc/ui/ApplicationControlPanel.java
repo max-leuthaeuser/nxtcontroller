@@ -13,7 +13,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.*;
+
+import lejos.pc.comm.NXTCommFactory;
+import lejos.pc.comm.NXTInfo;
+import lejos.pc.comm.NXTConnector;
 
 import nxtcontroller.pc.controller.ControllerTyp;
 import nxtcontroller.pc.controller.GamepadHandler;
@@ -204,6 +209,45 @@ public class ApplicationControlPanel extends JPanel {
 	}
 
 	/**
+	 * Search for available NXT Bricks via Bluetooth and connect if the user
+	 * selects a specific device.
+	 */
+	private void connect() {
+		NXTInfo[] availableNXTs = null;
+		NXTConnector nxtConn = new NXTConnector();
+
+		availableNXTs = nxtConn.search("*", null, NXTCommFactory.BLUETOOTH);
+		if (availableNXTs.length == 0) {
+			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+					UILanguage.CONNECT_NO_NXT_AVAILABLE);
+			return;
+		}
+
+		String[] result = new String[availableNXTs.length];
+		int i = 0;
+		for (NXTInfo n : availableNXTs) {
+			result[i] = n.name + "@" + n.deviceAddress;
+			i++;
+		}
+
+		String s = (String) JOptionPane.showInputDialog(GUIBuilder
+				.getInstance().getMainFrame(), UILanguage.CONNECT_DIALOG_HINT,
+				UILanguage.CONNECT_DIALOG_HEADLINE, JOptionPane.PLAIN_MESSAGE,
+				null, result, "");
+
+		if ((s != null) && (s.length() > 0)) {
+			nxtConn.connectTo(s.substring(0, s.indexOf("@")), s.substring(s
+					.indexOf("@") + 1, s.length()), NXTCommFactory.BLUETOOTH);
+			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+					UILanguage.CONNECT_READY);
+			return;
+		}
+
+		LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+				UILanguage.CONNECT_ABORT);
+	}
+
+	/**
 	 * @return the controller box which holds the available controller devices.
 	 */
 	public JComboBox getControllerBox() {
@@ -219,6 +263,7 @@ public class ApplicationControlPanel extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			if (arg0.getSource() == connect) {
+				connect();
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == searchID) {
@@ -313,6 +358,7 @@ public class ApplicationControlPanel extends JPanel {
 
 		/**
 		 * Used to switch the input devices.
+		 * 
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		@Override
