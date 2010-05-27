@@ -16,7 +16,7 @@ import nxtcontroller.pc.ui.MainFrame;
 /**
  * Class which handle all input events from keyboard and control the NXT.
  * 
- * @author Max Leuthäuser
+ * @author Max Leuthï¿½user
  */
 public class KeyboardHandler implements IHandler {
 	private JRootPane rootPane;
@@ -88,7 +88,9 @@ public class KeyboardHandler implements IHandler {
 			}
 			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 					.setKeyboardDefaultIcon();
-			remoteController.stop();
+			if (remoteController != null) {
+				remoteController.stop();
+			}
 		}
 
 		@Override
@@ -97,7 +99,9 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasUp) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerUp();
-				remoteController.driveForward();
+				if (remoteController != null) {
+					remoteController.driveForward();
+				}
 			}
 			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
@@ -108,7 +112,9 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasDown) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerDown();
-				remoteController.driveBackward();
+				if (remoteController != null) {
+					remoteController.driveBackward();
+				}
 			}
 			if (lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
