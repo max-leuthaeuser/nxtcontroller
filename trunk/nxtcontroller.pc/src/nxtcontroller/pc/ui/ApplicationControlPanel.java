@@ -215,6 +215,9 @@ public class ApplicationControlPanel extends JPanel {
 	 * selects a specific device.
 	 */
 	private void connect() {
+		LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+				UILanguage.CONNECT_SEARCHING);
+		
 		NXTInfo[] availableNXTs = null;
 		NXTConnector nxtConn = new NXTConnector();
 

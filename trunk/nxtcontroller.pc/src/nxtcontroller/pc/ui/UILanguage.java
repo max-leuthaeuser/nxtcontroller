@@ -43,4 +43,5 @@ public final class UILanguage {
 	public static final String CONNECT_DIALOG_HEADLINE = "NXT Connect";
 	public static final String CONNECT_DIALOG_HINT = "Choose a brick to connect with:";
 	public static final String CONNECT_READY = "Connection etablished to: ";
+	public static final String CONNECT_SEARCHING = "Searching on bluetooth ...";
 }

@@ -88,6 +88,7 @@ public class KeyboardHandler implements IHandler {
 			}
 			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 					.setKeyboardDefaultIcon();
+			remoteController.stop();
 		}
 
 		@Override
@@ -101,12 +102,13 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardDirRight();
-				remoteController.driveBackward();
+				
 
 			}
 			if (lastKeyWasDown) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerDown();
+				remoteController.driveBackward();
 			}
 			if (lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
