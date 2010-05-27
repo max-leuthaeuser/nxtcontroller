@@ -3,6 +3,7 @@ package nxtcontroller.pc.ui;
 import javax.swing.*;
 
 import nxtcontroller.pc.core.DataSet;
+import nxtcontroller.pc.core.DataSetObserver;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -13,7 +14,7 @@ import java.awt.geom.GeneralPath;
  * 
  * @author Max Leuthäuser
  */
-public class SensorPanel extends JPanel {
+public class SensorPanel extends JPanel implements DataSetObserver {
 	private static final long serialVersionUID = 1L;
 	private int rotation = 90;
 	private int front = 70;
