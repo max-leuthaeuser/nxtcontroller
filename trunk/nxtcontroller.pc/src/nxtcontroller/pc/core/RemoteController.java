@@ -84,6 +84,7 @@ public class RemoteController {
 	private void send(final byte commandId) {
 		try {
 			out.write(commandId);
+			out.flush();
 		} catch (IOException ex) {
 			// TODO: how to handle this exception? should program be closed?
 		}
