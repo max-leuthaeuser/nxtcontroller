@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.swing.*;
 
@@ -22,6 +23,7 @@ import lejos.pc.comm.NXTConnector;
 
 import nxtcontroller.pc.controller.ControllerTyp;
 import nxtcontroller.pc.controller.GamepadHandler;
+import nxtcontroller.pc.core.RemoteController;
 
 /**
  * Panel which holds all control elements.
@@ -239,7 +241,11 @@ public class ApplicationControlPanel extends JPanel {
 			nxtConn.connectTo(s.substring(0, s.indexOf("@")), s.substring(s
 					.indexOf("@") + 1, s.length()), NXTCommFactory.BLUETOOTH);
 			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.CONNECT_READY);
+					UILanguage.CONNECT_READY + s);
+			OutputStream out = nxtConn.getOutputStream();
+			RemoteController rc = new RemoteController(out);
+			GUIController.getInstance().getDeviceHandler().getKeyboardHandler().setRemoteController(rc);
+			GUIController.getInstance().getDeviceHandler().getGamepadHandler().setRemoteController(rc);
 			return;
 		}
 

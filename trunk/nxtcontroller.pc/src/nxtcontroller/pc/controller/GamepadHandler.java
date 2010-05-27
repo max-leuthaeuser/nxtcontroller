@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JRootPane;
 import javax.swing.Timer;
 
+import nxtcontroller.pc.core.RemoteController;
 import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.GUIController;
 import nxtcontroller.pc.ui.LogOperation;
@@ -26,6 +27,7 @@ public class GamepadHandler implements IHandler {
 	private int lastDirWas = 4;
 	@SuppressWarnings("unused")
 	private int lastButtonWas = 0;
+	private RemoteController remoteController;
 
 	public GamepadHandler(MainFrame mainFrame, JRootPane rootPane) {
 	}
@@ -168,5 +170,13 @@ public class GamepadHandler implements IHandler {
 		};
 		pollTimer = new Timer(DELAY, pollPerformer);
 		pollTimer.start();
+	}
+
+	/**
+	 * Set a new {@link RemoteController} to control the NXT via Bluetooth.
+	 */
+	@Override
+	public void setRemoteController(RemoteController remoteController) {
+		this.remoteController = remoteController;		
 	}
 }

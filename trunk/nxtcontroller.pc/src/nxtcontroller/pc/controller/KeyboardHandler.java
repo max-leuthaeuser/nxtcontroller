@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import nxtcontroller.pc.core.RemoteController;
 import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.GUIController;
 import nxtcontroller.pc.ui.MainFrame;
@@ -15,12 +16,13 @@ import nxtcontroller.pc.ui.MainFrame;
 /**
  * Class which handle all input events from keyboard and control the NXT.
  * 
- * @author Max Leuth√§user
+ * @author Max Leuth‰user
  */
 public class KeyboardHandler implements IHandler {
 	private JRootPane rootPane;
 	private MainFrame mainFrame;
 	private KeyboardListener kl;
+	private RemoteController remoteController;
 
 	public KeyboardHandler(MainFrame mainFrame, JRootPane rootPane) {
 		this.rootPane = rootPane;
@@ -94,10 +96,12 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasUp) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerUp();
+				remoteController.driveForward();
 			}
 			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardDirRight();
+				remoteController.driveBackward();
 
 			}
 			if (lastKeyWasDown) {
@@ -150,5 +154,13 @@ public class KeyboardHandler implements IHandler {
 				GUIController.getInstance().toggleFullScreen();
 			}
 		});
+	}
+
+	/**
+	 * Set a new {@link RemoteController} to control the NXT via Bluetooth.
+	 */
+	@Override
+	public void setRemoteController(RemoteController remoteController) {
+		this.remoteController = remoteController;		
 	}
 }
