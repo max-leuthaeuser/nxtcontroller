@@ -11,5 +11,6 @@ import nxtcontroller.pc.core.RemoteController;
 public interface IHandler {
 	boolean attach();
 	void destroy();
+	void startPolling();
 	void setRemoteController(RemoteController remoteController);
 }

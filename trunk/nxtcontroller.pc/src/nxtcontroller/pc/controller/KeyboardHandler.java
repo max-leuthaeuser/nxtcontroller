@@ -1,5 +1,7 @@
 package nxtcontroller.pc.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -7,6 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
 
 import nxtcontroller.pc.core.RemoteController;
 import nxtcontroller.pc.ui.GUIBuilder;
@@ -23,6 +26,15 @@ public class KeyboardHandler implements IHandler {
 	private MainFrame mainFrame;
 	private KeyboardListener kl;
 	private RemoteController remoteController;
+	private static final int DELAY = 50;
+	private Timer pollTimer;
+
+	private boolean lastKeyWasUp = false;
+	private boolean lastKeyWasRight = false;
+	private boolean lastKeyWasDown = false;
+	private boolean lastKeyWasLeft = false;
+	private boolean lastKeyWasSpeedUp = false;
+	private boolean lastKeyWasSpeedDown = false;
 
 	public KeyboardHandler(MainFrame mainFrame, JRootPane rootPane) {
 		this.rootPane = rootPane;
@@ -38,6 +50,7 @@ public class KeyboardHandler implements IHandler {
 	public boolean attach() {
 		mainFrame.addKeyListener(kl);
 		mainFrame.requestFocus();
+		startPolling();
 		return true;
 	}
 
@@ -45,6 +58,7 @@ public class KeyboardHandler implements IHandler {
 	 * Remove the keyboard as current input device.
 	 */
 	public void destroy() {
+		pollTimer.stop();
 		mainFrame.removeKeyListener(kl);
 	}
 
@@ -52,123 +66,55 @@ public class KeyboardHandler implements IHandler {
 	 * Inner class which handle all incoming key events and control the NXT.
 	 */
 	private class KeyboardListener implements KeyListener {
-		private boolean lastKeyWasUp = false;
-		private boolean lastKeyWasRight = false;
-		private boolean lastKeyWasDown = false;
-		private boolean lastKeyWasLeft = false;
-
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyChar() == 'w') {
-				lastKeyWasUp = true;
-			}
-			if (e.getKeyChar() == 'd') {
-				lastKeyWasRight = true;
-			}
-			if (e.getKeyChar() == 's') {
-				lastKeyWasDown = true;
-			}
-			if (e.getKeyChar() == 'a') {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
 				lastKeyWasLeft = true;
+				break;
+			case KeyEvent.VK_RIGHT:
+				lastKeyWasRight = true;
+				break;
+			case KeyEvent.VK_UP:
+				lastKeyWasUp = true;
+				break;
+			case KeyEvent.VK_DOWN:
+				lastKeyWasDown = true;
+				break;
+			case KeyEvent.VK_I:
+				lastKeyWasSpeedUp = true;
+				break;
+			case KeyEvent.VK_K:
+				lastKeyWasSpeedDown = true;
 			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if (e.getKeyChar() == 'w') {
-				lastKeyWasUp = false;
-			}
-			if (e.getKeyChar() == 'd') {
-				lastKeyWasRight = false;
-			}
-			if (e.getKeyChar() == 's') {
-				lastKeyWasDown = false;
-			}
-			if (e.getKeyChar() == 'a') {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
 				lastKeyWasLeft = false;
-			}
-			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-					.setKeyboardDefaultIcon();
-			if (remoteController != null) {
-				remoteController.stop();
+				break;
+			case KeyEvent.VK_RIGHT:
+				lastKeyWasRight = false;
+				break;
+			case KeyEvent.VK_UP:
+				lastKeyWasUp = false;
+				break;
+			case KeyEvent.VK_DOWN:
+				lastKeyWasDown = false;
+				break;
+			case KeyEvent.VK_I:
+				lastKeyWasSpeedUp = false;
+				break;
+			case KeyEvent.VK_K:
+				lastKeyWasSpeedDown = false;
 			}
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// single events, use remote controller here
-			if (lastKeyWasUp) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerUp();
-				if (remoteController != null) {
-					remoteController.driveForward();
-				}
-			}
-			if (lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardDirRight();
-				if (remoteController != null) {
-					remoteController.driveRight();
-				}
-			}
-			if (lastKeyWasDown) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerDown();
-				if (remoteController != null) {
-					remoteController.driveBackward();
-				}
-			}
-			if (lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardDirLeft();
-				if (remoteController != null) {
-					remoteController.driveLeft();
-				}
-			}
-			if (e.getKeyChar() == 'i') {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardSpeedUp();
-				if (remoteController != null) {
-					remoteController.increaseSpeed();
-				}
-			}
-			if (e.getKeyChar() == 'k') {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardSpeedDown();
-				if (remoteController != null) {
-					remoteController.decreaseSpeed();
-				}
-			}
 
-			// combinations
-			if (lastKeyWasDown && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerDownDirLeft();
-				if (remoteController != null) {
-					remoteController.driveBackwardLeft();
-				}
-			}
-			if (lastKeyWasDown && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerDownDirRight();
-				if (remoteController != null) {
-					remoteController.driveBackwardRight();
-				}
-			}
-			if (lastKeyWasUp && lastKeyWasLeft) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerUpDirLeft();
-				if (remoteController != null) {
-					remoteController.driveForwardLeft();
-				}
-			}
-			if (lastKeyWasUp && lastKeyWasRight) {
-				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
-						.setKeyboardPowerUpDirRight();
-				if (remoteController != null) {
-					remoteController.driveForwardRight();
-				}
-			}
 		}
 	}
 
@@ -193,5 +139,108 @@ public class KeyboardHandler implements IHandler {
 	@Override
 	public void setRemoteController(RemoteController remoteController) {
 		this.remoteController = remoteController;
+	}
+
+	/**
+	 * Starts a timer and poll for new input values from the currently attached
+	 * keyboard. See DELAY in this class for polling interval.
+	 */
+	@Override
+	public void startPolling() {
+		ActionListener pollPerformer = new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// single events
+				if (lastKeyWasUp) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerUp();
+					if (remoteController != null) {
+						remoteController.driveForward();
+					}
+				}
+				if (lastKeyWasRight) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardDirRight();
+					if (remoteController != null) {
+						remoteController.driveRight();
+					}
+				}
+				if (lastKeyWasDown) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerDown();
+					if (remoteController != null) {
+						remoteController.driveBackward();
+					}
+				}
+				if (lastKeyWasLeft) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardDirLeft();
+					if (remoteController != null) {
+						remoteController.driveLeft();
+					}
+				}
+				if (lastKeyWasSpeedUp) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardSpeedUp();
+					if (remoteController != null) {
+						remoteController.increaseSpeed();
+					}
+				}
+				if (lastKeyWasSpeedDown) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardSpeedDown();
+					if (remoteController != null) {
+						remoteController.decreaseSpeed();
+					}
+				}
+				
+				// combinations
+				if (lastKeyWasUp && lastKeyWasLeft) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerUpDirLeft();
+					if (remoteController != null) {
+						remoteController.driveForwardLeft();
+					}
+				}
+				if (lastKeyWasUp && lastKeyWasRight) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerUpDirRight();
+					if (remoteController != null) {
+						remoteController.driveForwardRight();
+					}
+				}
+				if (lastKeyWasDown && lastKeyWasLeft) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerDownDirLeft();
+					if (remoteController != null) {
+						remoteController.driveBackwardLeft();
+					}
+				}
+				if (lastKeyWasDown && lastKeyWasRight) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardPowerDownDirRight();
+					if (remoteController != null) {
+						remoteController.driveBackwardRight();
+					}
+				}
+
+				if (!lastKeyWasUp && !lastKeyWasDown && !lastKeyWasRight
+						&& !lastKeyWasLeft && !lastKeyWasSpeedDown
+						&& !lastKeyWasSpeedUp) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setKeyboardDefaultIcon();
+					if (remoteController != null) {
+						remoteController.stop();
+					}
+				}
+				/*System.out.println("up: " + lastKeyWasUp);
+				System.out.println("right: " + lastKeyWasRight);
+				System.out.println("left: " + lastKeyWasLeft);
+				System.out.println("down: " + lastKeyWasDown);
+				System.out.println("---");*/
+			}
+		};
+		pollTimer = new Timer(DELAY, pollPerformer);
+		pollTimer.start();
 	}
 }

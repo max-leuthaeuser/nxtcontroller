@@ -27,6 +27,7 @@ public class GamepadHandler implements IHandler {
 	private int lastDirWas = 4;
 	@SuppressWarnings("unused")
 	private int lastButtonWas = 0;
+	@SuppressWarnings("unused")
 	private RemoteController remoteController;
 
 	public GamepadHandler(MainFrame mainFrame, JRootPane rootPane) {
@@ -75,7 +76,8 @@ public class GamepadHandler implements IHandler {
 	 * Starts a timer and poll for new input values from the currently attached
 	 * gamepad. See DELAY in this class for polling interval.
 	 */
-	private void startPolling() {
+	@Override
+	public void startPolling() {
 		ActionListener pollPerformer = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

@@ -18,6 +18,7 @@ public class RemoteController {
 	 * Used to write the commands to the receiver.
 	 */
 	private final OutputStream out;
+	private boolean stopped = false;
 
 	/**
 	 * Initialize the remote controller.
@@ -32,7 +33,6 @@ public class RemoteController {
 		if (null == out) {
 			throw new NullPointerException();
 		}
-
 		this.out = out;
 	}
 
@@ -41,6 +41,7 @@ public class RemoteController {
 	 * the method stop is called.
 	 */
 	public void driveForward() {
+		stopped = false;
 		send(CommandId.FORWARD);
 	}
 
@@ -49,54 +50,61 @@ public class RemoteController {
 	 * the method stop is called.
 	 */
 	public void driveBackward() {
+		stopped = false;
 		send(CommandId.BACKWARD);
 	}
-	
+
 	/**
-	 * Command the receiver to drive right. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive right. The receiver will not stop until the
+	 * method stop is called.
 	 */
 	public void driveRight() {
+		stopped = false;
 		send(CommandId.RIGHT);
 	}
-	
+
 	/**
-	 * Command the receiver to drive left. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive left. The receiver will not stop until the
+	 * method stop is called.
 	 */
 	public void driveLeft() {
+		stopped = false;
 		send(CommandId.LEFT);
 	}
-	
+
 	/**
-	 * Command the receiver to drive forward and right. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive forward and right. The receiver will not
+	 * stop until the method stop is called.
 	 */
 	public void driveForwardRight() {
+		stopped = false;
 		send(CommandId.FORWARD_RIGHT);
 	}
-	
+
 	/**
-	 * Command the receiver to drive forward and left. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive forward and left. The receiver will not
+	 * stop until the method stop is called.
 	 */
 	public void driveForwardLeft() {
+		stopped = false;
 		send(CommandId.FORWARD_LEFT);
 	}
-	
+
 	/**
-	 * Command the receiver to drive backward and right. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive backward and right. The receiver will not
+	 * stop until the method stop is called.
 	 */
 	public void driveBackwardRight() {
+		stopped = false;
 		send(CommandId.BACKWARD_RIGHT);
 	}
-	
+
 	/**
-	 * Command the receiver to drive backward and left. The receiver will not stop until
-	 * the method stop is called. 
+	 * Command the receiver to drive backward and left. The receiver will not
+	 * stop until the method stop is called.
 	 */
 	public void driveBackwardLeft() {
+		stopped = false;
 		send(CommandId.BACKWARD_LEFT);
 	}
 
@@ -104,7 +112,10 @@ public class RemoteController {
 	 * Command the receiver to stop.
 	 */
 	public void stop() {
-		send(CommandId.STOP);
+		if (!stopped) {
+			send(CommandId.STOP);
+			stopped = true;
+		}
 	}
 
 	/**
