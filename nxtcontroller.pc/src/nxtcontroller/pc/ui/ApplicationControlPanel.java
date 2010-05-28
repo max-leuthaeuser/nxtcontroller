@@ -23,6 +23,7 @@ import lejos.pc.comm.NXTConnector;
 
 import nxtcontroller.pc.controller.ControllerTyp;
 import nxtcontroller.pc.controller.GamepadHandler;
+import nxtcontroller.pc.core.InputStreamListener;
 import nxtcontroller.pc.core.RemoteController;
 
 /**
@@ -249,6 +250,13 @@ public class ApplicationControlPanel extends JPanel {
 			RemoteController rc = new RemoteController(out);
 			GUIController.getInstance().getDeviceHandler().getKeyboardHandler().setRemoteController(rc);
 			GUIController.getInstance().getDeviceHandler().getGamepadHandler().setRemoteController(rc);
+			
+			InputStreamListener isListener = new InputStreamListener(nxtConn.getInputStream());
+			isListener.register(GUIBuilder.getInstance().getSensorPanel());
+			
+			new Thread(isListener).start();
+			
+			
 			return;
 		}
 
