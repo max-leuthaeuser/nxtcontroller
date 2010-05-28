@@ -42,6 +42,8 @@ public class ApplicationControlPanel extends JPanel {
 	private MouseHandler bh;
 	private JComboBox controllerBox;
 	private JButton connect, searchID;
+	private NXTInfo[] availableNXTs = null;
+	private NXTConnector nxtConn;
 
 	/**
 	 * Constructor. Builds all control elements and attach mouse listener.
@@ -148,8 +150,6 @@ public class ApplicationControlPanel extends JPanel {
 		clearLogPanel.setLayout(new BorderLayout());
 		clearLogPanel.add(saveLog, BorderLayout.NORTH);
 		clearLogPanel.add(clearLog, BorderLayout.SOUTH);
-		LogOperation.writeLog(log, UILanguage.RUNNING_ON
-				+ System.getProperty("os.name"));
 	}
 
 	/**
@@ -216,59 +216,66 @@ public class ApplicationControlPanel extends JPanel {
 	 * selects a specific device.
 	 */
 	private void connect() {
-		LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-				UILanguage.CONNECT_SEARCHING);
+		LogOperation.writeBttLog(UILanguage.CONNECT_SEARCHING);
 
-		NXTInfo[] availableNXTs = null;
-		NXTConnector nxtConn = new NXTConnector();
+		availableNXTs = null;
+		nxtConn = new NXTConnector();
 
-		availableNXTs = nxtConn.search("*", null, NXTCommFactory.BLUETOOTH);
-		if (availableNXTs.length == 0) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.CONNECT_NO_NXT_AVAILABLE);
-			return;
-		}
+		Thread searchThread = new Thread() {
+			@Override
+			public void run() {
+				availableNXTs = nxtConn.search("*", null,
+						NXTCommFactory.BLUETOOTH);
 
-		String[] result = new String[availableNXTs.length];
-		int i = 0;
-		for (NXTInfo n : availableNXTs) {
-			result[i] = n.name + "@" + n.deviceAddress;
-			i++;
-		}
+				if (availableNXTs.length == 0) {
+					LogOperation
+							.writeBttLog(UILanguage.CONNECT_NO_NXT_AVAILABLE);
+					return;
+				}
 
-		String s = (String) JOptionPane.showInputDialog(GUIBuilder
-				.getInstance().getMainFrame(), UILanguage.CONNECT_DIALOG_HINT,
-				UILanguage.CONNECT_DIALOG_HEADLINE, JOptionPane.PLAIN_MESSAGE,
-				null, result, "");
+				String[] result = new String[availableNXTs.length];
+				int i = 0;
+				for (NXTInfo n : availableNXTs) {
+					result[i] = n.name + "@" + n.deviceAddress;
+					i++;
+				}
 
-		if ((s != null) && (s.length() > 0)) {
-			nxtConn.connectTo(s.substring(0, s.indexOf("@")), s.substring(s
-					.indexOf("@") + 1, s.length()), NXTCommFactory.BLUETOOTH);
+				String s = (String) JOptionPane.showInputDialog(GUIBuilder
+						.getInstance().getMainFrame(),
+						UILanguage.CONNECT_DIALOG_HINT,
+						UILanguage.CONNECT_DIALOG_HEADLINE,
+						JOptionPane.PLAIN_MESSAGE, null, result, "");
 
-			OutputStream out = nxtConn.getOutputStream();
+				if ((s != null) && (s.length() > 0)) {
+					nxtConn.connectTo(s.substring(0, s.indexOf("@")), s
+							.substring(s.indexOf("@") + 1, s.length()),
+							NXTCommFactory.BLUETOOTH);
 
-			if (out != null) {
-				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-						UILanguage.CONNECT_READY + s);
-				RemoteController rc = new RemoteController(out);
-				GUIController.getInstance().getDeviceHandler()
-						.getKeyboardHandler().setRemoteController(rc);
-				GUIController.getInstance().getDeviceHandler()
-						.getGamepadHandler().setRemoteController(rc);
+					OutputStream out = nxtConn.getOutputStream();
 
-				InputStreamListener isListener = new InputStreamListener(
-						nxtConn.getInputStream());
-				isListener.register(GUIBuilder.getInstance().getSensorPanel());
-				new Thread(isListener).start();
-			} else {
-				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-						UILanguage.CONNECT_ABORT + ": " + s);
+					if (out != null) {
+						LogOperation.writeBttLog(UILanguage.CONNECT_READY + s);
+						RemoteController rc = new RemoteController(out);
+						GUIController.getInstance().getDeviceHandler()
+								.getKeyboardHandler().setRemoteController(rc);
+						GUIController.getInstance().getDeviceHandler()
+								.getGamepadHandler().setRemoteController(rc);
+
+						InputStreamListener isListener = new InputStreamListener(
+								nxtConn.getInputStream());
+						isListener.register(GUIBuilder.getInstance()
+								.getSensorPanel());
+						new Thread(isListener).start();
+					} else {
+						LogOperation.writeBttLog(UILanguage.CONNECT_ABORT
+								+ ": " + s);
+					}
+					return;
+				} else
+					LogOperation.writeBttLog(UILanguage.CONNECT_ABORT);
 			}
-			return;
-		}
-
-		LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-				UILanguage.CONNECT_ABORT);
+		};
+		searchThread.start();
 	}
 
 	/**
@@ -294,15 +301,15 @@ public class ApplicationControlPanel extends JPanel {
 				if (!GamepadHandler.search()) {
 					controllerBox.setSelectedIndex(0);
 				} else
-					LogOperation.writeLog(log, UILanguage.GAMEPAD_AVAILABLE);
+					LogOperation.writeAppLog(UILanguage.GAMEPAD_AVAILABLE);
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == clearLog) {
-				LogOperation.clearLog(log);
+				LogOperation.clearAppLog();
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == clearBTT) {
-				LogOperation.clearLog(btt);
+				LogOperation.clearBttLog();
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == saveLog) {
@@ -316,17 +323,16 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), log.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							LogOperation.writeLog(log,
-									UILanguage.ERR_FILE_NOT_FOUND);
+							LogOperation
+									.writeAppLog(UILanguage.ERR_FILE_NOT_FOUND);
 						} catch (IOException e) {
 							e.printStackTrace();
-							LogOperation.writeLog(log, UILanguage.ERR_IO);
+							LogOperation.writeAppLog(UILanguage.ERR_IO);
 						}
-						LogOperation.writeLog(log, UILanguage.LOG_SAVED
+						LogOperation.writeAppLog(UILanguage.LOG_SAVED
 								+ file.getName() + ".\n");
 					} else {
-						LogOperation.writeLog(log,
-								UILanguage.LOG_SAVE_CANCELLED);
+						LogOperation.writeAppLog(UILanguage.LOG_SAVE_CANCELLED);
 					}
 				}
 			}
@@ -341,17 +347,16 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), btt.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							LogOperation.writeLog(log,
-									UILanguage.ERR_FILE_NOT_FOUND);
+							LogOperation
+									.writeAppLog(UILanguage.ERR_FILE_NOT_FOUND);
 						} catch (IOException e) {
 							e.printStackTrace();
-							LogOperation.writeLog(log, UILanguage.ERR_IO);
+							LogOperation.writeAppLog(UILanguage.ERR_IO);
 						}
-						LogOperation.writeLog(log, UILanguage.BTT_SAVED
+						LogOperation.writeAppLog(UILanguage.BTT_SAVED
 								+ file.getName() + ".\n");
 					} else {
-						LogOperation.writeLog(log,
-								UILanguage.LOG_SAVE_CANCELLED);
+						LogOperation.writeAppLog(UILanguage.LOG_SAVE_CANCELLED);
 					}
 				}
 			}
@@ -391,14 +396,14 @@ public class ApplicationControlPanel extends JPanel {
 			String selected = (String) cb.getSelectedItem();
 			if (selected.equals(ControllerTyp.types[0])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
-				LogOperation.writeLog(log, UILanguage.USING_KEYBOARD);
+				LogOperation.writeAppLog(UILanguage.USING_KEYBOARD);
 				graphicsPanel.setKeyboardDefaultIcon();
 				GUIController.getInstance().getDeviceHandler().setHandler(
 						ControllerTyp.types[0]);
 			}
 			if (selected.equals(ControllerTyp.types[1])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
-				LogOperation.writeLog(log, UILanguage.USING_GAMEPAD);
+				LogOperation.writeAppLog(UILanguage.USING_GAMEPAD);
 				GUIController.getInstance().getDeviceHandler().setHandler(
 						ControllerTyp.types[1]);
 			}

@@ -49,27 +49,25 @@ public class GUIBuilder {
 	}
 
 	/**
-	 * remove the {@link ApplicationControlPanel}.
-	 * Uses while resizing to fullscreen.
+	 * remove the {@link ApplicationControlPanel}. Uses while resizing to
+	 * fullscreen.
 	 */
 	public void removeAppControl() {
 		this.mainFrame.remove(this.appPanel);
 	}
 
 	/**
-	 * restore the {@link ApplicationControlPanel}.
-	 * Uses while resizing to standard size.
+	 * restore the {@link ApplicationControlPanel}. Uses while resizing to
+	 * standard size.
 	 */
 	public void restoreAppControl() {
 		this.mainFrame.add(this.appPanel);
 	}
 
 	/**
-	 * Build the interface of this application.
-	 * Uses elements:
-	 * <li>{@link MainFrame}</li>
-	 * <li>{@link SensorPanel}</li>
-	 * <li>{@link ApplicationControlPanel}</li>
+	 * Build the interface of this application. Uses elements: <li>
+	 * {@link MainFrame}</li> <li>{@link SensorPanel}</li> <li>
+	 * {@link ApplicationControlPanel}</li>
 	 */
 	public void buildInterface() {
 		this.mainFrame = new MainFrame();
@@ -79,12 +77,22 @@ public class GUIBuilder {
 		this.appPanel = new ApplicationControlPanel();
 		this.mainFrame.add(this.appPanel);
 		this.mainFrame.validate();
+		
+		LogOperation.writeAppLog(UILanguage.RUNNING_ON
+				+ System.getProperty("os.name"));
 	}
 
 	/**
-	 * @return get the log
+	 * @return the application log
 	 */
 	public JEditorPane getLog() {
 		return appPanel.getLog();
+	}
+
+	/**
+	 * @return the bluetooth log
+	 */
+	public JEditorPane getBtt() {
+		return appPanel.getBTT();
 	}
 }

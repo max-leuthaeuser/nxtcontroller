@@ -14,8 +14,7 @@ import nxtcontroller.pc.ui.MainFrame;
 import nxtcontroller.pc.ui.UILanguage;
 
 /**
- * Class which handle all input events from a gamepad
- * and control the NXT.
+ * Class which handle all input events from a gamepad and control the NXT.
  * 
  * @author Max Leuthäuser
  */
@@ -83,8 +82,8 @@ public class GamepadHandler implements IHandler {
 			public void actionPerformed(ActionEvent e) {
 				if (!gpController.poll()) {
 					pollTimer.stop();
-					LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-							UILanguage.GAMEPAD_CONNECTION_LOST);
+					LogOperation
+							.writeAppLog(UILanguage.GAMEPAD_CONNECTION_LOST);
 					GUIBuilder.getInstance().getAppPanel().getControllerBox()
 							.setSelectedIndex(0);
 					GUIController.getInstance().getDeviceHandler().setHandler(
@@ -182,6 +181,6 @@ public class GamepadHandler implements IHandler {
 	 */
 	@Override
 	public void setRemoteController(RemoteController remoteController) {
-		this.remoteController = remoteController;		
+		this.remoteController = remoteController;
 	}
 }

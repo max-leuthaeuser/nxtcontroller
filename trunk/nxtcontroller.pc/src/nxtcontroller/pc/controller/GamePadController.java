@@ -2,7 +2,6 @@ package nxtcontroller.pc.controller;
 
 import net.java.games.input.*;
 import net.java.games.input.Component.POV;
-import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.LogOperation;
 import nxtcontroller.pc.ui.UILanguage;
 
@@ -46,9 +45,8 @@ public class GamePadController {
 		// get the game pad controller
 		controller = findGamePad(cs);
 		if (controller != null) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD + ": " + controller.getName() + ", "
-							+ controller.getType());
+			LogOperation.writeAppLog(UILanguage.GAMEPAD + ": "
+					+ controller.getName() + ", " + controller.getType());
 
 			// collect indices for the required game pad components
 			findCompIndices(controller);
@@ -75,12 +73,10 @@ public class GamePadController {
 		}
 
 		if (i == cs.length) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.NO_GAMEPAD_FOUND);
+			LogOperation.writeAppLog(UILanguage.NO_GAMEPAD_FOUND);
 			return null;
 		} else {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_CHOOSEN + i);
+			LogOperation.writeAppLog(UILanguage.GAMEPAD_CHOOSEN + i);
 		}
 
 		return cs[i];
@@ -191,8 +187,8 @@ public class GamePadController {
 	// direction
 	{
 		if ((xAxisIdx == -1) || (yAxisIdx == -1)) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+			LogOperation
+					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
 			return NONE;
 		} else {
 			return getCompassDir(xAxisIdx, yAxisIdx);
@@ -203,8 +199,8 @@ public class GamePadController {
 	// direction
 	{
 		if ((zAxisIdx == -1) || (rzAxisIdx == -1)) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+			LogOperation
+					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
 			return NONE;
 		} else {
 			return getCompassDir(zAxisIdx, rzAxisIdx);
@@ -250,8 +246,8 @@ public class GamePadController {
 	// direction
 	{
 		if (povIdx == -1) {
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+			LogOperation
+					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
 			return NONE;
 		} else {
 			float povDir = comps[povIdx].getPollData();
@@ -283,8 +279,8 @@ public class GamePadController {
 			{
 				return NE;
 			} else { // assume center
-				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-						UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+				LogOperation
+						.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
 				return NONE;
 			}
 		}

@@ -3,7 +3,6 @@ package nxtcontroller.pc.ui;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import javax.swing.JEditorPane;
 
 /**
  * Class which is used to write log data.
@@ -12,7 +11,8 @@ import javax.swing.JEditorPane;
  */
 public final class LogOperation {
 	private static final String NEWLINE = "<br>";
-	private static LinkedList<String> logList = new LinkedList<String>();
+	private static LinkedList<String> appLogList = new LinkedList<String>();
+	private static LinkedList<String> bttLogList = new LinkedList<String>();
 
 	/**
 	 * @return the current time HTML formatted.
@@ -25,26 +25,54 @@ public final class LogOperation {
 	}
 
 	/**
-	 * Write a HTML formatted log.
-	 * @param log
+	 * Write the HTML formatted application log.
+	 * 
 	 * @param arg0
+	 *            Text to write in the log
 	 */
-	public static void writeLog(JEditorPane log, String arg0) {
+	public static void writeAppLog(String arg0) {
 		String result = "<html><font size='2' face='Verdana'>";
-		logList.add(getTime() + " " + arg0);
-		for (String s : logList) {
+		appLogList.add(getTime() + " " + arg0);
+		for (String s : appLogList) {
 			result += s + NEWLINE;
 		}
 		result += "</html>";
-		log.setText(result);
+		GUIBuilder.getInstance().getLog().setText(result);
 	}
 
 	/**
-	 * Clear a log.
+	 * Clear the application log.
+	 * 
 	 * @param log
 	 */
-	public static void clearLog(JEditorPane log) {
-		log.setText("");
-		logList.clear();
+	public static void clearAppLog() {
+		GUIBuilder.getInstance().getLog().setText("");
+		appLogList.clear();
+	}
+	
+	/**
+	 * Write the HTML formatted bluetooth log.
+	 * 
+	 * @param arg0
+	 *            Text to write in the log
+	 */
+	public static void writeBttLog(String arg0) {
+		String result = "<html><font size='2' face='Verdana'>";
+		bttLogList.add(getTime() + " " + arg0);
+		for (String s : bttLogList) {
+			result += s + NEWLINE;
+		}
+		result += "</html>";
+		GUIBuilder.getInstance().getBtt().setText(result);
+	}
+
+	/**
+	 * Clear the application log.
+	 * 
+	 * @param log
+	 */
+	public static void clearBttLog() {
+		GUIBuilder.getInstance().getBtt().setText("");
+		bttLogList.clear();
 	}
 }
