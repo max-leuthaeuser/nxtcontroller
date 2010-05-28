@@ -15,10 +15,15 @@ public final class CommandId {
 	public static final byte BACKWARD = 0x02;
 	public static final byte LEFT = 0x03;
 	public static final byte RIGHT = 0x04;
+	public static final byte FORWARD_RIGHT = 0x05;
+	public static final byte BACKWARD_RIGHT = 0x06;
+	public static final byte FORWARD_LEFT = 0x07;
+	public static final byte BACKWARD_LEFT = 0x08;
+	
 	
 	/*
 	 * Command identifiers controlling the speed.
 	 */
-	public static final byte INCREASE_SPEED = 0x05;
-	public static final byte DECREASE_SPEED = 0x06;
+	public static final byte INCREASE_SPEED = 0x09;
+	public static final byte DECREASE_SPEED = 0x0A;
 }

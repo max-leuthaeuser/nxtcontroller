@@ -16,7 +16,7 @@ import nxtcontroller.pc.ui.MainFrame;
 /**
  * Class which handle all input events from keyboard and control the NXT.
  * 
- * @author Max Leuth�user
+ * @author Max Leuthäuser
  */
 public class KeyboardHandler implements IHandler {
 	private JRootPane rootPane;
@@ -35,9 +35,10 @@ public class KeyboardHandler implements IHandler {
 	 * Attach the keyboard to the application and use it as new input device
 	 * from now on.
 	 */
-	public void attach() {
+	public boolean attach() {
 		mainFrame.addKeyListener(kl);
 		mainFrame.requestFocus();
+		return true;
 	}
 
 	/**
@@ -106,8 +107,9 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardDirRight();
-				
-
+				if (remoteController != null) {
+					remoteController.driveRight();
+				}
 			}
 			if (lastKeyWasDown) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
@@ -119,32 +121,53 @@ public class KeyboardHandler implements IHandler {
 			if (lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardDirLeft();
+				if (remoteController != null) {
+					remoteController.driveLeft();
+				}
 			}
 			if (e.getKeyChar() == 'i') {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardSpeedUp();
+				if (remoteController != null) {
+					remoteController.increaseSpeed();
+				}
 			}
 			if (e.getKeyChar() == 'k') {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardSpeedDown();
+				if (remoteController != null) {
+					remoteController.decreaseSpeed();
+				}
 			}
 
-			// combinations, just for visualizing
+			// combinations
 			if (lastKeyWasDown && lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerDownDirLeft();
+				if (remoteController != null) {
+					remoteController.driveBackwardLeft();
+				}
 			}
 			if (lastKeyWasDown && lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerDownDirRight();
+				if (remoteController != null) {
+					remoteController.driveBackwardRight();
+				}
 			}
 			if (lastKeyWasUp && lastKeyWasLeft) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerUpDirLeft();
+				if (remoteController != null) {
+					remoteController.driveForwardLeft();
+				}
 			}
 			if (lastKeyWasUp && lastKeyWasRight) {
 				GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 						.setKeyboardPowerUpDirRight();
+				if (remoteController != null) {
+					remoteController.driveForwardRight();
+				}
 			}
 		}
 	}
@@ -169,6 +192,6 @@ public class KeyboardHandler implements IHandler {
 	 */
 	@Override
 	public void setRemoteController(RemoteController remoteController) {
-		this.remoteController = remoteController;		
+		this.remoteController = remoteController;
 	}
 }

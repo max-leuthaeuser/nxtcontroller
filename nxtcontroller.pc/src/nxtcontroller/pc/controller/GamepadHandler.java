@@ -48,15 +48,18 @@ public class GamepadHandler implements IHandler {
 	 * Attach the gamepad to the application and use it as new input device from
 	 * now on.
 	 */
-	public void attach() {
+	public boolean attach() {
 		gpController = new GamePadController();
 		if (gpController.gamePadIsAvailable) {
 			startPolling();
 			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 					.setGamepadDefaultIcon();
-		} else
+			return true;
+		} else {
 			GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 					.setKeyboardDefaultIcon();
+			return false;
+		}
 	}
 
 	/**
