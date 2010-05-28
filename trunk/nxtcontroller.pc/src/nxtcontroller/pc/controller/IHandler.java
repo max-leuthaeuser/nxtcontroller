@@ -6,10 +6,10 @@ import nxtcontroller.pc.core.RemoteController;
  * Interface which defines all methods a 
  * device handler should implement.
  * 
- * @author Max Leuthäuser
+ * @author Max Leuthï¿½user
  */
 public interface IHandler {
-	void attach();
+	boolean attach();
 	void destroy();
 	void setRemoteController(RemoteController remoteController);
 }

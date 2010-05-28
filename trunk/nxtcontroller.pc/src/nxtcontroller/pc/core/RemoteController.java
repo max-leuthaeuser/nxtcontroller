@@ -12,8 +12,6 @@ import nxtcontroller.shared.CommandId;
  * instance of this class.
  * 
  * @author Martin Morgenstern <s4810525@mail.zih.tu-dresden.de>
- * @see org.softfreaks.lejos.shared.CommandId
- * @see org.softfreaks.lejos.nxt.Receiver
  */
 public class RemoteController {
 	/**
@@ -52,6 +50,54 @@ public class RemoteController {
 	 */
 	public void driveBackward() {
 		send(CommandId.BACKWARD);
+	}
+	
+	/**
+	 * Command the receiver to drive right. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveRight() {
+		send(CommandId.RIGHT);
+	}
+	
+	/**
+	 * Command the receiver to drive left. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveLeft() {
+		send(CommandId.LEFT);
+	}
+	
+	/**
+	 * Command the receiver to drive forward and right. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveForwardRight() {
+		send(CommandId.FORWARD_RIGHT);
+	}
+	
+	/**
+	 * Command the receiver to drive forward and left. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveForwardLeft() {
+		send(CommandId.FORWARD_LEFT);
+	}
+	
+	/**
+	 * Command the receiver to drive backward and right. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveBackwardRight() {
+		send(CommandId.BACKWARD_RIGHT);
+	}
+	
+	/**
+	 * Command the receiver to drive backward and left. The receiver will not stop until
+	 * the method stop is called. 
+	 */
+	public void driveBackwardLeft() {
+		send(CommandId.BACKWARD_LEFT);
 	}
 
 	/**
