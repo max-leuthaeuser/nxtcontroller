@@ -22,14 +22,16 @@ public final class NxtControl implements ButtonListener {
 	private final UltrasonicSensor front = new UltrasonicSensor(SensorPort.S1);
 	private final UltrasonicSensor right = new UltrasonicSensor(SensorPort.S2);
 
-	private final TachoPilot pilot = new TachoPilot(52.0f, 65.0f, Motor.C,
-			Motor.A);
+	private final Motor motorLeft = Motor.A;
+	private final Motor motorRight = Motor.C;
 
-	private int speed = 350;
-	private final int MAX_SPEED = 500;
+	private final TachoPilot pilot = new TachoPilot(52.0f, 65.0f, motorRight,
+			motorLeft);
+
+	private int speed = 400;
+	private final int MAX_SPEED = 600;
 	private final int MIN_SPEED = 200;
 	private final int SPEED_INC_VALUE = 50;
-	private final int TURN_SPEED = 200;
 
 	private final OutputStream out;
 	private final InputStream in;
@@ -54,54 +56,68 @@ public final class NxtControl implements ButtonListener {
 		dispatchCommands();
 	}
 
-	private void dispatchCommands() {
-		for (;;) {
-			switch (receive()) {
-			case CommandId.BACKWARD:
-				pilot.backward();
-				break;
-			case CommandId.BACKWARD_LEFT:
-				Motor.A.setSpeed(speed + TURN_SPEED);
-				pilot.backward();
-				break;
-			case CommandId.BACKWARD_RIGHT:
-				Motor.C.setSpeed(speed + TURN_SPEED);
-				pilot.backward();
-				break;
-			case CommandId.FORWARD:
-				pilot.forward();
-				break;
-			case CommandId.FORWARD_LEFT:
-				Motor.A.setSpeed(speed + TURN_SPEED);
-				pilot.forward();
-				break;
-			case CommandId.FORWARD_RIGHT:
-				Motor.C.setSpeed(speed + TURN_SPEED);
-				pilot.forward();
-				break;
-			case CommandId.LEFT:
-				Motor.A.forward();
-				break;
-			case CommandId.RIGHT:
-				Motor.C.forward();
-				break;
-			case CommandId.STOP:
-				System.out.print("S");
-				pilot.stop();
-				break;
-			case CommandId.INCREASE_SPEED:
-				increaseSpeed();
-				break;
-			case CommandId.DECREASE_SPEED:
-				decreaseSpeed();
-				break;
-			default:
-				// TODO better error reporting
-				throw new RuntimeException();
-			}
-			Motor.A.setSpeed(speed);
-			Motor.C.setSpeed(speed);
-		}
+	private void backward() {
+		motorLeft.backward();
+		motorRight.backward();
+		System.out.println("B");
+	}
+
+	private void forward() {
+		motorLeft.forward();
+		motorRight.forward();
+		System.out.println("F");
+	}
+
+	private void left() {
+		motorLeft.forward();
+		System.out.println("L");
+	}
+
+	private void right() {
+		motorRight.forward();
+		System.out.println("R");
+	}
+
+	private void forwardLeft() {
+		motorLeft.setSpeed(speed * 2);
+		motorRight.setSpeed(speed / 2);
+		motorLeft.forward();
+		motorRight.forward();
+		System.out.println("FL");
+	}
+
+	private void forwardRight() {
+		motorRight.setSpeed(speed * 2);
+		motorLeft.setSpeed(speed / 2);
+		motorLeft.forward();
+		motorRight.forward();
+		System.out.println("FR");
+	}
+
+	private void backwardLeft() {
+		motorLeft.setSpeed(speed * 2);
+		motorRight.setSpeed(speed / 2);
+		motorLeft.backward();
+		motorRight.backward();
+		System.out.println("BL");
+	}
+
+	private void backwardRight() {
+		motorRight.setSpeed(speed * 2);
+		motorLeft.setSpeed(speed / 2);
+		motorLeft.backward();
+		motorRight.backward();
+		System.out.println("BR");
+	}
+
+	private void stop() {
+		motorLeft.stop();
+		motorRight.stop();
+	}
+
+	private void normalize() {
+		motorLeft.setSpeed(speed);
+		motorRight.setSpeed(speed);
 	}
 
 	private void decreaseSpeed() {
@@ -118,6 +134,50 @@ public final class NxtControl implements ButtonListener {
 		}
 		pilot.setSpeed(speed);
 		pilot.setTurnSpeed(speed);
+	}
+
+	private void dispatchCommands() {
+		for (;;) {
+			normalize();
+			switch (receive()) {
+			case CommandId.BACKWARD:
+				backward();
+				break;
+			case CommandId.BACKWARD_LEFT:
+				backwardLeft();
+				break;
+			case CommandId.BACKWARD_RIGHT:
+				backwardRight();
+				break;
+			case CommandId.FORWARD:
+				forward();
+				break;
+			case CommandId.FORWARD_LEFT:
+				forwardLeft();
+				break;
+			case CommandId.FORWARD_RIGHT:
+				forwardRight();
+				break;
+			case CommandId.LEFT:
+				left();
+				break;
+			case CommandId.RIGHT:
+				right();
+				break;
+			case CommandId.STOP:
+				stop();
+				break;
+			case CommandId.INCREASE_SPEED:
+				increaseSpeed();
+				break;
+			case CommandId.DECREASE_SPEED:
+				decreaseSpeed();
+				break;
+			default:
+				// TODO better error reporting
+				throw new RuntimeException();
+			}
+		}
 	}
 
 	private int receive() {
