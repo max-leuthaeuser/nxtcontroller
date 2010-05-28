@@ -205,7 +205,6 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		g.setColor(Color.black);
 
 		// left
-		@SuppressWarnings("unused")
 		int drawLeft = 0;
 		if (left < 61) {
 			drawLeft = 72 - left;
@@ -219,7 +218,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 100;
 		}
 		g.fillRect(PANEL_SIZE_WIDTH / 6 - modifier
-				+ (drawRight * fullScreenModifier), PANEL_SIZE_HEIGHT / 2
+				+ (drawLeft * fullScreenModifier), PANEL_SIZE_HEIGHT / 2
 				- (30 * fullScreenModifier), 10 * fullScreenModifier,
 				65 * fullScreenModifier);
 	}
