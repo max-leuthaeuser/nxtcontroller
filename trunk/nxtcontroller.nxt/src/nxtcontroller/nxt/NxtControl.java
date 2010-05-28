@@ -18,142 +18,173 @@ import lejos.util.Delay;
 
 // TODO javadoc
 public final class NxtControl implements ButtonListener {
-    private final UltrasonicSensor left = new UltrasonicSensor(SensorPort.S3);
-    private final UltrasonicSensor front = new UltrasonicSensor(SensorPort.S1);
-    private final UltrasonicSensor right = new UltrasonicSensor(SensorPort.S2);
+	private final UltrasonicSensor left = new UltrasonicSensor(SensorPort.S3);
+	private final UltrasonicSensor front = new UltrasonicSensor(SensorPort.S1);
+	private final UltrasonicSensor right = new UltrasonicSensor(SensorPort.S2);
 
-    private final TachoPilot pilot = new TachoPilot(3.0f, 2.0f, Motor.A,
-            Motor.C);
+	private final TachoPilot pilot = new TachoPilot(3.0f, 2.0f, Motor.A,
+			Motor.C);
 
-    private final OutputStream out;
-    private final InputStream in;
+	private int speed = 200;
+	private final int MAX_SPEED = 500;
+	private final int MIN_SPEED = 100;
+	private final int SPEED_INC_VALUE = 50;
 
-    private final SenderThread senderThread = new SenderThread();
+	private final OutputStream out;
+	private final InputStream in;
 
-    // TODO fail-safe bluetooth connection
-    private NxtControl() {
-        System.out.println("Wait for BT...");
-        BTConnection con = Bluetooth.waitForConnection();
-        System.out.println("Go...");
+	private final SenderThread senderThread = new SenderThread();
 
-        out = con.openOutputStream();
-        in = con.openInputStream();
+	// TODO fail-safe bluetooth connection
+	private NxtControl() {
+		System.out.println("Wait for BT...");
+		BTConnection con = Bluetooth.waitForConnection();
+		System.out.println("Go...");
 
-        Button.ESCAPE.addButtonListener(this);
-    }
+		out = con.openOutputStream();
+		in = con.openInputStream();
 
-    public void start() {
-        senderThread.start();
-        dispatchCommands();
-    }
+		Button.ESCAPE.addButtonListener(this);
+	}
 
-    private void dispatchCommands() {
-        for (;;) {
-            switch (receive()) {
-            case CommandId.BACKWARD:
-                pilot.backward();
-                break;
-            case CommandId.FORWARD:
-                pilot.forward();
-                break;
-            case CommandId.LEFT:
-                // TODO not implemented
-                break;
-            case CommandId.RIGHT:
-                // TODO not implemented
-                break;
-            case CommandId.STOP:
-                pilot.stop();
-                break;
-            case CommandId.INCREASE_SPEED:
-                increaseSpeed();
-                break;
-            case CommandId.DECREASE_SPEED:
-                decreaseSpeed();
-                break;
-            default:
-                // TODO better error reporting
-                throw new RuntimeException();
-            }
-        }
-    }
+	public void start() {
+		senderThread.start();
+		dispatchCommands();
+	}
 
-    private void decreaseSpeed() {
-        // TODO Auto-generated method stub
-    }
+	private void dispatchCommands() {
+		for (;;) {
+			switch (receive()) {
+			case CommandId.BACKWARD:
+				pilot.backward();
+				break;
+			case CommandId.BACKWARD_LEFT:
+				Motor.C.setSpeed(speed * 2);
+				pilot.backward();
+				break;	
+			case CommandId.BACKWARD_RIGHT:
+				Motor.A.setSpeed(speed * 2);
+				pilot.backward();
+				break;
+			case CommandId.FORWARD:
+				pilot.forward();
+				break;
+			case CommandId.FORWARD_LEFT:
+				Motor.C.setSpeed(speed * 2);
+				pilot.forward();
+				break;
+			case CommandId.FORWARD_RIGHT:
+				Motor.A.setSpeed(speed * 2);
+				pilot.forward();
+				break;
+			case CommandId.LEFT:
+				Motor.C.forward();
+				break;
+			case CommandId.RIGHT:
+				Motor.A.forward();
+				break;
+			case CommandId.STOP:
+				pilot.stop();
+				break;
+			case CommandId.INCREASE_SPEED:
+				increaseSpeed();
+				break;
+			case CommandId.DECREASE_SPEED:
+				decreaseSpeed();
+				break;
+			default:
+				// TODO better error reporting
+				throw new RuntimeException();
+			}
+			Motor.A.setSpeed(speed);
+			Motor.C.setSpeed(speed);
+		}
+	}
 
-    private void increaseSpeed() {
-        // TODO Auto-generated method stub
-    }
+	private void decreaseSpeed() {
+		if (speed >= MIN_SPEED) {
+			speed -= SPEED_INC_VALUE;
+		}
+		pilot.setSpeed(speed);
+		pilot.setTurnSpeed(speed);
+	}
 
-    private int receive() {
-        int result;
+	private void increaseSpeed() {
+		if (speed <= MAX_SPEED) {
+			speed += SPEED_INC_VALUE;
+		}
+		pilot.setSpeed(speed);
+		pilot.setTurnSpeed(speed);
+	}
 
-        try {
-            result = in.read();
-        } catch (IOException e) {
-            result = -1;
-        }
+	private int receive() {
+		int result;
 
-        return result;
-    }
+		try {
+			result = in.read();
+		} catch (IOException e) {
+			result = -1;
+		}
 
-    public void shutdown() {
-        pilot.stop();
+		return result;
+	}
 
-        try {
-            out.close();
-            in.close();
-        } catch (IOException e) {
-            // TODO handle exception
-        }
+	public void shutdown() {
+		pilot.stop();
 
-        NXT.shutDown();
-    }
+		try {
+			out.close();
+			in.close();
+		} catch (IOException e) {
+			// TODO handle exception
+		}
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        NxtControl nxt = new NxtControl();
-        nxt.start();
-    }
+		NXT.shutDown();
+	}
 
-    private final class SenderThread extends Thread {
-        private static final int DELAY = 250;
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		NxtControl nxt = new NxtControl();
+		nxt.start();
+	}
 
-        @Override
-        public void run() {
-            for (;;) {
-                sendValues();
-                Delay.msDelay(DELAY);
-            }
-        }
+	private final class SenderThread extends Thread {
+		private static final int DELAY = 250;
 
-        private void sendValues() {
-            try {
-                out.write(left.getDistance());
-                out.write(front.getDistance());
-                out.write(right.getDistance());
+		@Override
+		public void run() {
+			for (;;) {
+				sendValues();
+				Delay.msDelay(DELAY);
+			}
+		}
 
-                int angle = Math.round(pilot.getAngle());
+		private void sendValues() {
+			try {
+				out.write(left.getDistance());
+				out.write(front.getDistance());
+				out.write(right.getDistance());
 
-                out.write(angle);
-                out.write(angle >> 8);
-                out.flush();
-            } catch (IOException e) {
-                // TODO better error reporting
-                throw new RuntimeException();
-            }
-        }
-    }
+				int angle = Math.round(pilot.getAngle());
 
-    @Override
-    public void buttonPressed(Button b) {
-    }
+				out.write(angle);
+				out.write(angle >> 8);
+				out.flush();
+			} catch (IOException e) {
+				// TODO better error reporting
+				throw new RuntimeException();
+			}
+		}
+	}
 
-    @Override
-    public void buttonReleased(Button b) {
-        shutdown();
-    }
+	@Override
+	public void buttonPressed(Button b) {
+	}
+
+	@Override
+	public void buttonReleased(Button b) {
+		shutdown();
+	}
 }
