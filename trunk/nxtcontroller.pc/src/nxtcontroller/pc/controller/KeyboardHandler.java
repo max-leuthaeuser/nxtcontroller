@@ -69,16 +69,16 @@ public class KeyboardHandler implements IHandler {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				lastKeyWasLeft = true;
 				break;
-			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				lastKeyWasRight = true;
 				break;
-			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				lastKeyWasUp = true;
 				break;
-			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				lastKeyWasDown = true;
 				break;
 			case KeyEvent.VK_I:
@@ -92,16 +92,16 @@ public class KeyboardHandler implements IHandler {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			switch (e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 				lastKeyWasLeft = false;
 				break;
-			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
 				lastKeyWasRight = false;
 				break;
-			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
 				lastKeyWasUp = false;
 				break;
-			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
 				lastKeyWasDown = false;
 				break;
 			case KeyEvent.VK_I:
@@ -151,28 +151,28 @@ public class KeyboardHandler implements IHandler {
 
 			public void actionPerformed(ActionEvent e) {
 				// single events
-				if (lastKeyWasUp) {
+				if (lastKeyWasUp && (!lastKeyWasLeft && !lastKeyWasRight)) {
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setKeyboardPowerUp();
 					if (remoteController != null) {
 						remoteController.driveForward();
 					}
 				}
-				if (lastKeyWasRight) {
+				if (lastKeyWasRight && (!lastKeyWasDown && !lastKeyWasUp)) {
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setKeyboardDirRight();
 					if (remoteController != null) {
 						remoteController.driveRight();
 					}
 				}
-				if (lastKeyWasDown) {
+				if (lastKeyWasDown && (!lastKeyWasLeft && !lastKeyWasRight)) {
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setKeyboardPowerDown();
 					if (remoteController != null) {
 						remoteController.driveBackward();
 					}
 				}
-				if (lastKeyWasLeft) {
+				if (lastKeyWasLeft && (!lastKeyWasDown && !lastKeyWasUp)) {
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setKeyboardDirLeft();
 					if (remoteController != null) {
