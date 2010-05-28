@@ -130,9 +130,9 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 					PANEL_SIZE_HEIGHT / 2 - 10 * (fullScreenModifier * 2));
 		}
 		// right
-		modifier = 10;
+		modifier = 7;
 		if (fullScreenModifier != 1) {
-			modifier = 40;
+			modifier = 35;
 		}
 		if (distanceDrawingHasStarted) {
 			g.drawString("" + right, PANEL_SIZE_WIDTH / 3 + modifier,
@@ -178,7 +178,6 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		if (front <= 10) {
 			g.setColor(Color.red);
-			// warningLabel.setText("Collision warning!");
 		}
 		g.fillRect(PANEL_SIZE_WIDTH / 3 - (30 * fullScreenModifier),
 				(40 * fullScreenModifier) + (drawFront * fullScreenModifier),
@@ -192,7 +191,6 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		if (right <= 10) {
 			g.setColor(Color.red);
-			// warningLabel.setText("Collision warning!");
 		}
 		modifier = 1;
 		if (fullScreenModifier != 1) {
@@ -211,7 +209,6 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		if (left <= 10) {
 			g.setColor(Color.red);
-			// warningLabel.setText("Collision warning!");
 		}
 		modifier = 10;
 		if (fullScreenModifier != 1) {
