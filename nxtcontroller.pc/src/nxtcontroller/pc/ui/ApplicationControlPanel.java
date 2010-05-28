@@ -218,7 +218,7 @@ public class ApplicationControlPanel extends JPanel {
 	private void connect() {
 		LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
 				UILanguage.CONNECT_SEARCHING);
-		
+
 		NXTInfo[] availableNXTs = null;
 		NXTConnector nxtConn = new NXTConnector();
 
@@ -244,19 +244,26 @@ public class ApplicationControlPanel extends JPanel {
 		if ((s != null) && (s.length() > 0)) {
 			nxtConn.connectTo(s.substring(0, s.indexOf("@")), s.substring(s
 					.indexOf("@") + 1, s.length()), NXTCommFactory.BLUETOOTH);
-			LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
-					UILanguage.CONNECT_READY + s);
+
 			OutputStream out = nxtConn.getOutputStream();
-			RemoteController rc = new RemoteController(out);
-			GUIController.getInstance().getDeviceHandler().getKeyboardHandler().setRemoteController(rc);
-			GUIController.getInstance().getDeviceHandler().getGamepadHandler().setRemoteController(rc);
-			
-			InputStreamListener isListener = new InputStreamListener(nxtConn.getInputStream());
-			isListener.register(GUIBuilder.getInstance().getSensorPanel());
-			
-			new Thread(isListener).start();
-			
-			
+
+			if (out != null) {
+				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+						UILanguage.CONNECT_READY + s);
+				RemoteController rc = new RemoteController(out);
+				GUIController.getInstance().getDeviceHandler()
+						.getKeyboardHandler().setRemoteController(rc);
+				GUIController.getInstance().getDeviceHandler()
+						.getGamepadHandler().setRemoteController(rc);
+
+				InputStreamListener isListener = new InputStreamListener(
+						nxtConn.getInputStream());
+				isListener.register(GUIBuilder.getInstance().getSensorPanel());
+				new Thread(isListener).start();
+			} else {
+				LogOperation.writeLog(GUIBuilder.getInstance().getLog(),
+						UILanguage.CONNECT_ABORT + ": " + s);
+			}
 			return;
 		}
 
