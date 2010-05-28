@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import nxtcontroller.shared.CommandId;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.Motor;
@@ -13,8 +12,8 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import lejos.robotics.navigation.TachoPilot;
 import lejos.util.Delay;
+import nxtcontroller.shared.CommandId;
 
 // TODO javadoc
 public final class NxtControl implements ButtonListener {
@@ -25,13 +24,14 @@ public final class NxtControl implements ButtonListener {
 	private final Motor motorLeft = Motor.A;
 	private final Motor motorRight = Motor.C;
 
-	private final TachoPilot pilot = new TachoPilot(52.0f, 65.0f, motorRight,
-			motorLeft);
-
 	private int speed = 400;
 	private final int MAX_SPEED = 600;
 	private final int MIN_SPEED = 200;
 	private final int SPEED_INC_VALUE = 50;
+	private final int ROTATE_VALUE = 200;
+
+	private final float trackWidth = 65.0f;
+	private final float wheelDiameter = 52.0f;
 
 	private final OutputStream out;
 	private final InputStream in;
@@ -57,57 +57,51 @@ public final class NxtControl implements ButtonListener {
 	}
 
 	private void backward() {
+		normalize();
 		motorLeft.backward();
 		motorRight.backward();
-		System.out.println("B");
 	}
 
 	private void forward() {
+		normalize();
 		motorLeft.forward();
 		motorRight.forward();
-		System.out.println("F");
 	}
 
 	private void left() {
+		normalize();
 		motorLeft.forward();
-		System.out.println("L");
+		motorRight.backward();
 	}
 
 	private void right() {
+		normalize();
+		motorLeft.backward();
 		motorRight.forward();
-		System.out.println("R");
 	}
 
 	private void forwardLeft() {
-		motorLeft.setSpeed(speed * 2);
-		motorRight.setSpeed(speed / 2);
+		motorLeft.setSpeed(speed + ROTATE_VALUE);
 		motorLeft.forward();
 		motorRight.forward();
-		System.out.println("FL");
 	}
 
 	private void forwardRight() {
-		motorRight.setSpeed(speed * 2);
-		motorLeft.setSpeed(speed / 2);
+		motorRight.setSpeed(speed + ROTATE_VALUE);
 		motorLeft.forward();
 		motorRight.forward();
-		System.out.println("FR");
 	}
 
 	private void backwardLeft() {
-		motorLeft.setSpeed(speed * 2);
-		motorRight.setSpeed(speed / 2);
+		motorLeft.setSpeed(speed + ROTATE_VALUE);
 		motorLeft.backward();
 		motorRight.backward();
-		System.out.println("BL");
 	}
 
 	private void backwardRight() {
-		motorRight.setSpeed(speed * 2);
-		motorLeft.setSpeed(speed / 2);
+		motorRight.setSpeed(speed + ROTATE_VALUE);
 		motorLeft.backward();
 		motorRight.backward();
-		System.out.println("BR");
 	}
 
 	private void stop() {
@@ -124,21 +118,20 @@ public final class NxtControl implements ButtonListener {
 		if (speed >= MIN_SPEED) {
 			speed -= SPEED_INC_VALUE;
 		}
-		pilot.setSpeed(speed);
-		pilot.setTurnSpeed(speed);
+		motorLeft.setSpeed(speed);
+		motorRight.setSpeed(speed);
 	}
 
 	private void increaseSpeed() {
 		if (speed <= MAX_SPEED) {
 			speed += SPEED_INC_VALUE;
 		}
-		pilot.setSpeed(speed);
-		pilot.setTurnSpeed(speed);
+		motorLeft.setSpeed(speed);
+		motorRight.setSpeed(speed);
 	}
 
 	private void dispatchCommands() {
 		for (;;) {
-			normalize();
 			switch (receive()) {
 			case CommandId.BACKWARD:
 				backward();
@@ -193,7 +186,7 @@ public final class NxtControl implements ButtonListener {
 	}
 
 	public void shutdown() {
-		pilot.stop();
+		stop();
 
 		try {
 			out.close();
@@ -224,13 +217,19 @@ public final class NxtControl implements ButtonListener {
 			}
 		}
 
+		private float getAngle() {
+			float turnRatio = trackWidth / wheelDiameter;
+			return ((motorRight.getTachoCount() / turnRatio) - (motorLeft
+					.getTachoCount() / turnRatio)) / 2.0f;
+		}
+
 		private void sendValues() {
 			try {
 				out.write(left.getDistance());
 				out.write(front.getDistance());
 				out.write(right.getDistance());
 
-				int angle = Math.round(pilot.getAngle());
+				int angle = Math.round(getAngle());
 
 				out.write(angle);
 				out.write(angle >> 8);
