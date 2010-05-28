@@ -193,7 +193,7 @@ public class KeyboardHandler implements IHandler {
 						remoteController.decreaseSpeed();
 					}
 				}
-				
+
 				// combinations
 				if (lastKeyWasUp && lastKeyWasLeft) {
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
