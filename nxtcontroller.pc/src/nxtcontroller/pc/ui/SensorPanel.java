@@ -8,6 +8,7 @@ import nxtcontroller.pc.core.DataSetObserver;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
+import java.util.LinkedList;
 
 /**
  * Panel which draw all sensor values.
@@ -24,13 +25,104 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	private int PANEL_SIZE_HEIGHT;
 	private boolean distanceDrawingHasStarted = false;
 
+	private LinkedList<Integer> frontLastFiveValues = new LinkedList<Integer>();
+	private LinkedList<Integer> rightLastFiveValues = new LinkedList<Integer>();
+	private LinkedList<Integer> leftLastFiveValues = new LinkedList<Integer>();
+	private int countWastedValues = 0;
+	private int result = 0;
+
 	public SensorPanel() {
 		setBackground(Color.white);
 	}
 
 	/**
+	 * This method normalizes a specific {@link DataSet}. Algorithm: <li>Wait
+	 * for 5 values for each distance</li> <li>If there are less than 3 values >
+	 * 200 than ignore everything over 200 and calculate the average of the
+	 * remaining values.</li> <li>If there are more then 3 values > 200 return
+	 * 200 for this distance.</li> <li>Reset after retrieving 5 values for each
+	 * distance.</li>
+	 * 
+	 * @param d
+	 *            {@link DataSet} which should be normalized.
+	 */
+	private void normalize(final DataSet d) {
+		// calculating front values
+		if (frontLastFiveValues.size() < 5) {
+			frontLastFiveValues.add(d.getFront());
+		} else {
+			for (int v : frontLastFiveValues) {
+				if (v >= 200) {
+					countWastedValues++;
+				}
+			}
+			if (countWastedValues > 2) {
+				front = 255;
+			} else {
+				for (int v : frontLastFiveValues) {
+					if (v < 200) {
+						result += v;
+					}
+				}
+				front = result / (5 - countWastedValues);
+			}
+			frontLastFiveValues.clear();
+		}
+		result = 0;
+		countWastedValues = 0;
+		
+		// calculating right values
+		if (rightLastFiveValues.size() < 5) {
+			rightLastFiveValues.add(d.getRight());
+		} else {
+			for (int v : rightLastFiveValues) {
+				if (v >= 200) {
+					countWastedValues++;
+				}
+			}
+			if (countWastedValues > 2) {
+				right = 255;
+			} else {
+				for (int v : rightLastFiveValues) {
+					if (v < 200) {
+						result += v;
+					}
+				}
+				right = result / (5 - countWastedValues);
+			}
+			rightLastFiveValues.clear();
+		}
+		result = 0;
+		countWastedValues = 0;
+		
+		// calculating left values
+		if (leftLastFiveValues.size() < 5) {
+			leftLastFiveValues.add(d.getLeft());
+		} else {
+			for (int v : leftLastFiveValues) {
+				if (v >= 200) {
+					countWastedValues++;
+				}
+			}
+			if (countWastedValues > 2) {
+				left = 255;
+			} else {
+				for (int v : leftLastFiveValues) {
+					if (v < 200) {
+						result += v;
+					}
+				}
+				left = result / (5 - countWastedValues);
+			}
+			leftLastFiveValues.clear();
+		}
+		result = 0;
+		countWastedValues = 0;
+	}
+
+	/**
 	 * Paint a new {@link DataSet}. Use this method after receiving new values
-	 * from the NXT.
+	 * from the NXT. 
 	 * 
 	 * @param d
 	 *            DataSet which will be painted.
@@ -38,9 +130,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	public void update(DataSet d) {
 		distanceDrawingHasStarted = true;
 		rotation = d.getAngle() + 90;
-		front = d.getFront();
-		right = d.getRight();
-		left = d.getLeft();
+		normalize(d);
 		repaint();
 	}
 
@@ -67,7 +157,6 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		// warningLabel.setText("");
 
 		// draw border for rotation compass
 		g.drawRect(PANEL_SIZE_WIDTH / 3 * 2, PANEL_SIZE_HEIGHT / 2
@@ -117,38 +206,33 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		g.fillRect(PANEL_SIZE_WIDTH / 3 - (30 * fullScreenModifier),
 				PANEL_SIZE_HEIGHT / 2 - (30 * fullScreenModifier),
 				60 * fullScreenModifier, 65 * fullScreenModifier);
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 
 		// distance values
 		// front
-		int modifier = 5;
+		int modifier = 15;
 		if (fullScreenModifier != 1) {
 			modifier = 20;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("" + front, PANEL_SIZE_WIDTH / 3 - modifier,
-					PANEL_SIZE_HEIGHT / 2 - 10 * (fullScreenModifier * 2));
+			g.drawString("Front: " + front, 5, modifier);
 		}
 		// right
-		modifier = 7;
+		modifier = 30;
 		if (fullScreenModifier != 1) {
-			modifier = 35;
+			modifier = 40;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("" + right, PANEL_SIZE_WIDTH / 3 + modifier,
-					PANEL_SIZE_HEIGHT / 2 + (5 * fullScreenModifier));
+			g.drawString("Right: " + right, 5, modifier);
 		}
 		// left
-		modifier = 20;
+		modifier = 45;
 		if (fullScreenModifier != 1) {
-			modifier = 70;
+			modifier = 60;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("" + left, PANEL_SIZE_WIDTH / 3 - modifier,
-					PANEL_SIZE_HEIGHT / 2 + (5 * fullScreenModifier));
+			g.drawString("Left: " + left, 5, modifier);
 		}
-
-		g.setColor(Color.black);
 
 		// tires - front left
 		g.fillRect(PANEL_SIZE_WIDTH / 3 - (35 * fullScreenModifier),
