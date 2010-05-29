@@ -207,7 +207,7 @@ public final class NxtControl implements ButtonListener {
 	}
 
 	private final class SenderThread extends Thread {
-		private static final int DELAY = 250;
+		private static final int DELAY = 50;
 
 		@Override
 		public void run() {
