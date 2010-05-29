@@ -254,6 +254,8 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 				PANEL_SIZE_HEIGHT / 2 + (15 * fullScreenModifier),
 				5 * fullScreenModifier, 15 * fullScreenModifier);
 
+		
+		// TODO: correct distance drawing in fullscreen mode
 		// draw obstacles now
 		// front
 		int drawFront = 0;

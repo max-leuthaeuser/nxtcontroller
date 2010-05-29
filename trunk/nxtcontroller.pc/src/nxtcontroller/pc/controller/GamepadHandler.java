@@ -20,13 +20,13 @@ import nxtcontroller.pc.ui.UILanguage;
  */
 public class GamepadHandler implements IHandler {
 	private static final int DELAY = 40;
+	private static final int STOP = 4;
+	private static final int FORWARD = 1;
+	private static final int BACKWARD = 7;
+	private static final int RIGHT = 5;
+	private static final int LEFT = 3;
 	private Timer pollTimer;
 	private GamePadController gpController;
-	private int lastSpeedWas = 4;
-	private int lastDirWas = 4;
-	@SuppressWarnings("unused")
-	private int lastButtonWas = 0;
-	@SuppressWarnings("unused")
 	private RemoteController remoteController;
 
 	public GamepadHandler(MainFrame mainFrame, JRootPane rootPane) {
@@ -93,82 +93,103 @@ public class GamepadHandler implements IHandler {
 				// get directions from analog sticks
 				int speedDir = gpController.getXYStickDir();
 				int compassDir = gpController.getZRZStickDir();
-				// hatPanel.setCompass(speedDir);
-				// zPanel.setCompass(compassDir);
 				boolean[] buttons = gpController.getButtons();
-				// buttonsPanel.setButtons(buttons);
 
-				// Recover Speed
-				if (speedDir == 4) {
-					if (lastSpeedWas == 7) {
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDefaultIcon();
-						// remotecontroller forward release
+				// stop
+				if (speedDir == STOP && compassDir == STOP) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadDefaultIcon();
+					if (remoteController != null) {
+						remoteController.stop();
 					}
-					if (lastSpeedWas == 1) {
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDefaultIcon();
-						// remotecontroller backward release
-					}
-
-				}
-				// Recover direction
-				if (compassDir == 4) {
-					if (lastDirWas == 5) {
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDefaultIcon();
-						// remotecontroller right release
-					}
-					if (lastDirWas == 3) {
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDefaultIcon();
-						// remotecontroller left release
-					}
-
 				}
 
-				// Control Speed
-				if (speedDir != 4) {
-					if (speedDir == 1) {
-						lastSpeedWas = 1;
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadPowerUp();
-						// remotecontroller forward
-					}
-					if (speedDir == 7) {
-						lastSpeedWas = 7;
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadPowerDown();
-						// remotecontroller backward
+				// forward
+				if (speedDir == FORWARD && compassDir == STOP) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerUp();
+					if (remoteController != null) {
+						remoteController.driveForward();
 					}
 				}
-				// Control direction
-				if (compassDir != 4) {
-					if (compassDir == 3) {
-						lastDirWas = 3;
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDirLeft();
-						// remotecontroller left
-					}
-					if (compassDir == 5) {
-						lastDirWas = 5;
-						GUIBuilder.getInstance().getAppPanel()
-								.getGraphicsPanel().setGamepadDirRight();
-						// remotecontroller right
+
+				// forward right
+				if (speedDir == FORWARD && compassDir == RIGHT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerUpDirRight();
+					if (remoteController != null) {
+						remoteController.driveForwardRight();
 					}
 				}
+
+				// forward left
+				if (speedDir == FORWARD && compassDir == LEFT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerUpDirLeft();
+					if (remoteController != null) {
+						remoteController.driveForwardLeft();
+					}
+				}
+
+				// backward
+				if (speedDir == BACKWARD && compassDir == STOP) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerDown();
+					if (remoteController != null) {
+						remoteController.driveBackward();
+					}
+				}
+
+				// backward right
+				if (speedDir == BACKWARD && compassDir == RIGHT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerDownDirRight();
+					if (remoteController != null) {
+						remoteController.driveBackwardRight();
+					}
+				}
+
+				// backward left
+				if (speedDir == BACKWARD && compassDir == LEFT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadPowerDownDirLeft();
+					if (remoteController != null) {
+						remoteController.driveBackwardLeft();
+					}
+				}
+				
+				// left
+				if (speedDir == STOP && compassDir == LEFT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadDirLeft();
+					if (remoteController != null) {
+						remoteController.driveLeft();
+					}
+				}
+				
+				// right
+				if (speedDir == STOP && compassDir == RIGHT) {
+					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
+							.setGamepadDirRight();
+					if (remoteController != null) {
+						remoteController.driveRight();
+					}
+				}
+
 				// Control acceleration
 				if (buttons[0]) {
-					lastButtonWas = 10;
-					// remotecontroller speed up
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setGamepadSpeedUp();
+					if (remoteController != null) {
+						remoteController.increaseSpeed();
+					}
 				}
 				if (buttons[1]) {
-					lastButtonWas = 11;
-					// remotecontroller speed down
 					GUIBuilder.getInstance().getAppPanel().getGraphicsPanel()
 							.setGamepadSpeedDown();
+					if (remoteController != null) {
+						remoteController.decreaseSpeed();
+					}
 				}
 			}
 		};
