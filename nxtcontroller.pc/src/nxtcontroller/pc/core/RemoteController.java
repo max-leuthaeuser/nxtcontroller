@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import nxtcontroller.shared.CommandId;
 
 /**
- * Simple remote controller interface for basically every kind of output stream.
+ * Simple remote controller for basically every kind of output stream.
  * It is intended to be used as a remote controller for the corresponding NXT
  * receiver class that actually implement the commands that are given to an
  * instance of this class.

@@ -37,8 +37,8 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 
 	/**
 	 * This method normalizes a specific {@link DataSet}. Algorithm: <li>Wait
-	 * for 5 values for each distance</li> <li>If there are less than 3 values >
-	 * 200 than ignore everything over 200 and calculate the average of the
+	 * for 5 values for each distance.</li> <li>If there are less than 3 values
+	 * > 200 than ignore everything over 200 and calculate the average of the
 	 * remaining values.</li> <li>If there are more then 3 values > 200 return
 	 * 200 for this distance.</li> <li>Reset after retrieving 5 values for each
 	 * distance.</li>
@@ -70,7 +70,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		result = 0;
 		countWastedValues = 0;
-		
+
 		// calculating right values
 		if (rightLastFiveValues.size() < 5) {
 			rightLastFiveValues.add(d.getRight());
@@ -94,7 +94,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		}
 		result = 0;
 		countWastedValues = 0;
-		
+
 		// calculating left values
 		if (leftLastFiveValues.size() < 5) {
 			leftLastFiveValues.add(d.getLeft());
@@ -120,14 +120,15 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		countWastedValues = 0;
 	}
 
-	/**
+/**
 	 * Paint a new {@link DataSet}. Use this method after receiving new values
-	 * from the NXT. 
+	 * from the NXT. Do not forget to normalize the distance values from 
+	 * UltraSonic Sensors using {@link SensorPanel#normalize(DataSet)
 	 * 
 	 * @param d
 	 *            DataSet which will be painted.
 	 */
-	public void update(DataSet d) {
+	public void update(final DataSet d) {
 		distanceDrawingHasStarted = true;
 		rotation = d.getAngle() + 90;
 		normalize(d);
@@ -138,12 +139,14 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	 * @return the ratio from standard size to fullscreen size.
 	 */
 	private int getFullscreenModifier() {
-		int result = (getSize().height * getSize().width) / (280 * 690);
+		int result = (getSize().height * getSize().width)
+				/ (StaticSizes.SENSORPANEL_SIZE_WIDTH * StaticSizes.SENSORPANEL_SIZE_HEIGTH);
 		return result > 3 ? 3 : result;
 	}
 
 	/**
-	 * Draws all sensor values and takes care of the screen size.
+	 * Draws all sensor values and takes care of the screen size using
+	 * {@link SensorPanel#getFullscreenModifier()}.
 	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
@@ -254,13 +257,16 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 				PANEL_SIZE_HEIGHT / 2 + (15 * fullScreenModifier),
 				5 * fullScreenModifier, 15 * fullScreenModifier);
 
-		
 		// TODO: correct distance drawing in fullscreen mode
 		// draw obstacles now
 		// front
 		int drawFront = 0;
 		if (front < 61) {
-			drawFront = 62 - front;
+			modifier = 0;
+			if (fullScreenModifier != 1) {
+				modifier = 12;
+			}
+			drawFront = 62 - front - modifier;
 		}
 		if (front <= 10) {
 			g.setColor(Color.red);
@@ -273,7 +279,11 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		// right
 		int drawRight = 0;
 		if (right < 61) {
-			drawRight = 72 - right;
+			modifier = 0;
+			if (fullScreenModifier != 1) {
+				modifier = 21;
+			}
+			drawRight = 72 - right - modifier;
 		}
 		if (right <= 10) {
 			g.setColor(Color.red);
@@ -291,7 +301,11 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		// left
 		int drawLeft = 0;
 		if (left < 61) {
-			drawLeft = 72 - left;
+			modifier = 0;
+			if (fullScreenModifier != 1) {
+				modifier = 21;
+			}
+			drawLeft = 72 - left - modifier;
 		}
 		if (left <= 10) {
 			g.setColor(Color.red);

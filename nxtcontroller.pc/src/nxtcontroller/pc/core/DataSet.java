@@ -21,25 +21,38 @@ public final class DataSet {
 	 * @param angle
 	 *            angle of the car
 	 */
-	public DataSet(int left, int front, int right, int angle) {
+	public DataSet(final int left, final int front, final int right,
+			final int angle) {
 		this.left = left;
 		this.right = right;
 		this.front = front;
 		this.angle = angle;
 	}
 
+	/**
+	 * @return the value for the left UltraSonic Sensor
+	 */
 	public int getLeft() {
 		return left;
 	}
 
+	/**
+	 * @return the value for the right UltraSonic Sensor
+	 */
 	public int getRight() {
 		return right;
 	}
 
+	/**
+	 * @return the value for the UltraSonic Sensor at the front
+	 */
 	public int getFront() {
 		return front;
 	}
 
+	/**
+	 * @return the angle the NXT rotated to
+	 */
 	public int getAngle() {
 		return angle;
 	}
