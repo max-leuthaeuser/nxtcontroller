@@ -137,7 +137,7 @@ public class KeyboardHandler implements IHandler {
 	 * Set a new {@link RemoteController} to control the NXT via Bluetooth.
 	 */
 	@Override
-	public void setRemoteController(RemoteController remoteController) {
+	public void setRemoteController(final RemoteController remoteController) {
 		this.remoteController = remoteController;
 	}
 
@@ -233,11 +233,6 @@ public class KeyboardHandler implements IHandler {
 						remoteController.stop();
 					}
 				}
-				/*System.out.println("up: " + lastKeyWasUp);
-				System.out.println("right: " + lastKeyWasRight);
-				System.out.println("left: " + lastKeyWasLeft);
-				System.out.println("down: " + lastKeyWasDown);
-				System.out.println("---");*/
 			}
 		};
 		pollTimer = new Timer(DELAY, pollPerformer);

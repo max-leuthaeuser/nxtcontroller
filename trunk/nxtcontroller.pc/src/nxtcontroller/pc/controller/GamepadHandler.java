@@ -201,7 +201,7 @@ public class GamepadHandler implements IHandler {
 	 * Set a new {@link RemoteController} to control the NXT via Bluetooth.
 	 */
 	@Override
-	public void setRemoteController(RemoteController remoteController) {
+	public void setRemoteController(final RemoteController remoteController) {
 		this.remoteController = remoteController;
 	}
 }

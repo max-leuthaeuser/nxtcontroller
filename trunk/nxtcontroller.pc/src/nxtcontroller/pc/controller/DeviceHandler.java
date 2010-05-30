@@ -24,7 +24,7 @@ public class DeviceHandler {
 	 *            which represents the new device which will control the NXT
 	 *            after switching.
 	 */
-	public void setHandler(String device) {
+	public void setHandler(final String device) {
 		if (device.equals(ControllerTyp.types[0])) {
 			if (kh.attach()) {
 				gh.destroy();

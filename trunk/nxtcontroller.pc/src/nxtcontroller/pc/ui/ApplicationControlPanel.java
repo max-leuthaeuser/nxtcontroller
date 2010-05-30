@@ -46,7 +46,7 @@ public class ApplicationControlPanel extends JPanel {
 	private NXTConnector nxtConn;
 
 	/**
-	 * Constructor. Builds all control elements and attach mouse listener.
+	 * Builds all control elements and attach mouse listener.
 	 */
 	public ApplicationControlPanel() {
 		super();
@@ -190,14 +190,14 @@ public class ApplicationControlPanel extends JPanel {
 	}
 
 	/**
-	 * Write a String to a file.
+	 * Write a String to a local file.
 	 * 
 	 * @param path
 	 * @param text
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void writeFile(String path, String text)
+	private void writeFile(final String path, final String text)
 			throws FileNotFoundException, IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(path));
 		out.write(text);

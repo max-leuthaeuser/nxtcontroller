@@ -65,7 +65,7 @@ public class GUIBuilder {
 	}
 
 	/**
-	 * Build the interface of this application. Uses elements: <li>
+	 * Build the interface of this application. Uses the following elements: <li>
 	 * {@link MainFrame}</li> <li>{@link SensorPanel}</li> <li>
 	 * {@link ApplicationControlPanel}</li>
 	 */
