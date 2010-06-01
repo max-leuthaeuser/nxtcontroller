@@ -25,12 +25,12 @@ public class DeviceHandler {
 	 *            after switching.
 	 */
 	public void setHandler(final String device) {
-		if (device.equals(ControllerTyp.types[0])) {
+		if (device.equals(ControllerTyp.getTypes()[0])) {
 			if (kh.attach()) {
 				gh.destroy();
 			}
 		}
-		if (device.equals(ControllerTyp.types[1])) {
+		if (device.equals(ControllerTyp.getTypes()[1])) {
 			if (gh.attach()) {
 				kh.destroy();
 			}

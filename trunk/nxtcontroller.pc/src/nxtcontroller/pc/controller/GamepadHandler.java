@@ -83,11 +83,11 @@ public class GamepadHandler implements IHandler {
 				if (!gpController.poll()) {
 					pollTimer.stop();
 					LogOperation
-							.writeAppLog(UILanguage.GAMEPAD_CONNECTION_LOST);
+							.writeAppLog(UILanguage.getGamepadConnectionLost());
 					GUIBuilder.getInstance().getAppPanel().getControllerBox()
 							.setSelectedIndex(0);
 					GUIController.getInstance().getDeviceHandler().setHandler(
-							ControllerTyp.types[0]);
+							ControllerTyp.getTypes()[0]);
 					return;
 				}
 				// get directions from analog sticks

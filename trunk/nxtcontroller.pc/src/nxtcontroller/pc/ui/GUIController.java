@@ -39,7 +39,7 @@ public class GUIController {
 		guiBuilder.buildInterface();
 		dh = new DeviceHandler(guiBuilder.getMainFrame(), guiBuilder
 				.getMainFrame().getRootPane());
-		dh.setHandler(ControllerTyp.types[0]);
+		dh.setHandler(ControllerTyp.getTypes()[0]);
 	}
 
 	/**
@@ -47,6 +47,14 @@ public class GUIController {
 	 */
 	public DeviceHandler getDeviceHandler() {
 		return dh;
+	}
+
+	/**
+	 * @return <b>true</b> if the application is in fullscreen mode,
+	 *         <b>false</b> otherwise.
+	 */
+	public boolean isInFullScreenMode() {
+		return isInFullScreenMode;
 	}
 
 	/**

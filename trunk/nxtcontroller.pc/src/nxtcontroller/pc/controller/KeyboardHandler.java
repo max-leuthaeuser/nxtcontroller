@@ -15,6 +15,7 @@ import nxtcontroller.pc.core.RemoteController;
 import nxtcontroller.pc.ui.GUIBuilder;
 import nxtcontroller.pc.ui.GUIController;
 import nxtcontroller.pc.ui.MainFrame;
+import nxtcontroller.pc.ui.Messages;
 
 /**
  * Class which handle all input events from keyboard and control the NXT.
@@ -129,6 +130,24 @@ public class KeyboardHandler implements IHandler {
 
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				GUIController.getInstance().toggleFullScreen();
+			}
+		});
+
+		rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke("F11"), "lang");
+		rootPane.getActionMap().put("lang", new AbstractAction() {
+			private static final long serialVersionUID = 1309752715414833276L;
+
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				if (!GUIController.getInstance().isInFullScreenMode()) {
+					Messages.toggleNl();
+					GUIBuilder.getInstance().getAppPanel().setVisible(false);
+					
+					GUIBuilder.getInstance().getAppPanel().setUIText();
+					
+					GUIBuilder.getInstance().getAppPanel().repaint();
+					GUIBuilder.getInstance().getAppPanel().setVisible(true);
+				}
 			}
 		});
 	}
