@@ -78,10 +78,10 @@ public class GUIBuilder {
 		this.mainFrame.add(this.appPanel);
 		this.mainFrame.validate();
 		
-		LogOperation.writeAppLog(UILanguage.RUNNING_ON
+		LogOperation.writeAppLog(UILanguage.getRunningOn()
 				+ System.getProperty("os.name"));
 	}
-
+	
 	/**
 	 * @return the application log
 	 */

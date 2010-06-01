@@ -156,7 +156,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		PANEL_SIZE_WIDTH = getSize().width;
 		int fullScreenModifier = getFullscreenModifier();
 		if (fullScreenModifier >= 1.1) {
-			g.setFont(new Font("Verdana", Font.BOLD, 18));
+			g.setFont(new Font("Verdana", Font.BOLD, 18)); //$NON-NLS-1$
 		}
 		super.paintComponent(g);
 		g.setColor(Color.black);
@@ -165,7 +165,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		g.drawRect(PANEL_SIZE_WIDTH / 3 * 2, PANEL_SIZE_HEIGHT / 2
 				- (40 * fullScreenModifier), 80 * fullScreenModifier,
 				80 * fullScreenModifier);
-		g.drawString("Rotation", PANEL_SIZE_WIDTH / 3 * 2, PANEL_SIZE_HEIGHT
+		g.drawString("Rotation", PANEL_SIZE_WIDTH / 3 * 2, PANEL_SIZE_HEIGHT //$NON-NLS-1$
 				/ 2 - (45 * fullScreenModifier));
 		// draw the rotation arrow
 		Point point2 = new Point(PANEL_SIZE_WIDTH / 3 * 2
@@ -218,7 +218,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 20;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("Front: " + front, 5, modifier);
+			g.drawString(Messages.getString("SensorPanel.2") + front, 5, modifier); //$NON-NLS-1$
 		}
 		// right
 		modifier = 30;
@@ -226,7 +226,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 40;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("Right: " + right, 5, modifier);
+			g.drawString(Messages.getString("SensorPanel.3") + right, 5, modifier); //$NON-NLS-1$
 		}
 		// left
 		modifier = 45;
@@ -234,7 +234,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 60;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString("Left: " + left, 5, modifier);
+			g.drawString(Messages.getString("SensorPanel.4") + left, 5, modifier); //$NON-NLS-1$
 		}
 
 		// tires - front left

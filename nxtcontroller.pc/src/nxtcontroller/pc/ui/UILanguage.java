@@ -1,47 +1,152 @@
 package nxtcontroller.pc.ui;
 
 /**
- * Holds all GUI descriptions and log output in 
- * English as static Strings.
+ * Holds all GUI descriptions and log output as externalized strings.
+ * 
  * @author Max Leuthäuser
  */
-public final class UILanguage {
-	public static final String GAMEPAD = "Gamepad";
-	public static final String KEYBOARD = "Keyboard";
-	public static final String CONTROLPANEL = "Control options";
-	public static final String LOG = "Application Log";
-	public static final String BTT = "Bluetooth Log";
-	public static final String SAVE = "Save";
-	public static final String CLEAR = "Clear";
-	public static final String CONNECT = "Connect";
-	public static final String SEARCH = "Search";
-	public static final String SAVE_HINT = "Click here to save the current log data.";
-	public static final String CLEAR_HINT = "Click here if you want to clear this log.";
-	public static final String CONNECT_HINT = "Click here to connect via Bluetooth with the NXT which is currently paired with your computer.";
-	public static final String SEARCH_HINT = "Click here to search new input devices which are connected via USB to your computer.";
-	public static final String OPTION_HINT = "Choose your input device.";
+public class UILanguage {
+	public static String getGamepad() {
+		return Messages.getString("UILanguage.0"); //$NON-NLS-1$
+	}
 
-	public static final String ERR_FILE_NOT_FOUND = "Error: File not found!";
-	public static final String ERR_IO = "I/O Error!";
-	public static final String LOG_SAVED = "Application log saved to: ";
-	public static final String BTT_SAVED = "Bluetooth log saved to: ";
-	public static final String LOG_SAVE_CANCELLED = "Save command cancelled by user.";
-	public static final String USING_KEYBOARD = "Using Keyboard now.";
-	public static final String USING_GAMEPAD = "Try to use Gamepad now.";
-	public static final String RUNNING_ON = "Running on ";
-	public static final String NO_GAMEPAD_FOUND = "No gamepad found!";
-	public static final String GAMEPADS_FOUND = "Number of gamepads found: ";
-	public static final String RUMBLERS_FOUND = "Number of rumblers found: ";
-	public static final String GAMEPAD_CHOOSEN = "Game pad index: ";
-	public static final String FOUND = "Found";
-	public static final String GAMEPAD_DIRECTION_DATA_UNAVAILABLE = "Gamepad axis data unavailable";
-	public static final String GAMEPAD_AVAILABLE = "An available gamepad was found.";
-	public static final String GAMEPAD_CONNECTION_LOST = "Gamepad connection lost";
-	
-	public static final String CONNECT_ABORT = "Connect process aborted.";
-	public static final String CONNECT_NO_NXT_AVAILABLE = "No NXT connected via bluetooth.";
-	public static final String CONNECT_DIALOG_HEADLINE = "NXT Connect";
-	public static final String CONNECT_DIALOG_HINT = "Choose a brick to connect with:";
-	public static final String CONNECT_READY = "Connection etablished to: ";
-	public static final String CONNECT_SEARCHING = "Searching on bluetooth ...";
+	public static String getKeyboard() {
+		return Messages.getString("UILanguage.1"); //$NON-NLS-1$
+	}
+
+	public static String getControlpanel() {
+		return Messages.getString("UILanguage.2"); //$NON-NLS-1$;
+	}
+
+	public static String getLog() {
+		return Messages.getString("UILanguage.3"); //$NON-NLS-1$;
+	}
+
+	public static String getBtt() {
+		return Messages.getString("UILanguage.4"); //$NON-NLS-1$;
+	}
+
+	public static String getSave() {
+		return Messages.getString("UILanguage.5"); //$NON-NLS-1$;
+	}
+
+	public static String getClear() {
+		return Messages.getString("UILanguage.6"); //$NON-NLS-1$;
+	}
+
+	public static String getConnect() {
+		return Messages.getString("UILanguage.7"); //$NON-NLS-1$;
+	}
+
+	public static String getSearch() {
+		return Messages.getString("UILanguage.8"); //$NON-NLS-1$;
+	}
+
+	public static String getSaveHint() {
+		return Messages.getString("UILanguage.9"); //$NON-NLS-1$;
+	}
+
+	public static String getClearHint() {
+		return Messages.getString("UILanguage.10"); //$NON-NLS-1$;
+	}
+
+	public static String getConnectHint() {
+		return Messages.getString("UILanguage.11"); //$NON-NLS-1$;
+	}
+
+	public static String getSearchHint() {
+		return Messages.getString("UILanguage.12"); //$NON-NLS-1$;
+	}
+
+	public static String getOptionHint() {
+		return Messages.getString("UILanguage.13"); //$NON-NLS-1$;
+	}
+
+	public static String getErrFileNotFound() {
+		return Messages.getString("UILanguage.14"); //$NON-NLS-1$;
+	}
+
+	public static String getErrIo() {
+		return Messages.getString("UILanguage.15"); //$NON-NLS-1$;
+	}
+
+	public static String getLogSaved() {
+		return Messages.getString("UILanguage.16"); //$NON-NLS-1$;
+	}
+
+	public static String getBttSaved() {
+		return Messages.getString("UILanguage.17"); //$NON-NLS-1$;
+	}
+
+	public static String getLogSaveCancelled() {
+		return Messages.getString("UILanguage.18"); //$NON-NLS-1$;
+	}
+
+	public static String getUsingKeyboard() {
+		return Messages.getString("UILanguage.19"); //$NON-NLS-1$;
+	}
+
+	public static String getUsingGamepad() {
+		return Messages.getString("UILanguage.20"); //$NON-NLS-1$;
+	}
+
+	public static String getRunningOn() {
+		return Messages.getString("UILanguage.21"); //$NON-NLS-1$;
+	}
+
+	public static String getNoGamepadFound() {
+		return Messages.getString("UILanguage.22"); //$NON-NLS-1$;
+	}
+
+	public static String getGamepadsFound() {
+		return Messages.getString("UILanguage.23"); //$NON-NLS-1$;
+	}
+
+	public static String getRumblersFound() {
+		return Messages.getString("UILanguage.24"); //$NON-NLS-1$
+	}
+
+	public static String getGamepadChoosen() {
+		return Messages.getString("UILanguage.25"); //$NON-NLS-1$
+	}
+
+	public static String getFound() {
+		return Messages.getString("UILanguage.26"); //$NON-NLS-1$
+	}
+
+	public static String getGamepadDirectionDataUnavailable() {
+		return Messages.getString("UILanguage.27"); //$NON-NLS-1$
+	}
+
+	public static String getGamepadAvailable() {
+		return Messages.getString("UILanguage.28"); //$NON-NLS-1$
+	}
+
+	public static String getGamepadConnectionLost() {
+		return Messages.getString("UILanguage.29"); //$NON-NLS-1$
+	}
+
+	public static String getConnectAbort() {
+		return Messages.getString("UILanguage.30"); //$NON-NLS-1$
+	}
+
+	public static String getConnectNoNxtAvailable() {
+		return Messages.getString("UILanguage.31"); //$NON-NLS-1$
+	}
+
+	public static String getConnectDialogHeadline() {
+		return Messages.getString("UILanguage.32"); //$NON-NLS-1$
+	}
+
+	public static String getConnectDialogHint() {
+		return Messages.getString("UILanguage.33"); //$NON-NLS-1$
+	}
+
+	public static String getConnectReady() {
+		return Messages.getString("UILanguage.34"); //$NON-NLS-1$
+	}
+
+	public static String getConnectSearching() {
+		return Messages.getString("UILanguage.35"); //$NON-NLS-1$
+	}
 }

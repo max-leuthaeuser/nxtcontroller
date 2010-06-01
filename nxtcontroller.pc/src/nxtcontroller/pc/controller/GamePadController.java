@@ -45,7 +45,7 @@ public class GamePadController {
 		// get the game pad controller
 		controller = findGamePad(cs);
 		if (controller != null) {
-			LogOperation.writeAppLog(UILanguage.GAMEPAD + ": "
+			LogOperation.writeAppLog(UILanguage.getGamepad() + ": "
 					+ controller.getName() + ", " + controller.getType());
 
 			// collect indices for the required game pad components
@@ -73,10 +73,10 @@ public class GamePadController {
 		}
 
 		if (i == cs.length) {
-			LogOperation.writeAppLog(UILanguage.NO_GAMEPAD_FOUND);
+			LogOperation.writeAppLog(UILanguage.getNoGamepadFound());
 			return null;
 		} else {
-			LogOperation.writeAppLog(UILanguage.GAMEPAD_CHOOSEN + i);
+			LogOperation.writeAppLog(UILanguage.getGamepadChoosen() + i);
 		}
 
 		return cs[i];
@@ -188,7 +188,7 @@ public class GamePadController {
 	{
 		if ((xAxisIdx == -1) || (yAxisIdx == -1)) {
 			LogOperation
-					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+					.writeAppLog(UILanguage.getGamepadDirectionDataUnavailable());
 			return NONE;
 		} else {
 			return getCompassDir(xAxisIdx, yAxisIdx);
@@ -200,7 +200,7 @@ public class GamePadController {
 	{
 		if ((zAxisIdx == -1) || (rzAxisIdx == -1)) {
 			LogOperation
-					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+					.writeAppLog(UILanguage.getGamepadDirectionDataUnavailable());
 			return NONE;
 		} else {
 			return getCompassDir(zAxisIdx, rzAxisIdx);
@@ -247,7 +247,7 @@ public class GamePadController {
 	{
 		if (povIdx == -1) {
 			LogOperation
-					.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+					.writeAppLog(UILanguage.getGamepadDirectionDataUnavailable());
 			return NONE;
 		} else {
 			float povDir = comps[povIdx].getPollData();
@@ -280,7 +280,7 @@ public class GamePadController {
 				return NE;
 			} else { // assume center
 				LogOperation
-						.writeAppLog(UILanguage.GAMEPAD_DIRECTION_DATA_UNAVAILABLE);
+						.writeAppLog(UILanguage.getGamepadDirectionDataUnavailable());
 				return NONE;
 			}
 		}

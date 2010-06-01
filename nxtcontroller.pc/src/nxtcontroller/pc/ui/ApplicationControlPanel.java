@@ -44,6 +44,8 @@ public class ApplicationControlPanel extends JPanel {
 	private JButton connect, searchID;
 	private NXTInfo[] availableNXTs = null;
 	private NXTConnector nxtConn;
+	private JPanel t2, t1;
+	private JPanel bttP, logP;
 
 	/**
 	 * Builds all control elements and attach mouse listener.
@@ -53,99 +55,73 @@ public class ApplicationControlPanel extends JPanel {
 		bh = new MouseHandler();
 		setLayout(new GridLayout(2, 0));
 		controllerBox = new JComboBox();
-		controllerBox.addItem(ControllerTyp.types[0]);
-		controllerBox.addItem(ControllerTyp.types[1]);
 		controllerBox.setEditable(false);
-		controllerBox.addActionListener(bh);
-		controllerBox.setToolTipText(UILanguage.OPTION_HINT);
-
-		connect = new JButton(UILanguage.CONNECT);
-		connect.setToolTipText(UILanguage.CONNECT_HINT);
+		connect = new JButton();
 		connect.addMouseListener(bh);
 		graphicsPanel = new GraphicsPanel();
-
-		searchID = new JButton(UILanguage.SEARCH);
-		searchID.setToolTipText(UILanguage.SEARCH_HINT);
+		searchID = new JButton();
 		searchID.addMouseListener(bh);
-		searchID.setToolTipText(UILanguage.SEARCH_HINT);
-
 		JPanel bPanel = new JPanel();
 		bPanel.setLayout(new GridLayout(2, 0));
-
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BorderLayout());
 		bPanel.add(searchID);
 		bPanel.add(controllerBox);
 		buttonPanel.add(bPanel, BorderLayout.NORTH);
 		buttonPanel.add(connect, BorderLayout.SOUTH);
-
 		vSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				graphicsPanel, buttonPanel);
-		vSplitPane.setBorder(BorderFactory
-				.createTitledBorder(UILanguage.CONTROLPANEL));
-
 		vSplitPane.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH - 30,
 				StaticSizes.APPLICATION_SIZE_HEIGTH / 2 - 20));
 		add(vSplitPane);
 		vSplitPane
 				.setDividerLocation(StaticSizes.APPLICATION_SIZE_STANDARD_SPACER);
-
 		buildLogPanel();
 		buildBTTracePanel();
-
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(0, 2));
-
-		JPanel t1 = new JPanel();
-		JPanel logP = new JPanel();
+		t1 = new JPanel();
+		logP = new JPanel();
 		logP.setLayout(new GridLayout(1, 1));
 		logP.add(new JScrollPane(log));
 		JSplitPane logPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				logP, clearLogPanel);
-		t1.setBorder(BorderFactory.createTitledBorder(UILanguage.LOG));
 		logPane.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
 				StaticSizes.APPLICATION_SIZE_HEIGTH / 3 - 90));
 		logPane.setDividerLocation(255);
 		t1.add(logPane);
-
-		JPanel t2 = new JPanel();
-		JPanel bttP = new JPanel();
+		t2 = new JPanel();
+		bttP = new JPanel();
 		bttP.setLayout(new GridLayout(1, 1));
 		bttP.add(new JScrollPane(btt));
 		JSplitPane logPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
 				bttP, clearBttPanel);
-		t2.setBorder(BorderFactory.createTitledBorder(UILanguage.BTT));
 		logPane2.setPreferredSize(new Dimension(
 				StaticSizes.APPLICATION_SIZE_WIDTH / 2 - 11,
 				StaticSizes.APPLICATION_SIZE_HEIGTH / 3 - 90));
 		logPane2.setDividerLocation(255);
 		t2.add(logPane2);
-
 		textPanel.add(t1);
 		textPanel.add(t2);
-
 		add(textPanel);
+		setUIText();
 	}
 
 	/**
 	 * Create the application log.
 	 */
 	private void buildLogPanel() {
-		saveLog = new JButton(UILanguage.SAVE);
+		saveLog = new JButton();
 		saveLog.addMouseListener(bh);
-		saveLog.setToolTipText(UILanguage.SAVE_HINT);
-		clearLog = new JButton(UILanguage.CLEAR);
+		clearLog = new JButton();
 		clearLog.addMouseListener(bh);
-		clearLog.setToolTipText(UILanguage.CLEAR_HINT);
 		logPanel = new JPanel();
 		logPanel.setLayout(new GridLayout(1, 0));
 		log = new JEditorPane();
 		log.setEditable(false);
 		log.setContentType("text/html");
-		logPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createLineBorder(Color.gray), UILanguage.LOG));
 		clearLogPanel = new JPanel();
 		clearLogPanel.setLayout(new BorderLayout());
 		clearLogPanel.add(saveLog, BorderLayout.NORTH);
@@ -156,23 +132,52 @@ public class ApplicationControlPanel extends JPanel {
 	 * Create the Bluetooth trace log.
 	 */
 	private void buildBTTracePanel() {
-		saveBTT = new JButton(UILanguage.SAVE);
+		saveBTT = new JButton();
 		saveBTT.addMouseListener(bh);
-		saveBTT.setToolTipText(UILanguage.SAVE_HINT);
-		clearBTT = new JButton(UILanguage.CLEAR);
+		clearBTT = new JButton();
 		clearBTT.addMouseListener(bh);
-		clearBTT.setToolTipText(UILanguage.CLEAR_HINT);
 		bttPanel = new JPanel();
 		bttPanel.setLayout(new GridLayout(1, 0));
 		btt = new JEditorPane();
 		btt.setEditable(false);
 		btt.setContentType("text/html");
-		bttPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createLineBorder(Color.gray), UILanguage.BTT));
 		clearBttPanel = new JPanel();
 		clearBttPanel.setLayout(new BorderLayout());
 		clearBttPanel.add(saveBTT, BorderLayout.NORTH);
 		clearBttPanel.add(clearBTT, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Sets every GUI text in the application.
+	 */
+	public void setUIText() {
+		saveLog.setToolTipText(UILanguage.getSaveHint());
+		saveLog.setText(UILanguage.getSave());
+		clearLog.setText(UILanguage.getClear());
+		saveBTT.setText(UILanguage.getSave());
+		clearLog.setToolTipText(UILanguage.getClearHint());
+		clearBTT.setToolTipText(UILanguage.getClearHint());
+		clearBTT.setText(UILanguage.getClear());
+		saveBTT.setToolTipText(UILanguage.getSaveHint());
+		bttPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
+				.createLineBorder(Color.gray), UILanguage.getBtt()));
+		logPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
+				.createLineBorder(Color.gray), UILanguage.getLog()));
+		t2.setBorder(BorderFactory.createTitledBorder(UILanguage.getBtt()));
+		t1.setBorder(BorderFactory.createTitledBorder(UILanguage.getLog()));
+		vSplitPane.setBorder(BorderFactory.createTitledBorder(UILanguage
+				.getControlpanel()));
+		searchID.setToolTipText(UILanguage.getSearchHint());
+		connect.setToolTipText(UILanguage.getConnectHint());
+		searchID.setText(UILanguage.getSearch());
+		connect.setText(UILanguage.getConnect());
+		controllerBox.setToolTipText(UILanguage.getOptionHint());
+
+		controllerBox.removeActionListener(bh);
+		controllerBox.removeAllItems();
+		controllerBox.addItem(ControllerTyp.getTypes()[0]);
+		controllerBox.addItem(ControllerTyp.getTypes()[1]);
+		controllerBox.addActionListener(bh);
 	}
 
 	/**
@@ -216,7 +221,7 @@ public class ApplicationControlPanel extends JPanel {
 	 * selects a specific device.
 	 */
 	private void connect() {
-		LogOperation.writeBttLog(UILanguage.CONNECT_SEARCHING);
+		LogOperation.writeBttLog(UILanguage.getConnectSearching());
 
 		availableNXTs = null;
 		nxtConn = new NXTConnector();
@@ -228,8 +233,8 @@ public class ApplicationControlPanel extends JPanel {
 						NXTCommFactory.BLUETOOTH);
 
 				if (availableNXTs.length == 0) {
-					LogOperation
-							.writeBttLog(UILanguage.CONNECT_NO_NXT_AVAILABLE);
+					LogOperation.writeBttLog(UILanguage
+							.getConnectNoNxtAvailable());
 					return;
 				}
 
@@ -241,10 +246,10 @@ public class ApplicationControlPanel extends JPanel {
 				}
 
 				String s = (String) JOptionPane.showInputDialog(GUIBuilder
-						.getInstance().getMainFrame(),
-						UILanguage.CONNECT_DIALOG_HINT,
-						UILanguage.CONNECT_DIALOG_HEADLINE,
-						JOptionPane.PLAIN_MESSAGE, null, result, "");
+						.getInstance().getMainFrame(), UILanguage
+						.getConnectDialogHint(), UILanguage
+						.getConnectDialogHeadline(), JOptionPane.PLAIN_MESSAGE,
+						null, result, "");
 
 				if ((s != null) && (s.length() > 0)) {
 					nxtConn.connectTo(s.substring(0, s.indexOf("@")), s
@@ -254,7 +259,8 @@ public class ApplicationControlPanel extends JPanel {
 					OutputStream out = nxtConn.getOutputStream();
 
 					if (out != null) {
-						LogOperation.writeBttLog(UILanguage.CONNECT_READY + s);
+						LogOperation.writeBttLog(UILanguage.getConnectReady()
+								+ s);
 						RemoteController rc = new RemoteController(out);
 						GUIController.getInstance().getDeviceHandler()
 								.getKeyboardHandler().setRemoteController(rc);
@@ -267,12 +273,12 @@ public class ApplicationControlPanel extends JPanel {
 								.getSensorPanel());
 						new Thread(isListener).start();
 					} else {
-						LogOperation.writeBttLog(UILanguage.CONNECT_ABORT
+						LogOperation.writeBttLog(UILanguage.getConnectAbort()
 								+ ": " + s);
 					}
 					return;
 				} else
-					LogOperation.writeBttLog(UILanguage.CONNECT_ABORT);
+					LogOperation.writeBttLog(UILanguage.getConnectAbort());
 			}
 		};
 		searchThread.start();
@@ -301,7 +307,7 @@ public class ApplicationControlPanel extends JPanel {
 				if (!GamepadHandler.search()) {
 					controllerBox.setSelectedIndex(0);
 				} else
-					LogOperation.writeAppLog(UILanguage.GAMEPAD_AVAILABLE);
+					LogOperation.writeAppLog(UILanguage.getGamepadAvailable());
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
 			}
 			if (arg0.getSource() == clearLog) {
@@ -323,16 +329,17 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), log.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							LogOperation
-									.writeAppLog(UILanguage.ERR_FILE_NOT_FOUND);
+							LogOperation.writeAppLog(UILanguage
+									.getErrFileNotFound());
 						} catch (IOException e) {
 							e.printStackTrace();
-							LogOperation.writeAppLog(UILanguage.ERR_IO);
+							LogOperation.writeAppLog(UILanguage.getErrIo());
 						}
-						LogOperation.writeAppLog(UILanguage.LOG_SAVED
+						LogOperation.writeAppLog(UILanguage.getLogSaved()
 								+ file.getName() + ".\n");
 					} else {
-						LogOperation.writeAppLog(UILanguage.LOG_SAVE_CANCELLED);
+						LogOperation.writeAppLog(UILanguage
+								.getLogSaveCancelled());
 					}
 				}
 			}
@@ -347,16 +354,17 @@ public class ApplicationControlPanel extends JPanel {
 							writeFile(file.getAbsolutePath(), btt.getText());
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
-							LogOperation
-									.writeAppLog(UILanguage.ERR_FILE_NOT_FOUND);
+							LogOperation.writeAppLog(UILanguage
+									.getErrFileNotFound());
 						} catch (IOException e) {
 							e.printStackTrace();
-							LogOperation.writeAppLog(UILanguage.ERR_IO);
+							LogOperation.writeAppLog(UILanguage.getErrIo());
 						}
-						LogOperation.writeAppLog(UILanguage.BTT_SAVED
+						LogOperation.writeAppLog(UILanguage.getBttSaved()
 								+ file.getName() + ".\n");
 					} else {
-						LogOperation.writeAppLog(UILanguage.LOG_SAVE_CANCELLED);
+						LogOperation.writeAppLog(UILanguage
+								.getLogSaveCancelled());
 					}
 				}
 			}
@@ -394,18 +402,18 @@ public class ApplicationControlPanel extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			JComboBox cb = (JComboBox) arg0.getSource();
 			String selected = (String) cb.getSelectedItem();
-			if (selected.equals(ControllerTyp.types[0])) {
+			if (selected.equals(ControllerTyp.getTypes()[0])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
-				LogOperation.writeAppLog(UILanguage.USING_KEYBOARD);
+				LogOperation.writeAppLog(UILanguage.getUsingKeyboard());
 				graphicsPanel.setKeyboardDefaultIcon();
 				GUIController.getInstance().getDeviceHandler().setHandler(
-						ControllerTyp.types[0]);
+						ControllerTyp.getTypes()[0]);
 			}
-			if (selected.equals(ControllerTyp.types[1])) {
+			if (selected.equals(ControllerTyp.getTypes()[1])) {
 				GUIBuilder.getInstance().getMainFrame().requestFocus();
-				LogOperation.writeAppLog(UILanguage.USING_GAMEPAD);
+				LogOperation.writeAppLog(UILanguage.getUsingGamepad());
 				GUIController.getInstance().getDeviceHandler().setHandler(
-						ControllerTyp.types[1]);
+						ControllerTyp.getTypes()[1]);
 			}
 		}
 	}
