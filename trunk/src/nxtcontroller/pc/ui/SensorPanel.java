@@ -21,8 +21,13 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	private int front = 70;
 	private int right = 70;
 	private int left = 70;
+	private int battery = 100;
 	private int PANEL_SIZE_WIDTH;
 	private int PANEL_SIZE_HEIGHT;
+	/**
+	 * This value is set to <b>true</b> when the NXT is connected automatically.
+	 * Set it manually for testing only.
+	 */
 	private boolean distanceDrawingHasStarted = false;
 
 	private LinkedList<Integer> frontLastFiveValues = new LinkedList<Integer>();
@@ -131,6 +136,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	public void update(final DataSet d) {
 		distanceDrawingHasStarted = true;
 		rotation = d.getAngle() + 90;
+		battery = d.getBattery();
 		normalize(d);
 		repaint();
 	}
@@ -201,7 +207,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 		// using rotation degree
 		at.rotate(Math.toRadians(-rotation));
 		Shape shape = at.createTransformedShape(path);
-		graphics2D.setPaint(Color.green);
+		graphics2D.setPaint(Color.blue);
 		graphics2D.draw(shape);
 
 		g.setColor(Color.gray);
@@ -218,7 +224,8 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 20;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString(Messages.getString("SensorPanel.2") + front, 5, modifier); //$NON-NLS-1$
+			g.drawString(
+					Messages.getString("SensorPanel.2") + front, 5, modifier); //$NON-NLS-1$
 		}
 		// right
 		modifier = 30;
@@ -226,7 +233,8 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 40;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString(Messages.getString("SensorPanel.3") + right, 5, modifier); //$NON-NLS-1$
+			g.drawString(
+					Messages.getString("SensorPanel.3") + right, 5, modifier); //$NON-NLS-1$
 		}
 		// left
 		modifier = 45;
@@ -234,8 +242,20 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 			modifier = 60;
 		}
 		if (distanceDrawingHasStarted) {
-			g.drawString(Messages.getString("SensorPanel.4") + left, 5, modifier); //$NON-NLS-1$
+			g.drawString(
+					Messages.getString("SensorPanel.4") + left, 5, modifier); //$NON-NLS-1$
 		}
+
+		// draw battery level
+		if (distanceDrawingHasStarted) {
+			if (battery <= 15) {
+				g.setColor(Color.red);
+			}
+			g
+					.drawString(
+							Messages.getString("SensorPanel.1") + battery + " %", 5, getSize().height - 10); //$NON-NLS-1$
+		}
+		g.setColor(Color.black);
 
 		// tires - front left
 		g.fillRect(PANEL_SIZE_WIDTH / 3 - (35 * fullScreenModifier),

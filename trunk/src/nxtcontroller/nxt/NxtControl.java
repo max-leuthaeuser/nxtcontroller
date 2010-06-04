@@ -3,7 +3,8 @@ package nxtcontroller.nxt;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+import java.lang.Float;
+import lejos.nxt.Battery;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.Motor;
@@ -15,11 +16,11 @@ import lejos.nxt.comm.Bluetooth;
 import lejos.util.Delay;
 import nxtcontroller.shared.CommandId;
 
-// TODO javadoc
 /**
  * Client side application running on the NXT. Handles incoming commands to
  * control the direction and power to drive and sends distance values from 3
- * UltraSonic Sensors and the angle the NXT is rotated to periodically.
+ * UltraSonic Sensors the angle the NXT is rotated to and the current battery
+ * level periodically.
  * 
  * @author Max Leuthäuser
  * @author Martin Morgenstern
@@ -313,15 +314,33 @@ public final class NxtControl implements ButtonListener {
 	}
 
 	/**
-	 * Thread which sends UltraSonic Sensor values and the current
-	 * rotation value via bluetooth continuously.
+	 * Thread which sends UltraSonic Sensor values and the current rotation
+	 * value via bluetooth continuously.
 	 */
 	private final class SenderThread extends Thread {
+		/**
+		 * Delay between sending new values to the server.
+		 */
 		private static final int DELAY = 50;
+		/**
+		 * Delay in seconds between a new battery status value is send.
+		 */
+		private static final int BATTERY_DELAY = 60;
+		private int batteryCounter = 0;
 
 		/**
-		 * Start this thread and send values continuously.
-		 * Uses {@link SenderThread#DELAY} to wait between sending a set of new values.
+		 * Actual battery value in mV.
+		 */
+		private int batteryValue = Math.round(getBattery());
+		/**
+		 * Standard battery value in mV.
+		 */
+		private final float BATTERY_DEFAULT_VALUE = 8200;
+
+		/**
+		 * Start this thread and send values continuously. Uses
+		 * {@link SenderThread#DELAY} to wait between sending a set of new
+		 * values.
 		 * 
 		 * @see SenderThread#sendValues()
 		 * @see java.lang.Thread#run()
@@ -346,10 +365,16 @@ public final class NxtControl implements ButtonListener {
 					.getTachoCount() / turnRatio)) / 2.0f;
 		}
 
+		private float getBattery() {
+			return (new Float(Battery.getVoltageMilliVolt()) / BATTERY_DEFAULT_VALUE) * 100;
+		}
+
 		/**
-		 * Sends a set of UltraSonic sensor values and the current angle.
+		 * Sends a set of UltraSonic sensor values the current angle and the
+		 * current battery level.
 		 * 
 		 * @see SenderThread#getAngle()
+		 * @see SenderThread#getBattery()
 		 */
 		private void sendValues() {
 			try {
@@ -361,6 +386,19 @@ public final class NxtControl implements ButtonListener {
 
 				out.write(angle);
 				out.write(angle >> 8);
+
+				// calculate the actual battery value as percentage only after
+				// the given BATTERY_DELAY
+				if (batteryCounter >= (BATTERY_DELAY * 20)) {
+					batteryCounter = 0;
+					batteryValue = Math.round(getBattery());
+				} else {
+					batteryCounter++;
+				}
+
+				out.write(batteryValue);
+				out.write(batteryValue >> 8);
+
 				out.flush();
 			} catch (IOException e) {
 				// TODO better error reporting
