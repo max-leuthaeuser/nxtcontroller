@@ -2,12 +2,13 @@ package nxtcontroller.pc.core;
 
 /**
  * Simple model for the data received from the NXT. Contains the values of
- * ultrasonic sensor (left/front/right) and the angle.
+ * ultrasonic sensor (left/front/right) the angle and the current battery level.
  * 
  * @author Martin Morgenstern <s4810525@mail.zih.tu-dresden.de>
+ * @author Max Leuthäuser
  */
 public final class DataSet {
-	private final int left, front, right, angle;
+	private final int left, front, right, angle, battery;
 
 	/**
 	 * Create a new data set with given values.
@@ -20,13 +21,16 @@ public final class DataSet {
 	 *            right sonic sensor distance
 	 * @param angle
 	 *            angle of the car
+	 * @param battery
+	 *            battery level of the NXT
 	 */
 	public DataSet(final int left, final int front, final int right,
-			final int angle) {
+			final int angle, final int battery) {
 		this.left = left;
 		this.right = right;
 		this.front = front;
 		this.angle = angle;
+		this.battery = battery;
 	}
 
 	/**
@@ -55,5 +59,12 @@ public final class DataSet {
 	 */
 	public int getAngle() {
 		return angle;
+	}
+
+	/**
+	 * @return the current battery level of the NXT
+	 */
+	public int getBattery() {
+		return battery;
 	}
 }

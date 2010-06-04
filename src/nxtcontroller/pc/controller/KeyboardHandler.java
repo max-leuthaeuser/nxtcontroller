@@ -141,12 +141,8 @@ public class KeyboardHandler implements IHandler {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				if (!GUIController.getInstance().isInFullScreenMode()) {
 					Messages.toggleNl();
-					GUIBuilder.getInstance().getAppPanel().setVisible(false);
-					
 					GUIBuilder.getInstance().getAppPanel().setUIText();
-					
-					GUIBuilder.getInstance().getAppPanel().repaint();
-					GUIBuilder.getInstance().getAppPanel().setVisible(true);
+					GUIBuilder.getInstance().getSensorPanel().repaint();
 				}
 			}
 		});

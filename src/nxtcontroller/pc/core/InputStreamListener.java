@@ -24,6 +24,7 @@ import java.util.Set;
  * </pre>
  * 
  * @author Martin Morgenstern
+ * @author Max Leuthäuser
  */
 public class InputStreamListener implements Runnable {
 	private final InputStream in;
@@ -72,7 +73,7 @@ public class InputStreamListener implements Runnable {
 	 * @return next data set
 	 */
 	private DataSet getNextDataSet() {
-		int left, front, right, angle;
+		int left, front, right, angle, battery;
 
 		try {
 			left = in.read();
@@ -81,12 +82,15 @@ public class InputStreamListener implements Runnable {
 
 			angle = in.read();
 			angle |= in.read() << 8;
+			
+			battery = in.read();
+			battery |= in.read() << 8;
 		} catch (IOException e) {
 			// TODO properly handle this exception
 			throw new RuntimeException();
 		}
 
-		return new DataSet(left, front, right, angle);
+		return new DataSet(left, front, right, angle, battery);
 	}
 
 	/**
