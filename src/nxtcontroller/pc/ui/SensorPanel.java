@@ -135,7 +135,7 @@ public class SensorPanel extends JPanel implements DataSetObserver {
 	 */
 	public void update(final DataSet d) {
 		distanceDrawingHasStarted = true;
-		rotation = d.getAngle() + 90;
+		rotation = -1 * d.getAngle() + 90;
 		battery = d.getBattery();
 		normalize(d);
 		repaint();
