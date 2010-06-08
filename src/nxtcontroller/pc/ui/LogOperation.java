@@ -57,13 +57,15 @@ public final class LogOperation {
 	 *            Text to write in the log
 	 */
 	public static void writeBttLog(final String arg0) {
-		String result = "<html><font size='2' face='Verdana'>";
-		bttLogList.add(getTime() + " " + arg0);
-		for (String s : bttLogList) {
-			result += s + NEWLINE;
+		if (!arg0.trim().isEmpty()) {
+			String result = "<html><font size='2' face='Verdana'>";
+			bttLogList.add(getTime() + " " + arg0);
+			for (String s : bttLogList) {
+				result += s + NEWLINE;
+			}
+			result += "</html>";
+			GUIBuilder.getInstance().getBtt().setText(result);
 		}
-		result += "</html>";
-		GUIBuilder.getInstance().getBtt().setText(result);
 	}
 
 	/**
