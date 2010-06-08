@@ -225,7 +225,7 @@ public class ApplicationControlPanel extends JPanel {
 
 		availableNXTs = null;
 		nxtConn = new NXTConnector();
-
+		
 		Thread searchThread = new Thread() {
 			@Override
 			public void run() {
