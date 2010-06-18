@@ -1,0 +1,57 @@
+<project name="nxtcontroller" default="help">
+	<target name="help">
+		<echo>This ant script compiles the PC part of nxtcontroller.</echo>
+		<echo>Available targets are: help, clean, make, dist.</echo>
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="build" includes="**/*" />
+			<fileset dir="dist" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="make">
+		<mkdir dir="build/classes" />
+		<javac srcdir="src" destdir="build/classes" excludes="nxtcontroller/nxt/*">
+			<classpath>
+				<pathelement location="lib/pccomm.jar" />
+				<pathelement location="lib/jinput.jar" />
+				<pathelement location="lib/bluecove.jar" />
+				<pathelement location="lib/bluecove-gpl.jar" />
+			</classpath>
+		</javac>
+
+		<copy todir="build/classes">
+			<fileset dir="src">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="preparedist" depends="make">
+		<mkdir dir="build/dist" />
+
+		<jar basedir="build/classes" destfile="build/dist/nxtcontroller.jar" manifest="MANIFEST.MF" />
+		<copy todir="build/dist/lib">
+			<fileset dir="lib">
+				<include name="*.jar" />
+				<include name="*.so" />
+				<include name="*.dll" />
+			</fileset>
+		</copy>
+		<copy todir="build/dist" file="nxtcontroller.sh" />
+		<copy todir="build/dist" file="nxtcontroller.bat" />
+		<copy todir="build/dist/graphics">
+			<fileset dir="graphics" />
+		</copy>
+	</target>
+
+	<target name="dist" depends="preparedist">
+		<mkdir dir="dist" />
+		<tstamp />
+		<chmod file="build/dist/nxtcontroller.sh" perm="755" />
+		<tar compression="bzip2" basedir="build/dist" destfile="dist/nxtcontroller_${DSTAMP}.tar.bz2" />
+		<zip basedir="build/dist" destfile="dist/nxtcontroller_${DSTAMP}.zip" />
+	</target>
+</project>
